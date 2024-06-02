@@ -32,10 +32,10 @@
 <body>
 <div class="container">
   <div class="register-container bg-light">
-    <h2 class="register-title">Register</h2>
+    <h2 class="register-title">用户注册</h2>
     <form th:action="@{/register}" method="post">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="username">用户名</label>
         <input type="text" id="username" name="username" class="form-control" required>
         <i class="fas fa-user form-icon"></i>
       </div>
@@ -45,16 +45,16 @@
         <i class="fas fa-envelope form-icon"></i>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">密码</label>
         <input type="password" id="password" name="password" class="form-control" required>
         <i class="fas fa-lock form-icon"></i>
       </div>
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">确认密码</label>
         <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
         <i class="fas fa-lock form-icon"></i>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Register</button>
+      <button type="submit" class="btn btn-primary btn-block">注册</button>
     </form>
   </div>
 </div>
