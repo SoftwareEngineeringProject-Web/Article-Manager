@@ -1,4 +1,4 @@
-package com.example.articlemanager.demo;
+package com.example.blog.demo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
