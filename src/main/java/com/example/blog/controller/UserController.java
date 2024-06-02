@@ -4,6 +4,7 @@ import com.example.blog.entity.User;
 import com.example.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +43,7 @@ public class UserController {
         // 在这里实现用户注册逻辑，例如验证用户信息、创建新用户等
         // 如果注册成功，可以重定向到登录页面或其他页面
         // 如果注册失败，可以返回注册页面并给出错误提示
-        userService.save(user); // 保存用户信息到数据库
+        userService.registerUser(user); // 保存用户信息到数据库
         return "redirect:/login"; // 重定向到登录页面
     }
 
