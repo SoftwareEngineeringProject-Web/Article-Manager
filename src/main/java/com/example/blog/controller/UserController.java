@@ -5,8 +5,11 @@ import com.example.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -19,22 +22,6 @@ public class UserController {
     @GetMapping("/login")
     public String showLoginForm() {
         return "login"; // 返回登录页面的视图名称
-    }
-
-    // 登录请求处理方法
-    @PostMapping("/login")
-    @ResponseBody
-    public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
-        User user = userService.findUserByUsername(username);
-        System.out.println("Password: " + password);
-        if (user != null && userService.passwordEncoder.matches(password, user.getPassword())) {
-            // 登录成功，将用户信息存储到会话中
-//            session.setAttribute("user", user);
-            return "redirect:/home"; // 重定向到用户首页
-        } else {
-            // 登录失败，返回登录页面并显示错误消息
-            return "redirect:/login?error=true";
-        }
     }
 
     // 注销请求处理方法
