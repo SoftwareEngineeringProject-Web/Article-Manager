@@ -28,10 +28,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public Long findUserIdByUsername(String username) {
-        return userRepository.findUserIdByUsername(username);
-    }
-    // This method is used by Spring Security to load user details from the database
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -43,7 +39,8 @@ public class UserService implements UserDetailsService {
                 .authorities("USER").build();
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public void updateUser(User user) {
+        userRepository.updateUser(user.getUsername(), user.getPassword(),user.getEmail(),user.getId());
     }
+
 }
