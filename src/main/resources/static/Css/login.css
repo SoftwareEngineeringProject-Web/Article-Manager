@@ -27,8 +27,15 @@ body {
     font-weight: bold;
     margin-bottom: 1.5rem;
 }
-.form-group label {
+.form-group {
+    position: relative;
     font-weight: bold;
+}
+
+.form-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 .form-control {
     font-size: 1rem;

@@ -46,9 +46,9 @@ body {
 }
 
 .register-container {
-    max-width: 400px;
+    max-width: 350px;
     margin: 50px auto;
-    padding: 20px;
+    padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
     background-color: rgba(255, 255, 255, 0.6) !important; /* Semi-transparent background */
