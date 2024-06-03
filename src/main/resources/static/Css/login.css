@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: url('../images/loginBackground.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.card {
+    padding: 2rem;
+    border: none;
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+    border-radius: 10px;
+}
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+.card h2 {
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+.form-group label {
+    font-weight: bold;
+}
+.form-control {
+    font-size: 1rem;
+    padding: 0.75rem;
+}

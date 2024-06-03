@@ -2,32 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Register</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <style>
-    .register-container {
-      max-width: 500px;
-      margin: 50px auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .register-title {
-      margin-bottom: 30px;
-      text-align: center;
-    }
-    .form-control {
-      margin-bottom: 15px;
-    }
-    .form-group {
-      position: relative;
-    }
-    .form-icon {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-    }
-  </style>
+  <link th:href="@{/Css/register.css}" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <div class="container">
@@ -56,11 +35,14 @@
       </div>
       <button type="submit" class="btn btn-primary btn-block">注册</button>
     </form>
+    <p class="text-center mt-3">
+      <a th:href="@{/login}">返回登录页面</a>
+    </p>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:src="@{/js/jquery-3.5.1.slim.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/popper.min.js}"  type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}"  type="text/javascript"></script>
 </body>
 </html>

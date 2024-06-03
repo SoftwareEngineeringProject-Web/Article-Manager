@@ -5,6 +5,7 @@ import com.example.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +15,21 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // 登录页面请求处理方法
     @GetMapping("/login")
     public String showLoginForm() {
         return "login"; // 返回登录页面的视图名称
     }
 
+    // 登录请求处理方法
     @PostMapping("/login")
     @ResponseBody
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
         User user = userService.findUserByUsername(username);
+        System.out.println("Password: " + password);
         if (user != null && userService.passwordEncoder.matches(password, user.getPassword())) {
             // 登录成功，将用户信息存储到会话中
-            session.setAttribute("user", user);
+//            session.setAttribute("user", user);
             return "redirect:/home"; // 重定向到用户首页
         } else {
             // 登录失败，返回登录页面并显示错误消息
@@ -33,11 +37,13 @@ public class UserController {
         }
     }
 
+    // 注销请求处理方法
     @GetMapping("/register")
     public String showRegisterForm() {
         return "register"; // 返回注册页面的视图名称
     }
 
+    // 注册请求处理方法
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
         // 在这里实现用户注册逻辑，例如验证用户信息、创建新用户等
@@ -46,7 +52,5 @@ public class UserController {
         userService.registerUser(user); // 保存用户信息到数据库
         return "redirect:/login"; // 重定向到登录页面
     }
-
-
 
 }

@@ -10,4 +10,5 @@ public class ArticleController {
     public String showHomePage() {
         return "home"; // 返回登录页面的视图名称
     }
+
 }
