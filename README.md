@@ -1,3 +1,4 @@
+```
 com.example.blog
 ├── ArticleManagerApplication.java
 ├── config
@@ -18,3 +19,4 @@ com.example.blog
     ├── UserService.java
     ├── ArticleService.java
     └── CategoryService.java
+```
