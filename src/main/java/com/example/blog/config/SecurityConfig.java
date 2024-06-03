@@ -1,5 +1,6 @@
 package com.example.blog.config;
 
+import com.example.blog.security.CustomAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,10 +29,9 @@ public class SecurityConfig {
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login").permitAll()
-                                .defaultSuccessUrl("/home", true)
+                                .successHandler(new CustomAuthenticationSuccessHandler()) // 使用自定义的成功处理程序
                                 .failureUrl("/login?error=true")
-                )
-                .logout(logout ->
+                )                .logout(logout ->
                         logout.permitAll()
                 );
         return http.build();
