@@ -52,6 +52,15 @@ public class Category {
         this.parent = parent;
     }
 
+    public String getFullCategoryPath() {
+        StringBuilder path = new StringBuilder(this.name);
+        Category current = this.parent;
+        while (current != null) {
+            path.insert(0, current.name + " > ");
+            current = current.parent;
+        }
+        return path.toString();
+    }
     public String toString() {
         return "Category{id = " + id + ", name = " + name + ", parent = " + parent + "}";
     }

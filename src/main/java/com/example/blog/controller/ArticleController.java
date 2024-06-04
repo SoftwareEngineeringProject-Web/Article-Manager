@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import java.lang.reflect.AnnotatedType;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -95,11 +96,17 @@ public class ArticleController {
     public String article(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         User user = userService.findUserByUsername(username);
         Article article = articleService.getArticleById(id);
-        Category category = categoryService.getCategoryById(article.getCategory().getId());
+        Category categoryParam = categoryService.getCategoryById(article.getCategory().getId());
+
+        // Construct full category paths
+        List<String> categoryPaths = new ArrayList<>();
+        Category category =  categoryService.getCategoryById(article.getCategory().getId());
+        categoryPaths.add(category.getFullCategoryPath());
 
         model.addAttribute("user", user);
         model.addAttribute("article", article);
-        model.addAttribute("category", category);
+        model.addAttribute("category", categoryParam);
+        model.addAttribute("categoryPaths", categoryPaths);
         return "article";
     }
 
