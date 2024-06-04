@@ -35,14 +35,25 @@
             color: #666;
         }
         .sidebar {
-            background-color: #ffffff;
+            background-color: #f7f7f7;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
         .sidebar h4 {
             margin-bottom: 15px;
+        }
+        .write-article-btn {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #007bff;
+            color: white;
+        }
+        .write-article-btn:hover {
+            background-color: #0056b3;
+            color: white;
         }
         .list-group-item {
             cursor: pointer;
@@ -102,7 +113,7 @@
                 <div class="post-preview">
                     <h2 class="post-title" th:text="${article.title}"></h2>
                     <p class="post-excerpt" th:text="${#strings.abbreviate(article.content, 150)}"></p>
-                    <a th:href="@{/article/{id}(id=${article.id})}" class="btn btn-primary">阅读更多</a>
+                    <a th:href="@{./article/{id}(id=${article.id})}" class="btn btn-primary">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -113,6 +124,8 @@
                     <li class="list-group-item" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/category/{id}(id=${category.id})}"></li>
                 </ul>
             </div>
+            <a th:href="@{./create-article}" class="btn write-article-btn btn-block">写文章</a>
+        </div>
         </div>
     </div>
 </div>

@@ -13,6 +13,7 @@ public class Article {
     private String title;
 
     @Column(nullable = false)
+    @Lob
     private String content;
 
     @ManyToOne

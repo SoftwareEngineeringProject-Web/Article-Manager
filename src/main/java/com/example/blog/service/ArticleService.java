@@ -20,4 +20,10 @@ public class ArticleService {
     public List<Article> getArticlesByUserId(Long userId) {
         return articleRepository.findByUserId(userId);
     }
+    public Article getArticleById(Long articleId) {
+        return articleRepository.findById(articleId).orElse(null);
+    }
+    public void saveArticle(Article article) {
+        articleRepository.save(article);
+    }
 }
