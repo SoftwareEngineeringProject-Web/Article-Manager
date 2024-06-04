@@ -7,11 +7,15 @@ import com.example.blog.entity.Category;
 import com.example.blog.service.CategoryService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 import java.lang.reflect.AnnotatedType;
 import java.util.List;
 
@@ -25,6 +29,20 @@ public class ArticleController {
     private CategoryService categoryService;
     @Autowired
     public PasswordEncoder passwordEncoder;
+
+    @ModelAttribute
+    public void checkUser(@PathVariable("username") String username) throws ModelAndViewDefiningException {
+        // 获取当前登录用户的用户名
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+
+        // 如果当前登录用户与要访问的用户不匹配，则进行相应处理
+        if (!loggedInUsername.equals(username)) {
+            String redirectUrl = "/" + loggedInUsername + "/home";
+            RedirectView redirectView = new RedirectView(redirectUrl);
+            throw new ModelAndViewDefiningException(new ModelAndView(redirectView));
+        }
+    }
 
     @GetMapping("/{username}/home")
     public String userHome(@PathVariable("username") String username, Model model) {
