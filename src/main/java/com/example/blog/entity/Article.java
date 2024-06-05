@@ -84,6 +84,10 @@ public class Article {
         this.createdAt = Instant.now();
     }
 
+    public Instant getCreateTime() {
+        return this.createdAt;
+    }
+
 
     public Category getCategory() {
         return category;
