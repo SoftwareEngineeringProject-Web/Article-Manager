@@ -106,12 +106,13 @@
   <div class="row justify-content-center">
     <div class="col-md-10">
       <div class="form-container">
-        <h2 class="text-center mb-4">写文章</h2>
-        <form th:action="@{./create-article}" method="post">
+        <h2 class="text-center mb-4">编辑文章</h2>
+        <form th:action="@{/{username}/edit-article/{id}(username=${user.getUsername()}, id=${article.id})}" method="post">
           <div class="form-row">
             <div class="form-group col-md-8">
               <label for="title">标题</label>
-              <input type="text" id="title" name="title" class="form-control" th:value="${article.title}" required>            </div>
+              <input type="text" id="title" name="title" class="form-control" th:value="${article.title}" required>
+            </div>
             <div class="form-group col-md-4">
               <label for="category">分类</label>
               <select id="category" name="category" class="form-control" required>

@@ -174,12 +174,21 @@ public class ArticleController {
     public String editArticleForm(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         Article article = articleService.getArticleById(id);
         User user = userService.findUserByUsername(username);
-
         List<Category> categories = categoryService.getAllCategories();
+
         model.addAttribute("article", article);
         model.addAttribute("categories", categories);
         model.addAttribute("user", user);
         return "edit-article";
     }
-
+    @PostMapping("/{username}/edit-article/{id}")
+    public String editArticle(@ModelAttribute Article article, @PathVariable("username") String username, @PathVariable("id") Long id,
+                              @RequestParam("category") Long categoryId) {
+        User user = userService.findUserByUsername(username);
+        Category category = categoryService.getCategoryById(categoryId);
+        article.setCategory(category);
+        article.setUser(user);
+        articleService.updateArticle(article);
+        return "redirect:/" + username + "/manage";
+    }
 }
