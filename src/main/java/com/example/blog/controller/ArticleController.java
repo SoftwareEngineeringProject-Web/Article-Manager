@@ -134,7 +134,8 @@ public class ArticleController {
     }
 
     @GetMapping("/{username}/manage")
-    public String articleManagePage(@PathVariable("username") String username, @RequestParam int page, Model model) {
+    public String articleManagePage(@PathVariable("username") String username,
+                                    @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         User user = userService.findUserByUsername(username);
         Long userId = user.getId();
         Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
@@ -168,5 +169,17 @@ public class ArticleController {
         return "redirect:/" + username + "/home";
     }
 
+
+    @GetMapping("/{username}/edit-article/{id}")
+    public String editArticleForm(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
+        Article article = articleService.getArticleById(id);
+        User user = userService.findUserByUsername(username);
+
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("article", article);
+        model.addAttribute("categories", categories);
+        model.addAttribute("user", user);
+        return "edit-article";
+    }
 
 }
