@@ -133,6 +133,20 @@ public class ArticleController {
         return "article";
     }
 
+    @GetMapping("/{username}/manage")
+    public String articleManagePage(@PathVariable("username") String username, @RequestParam int page, Model model) {
+        User user = userService.findUserByUsername(username);
+        Long userId = user.getId();
+        Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
+        Page<Article> articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
+
+        model.addAttribute("user", user);
+        model.addAttribute("articles", articlePages.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", articlePages.getTotalPages());
+        return "manage";
+    }
+
     @GetMapping("/{username}/create-article")
     public String createArticle(@PathVariable("username") String username, Model model) {
         User user = userService.findUserByUsername(username);
