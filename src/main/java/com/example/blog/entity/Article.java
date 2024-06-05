@@ -1,5 +1,7 @@
 package com.example.blog.entity;
 
+import java.time.Instant;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -23,6 +25,9 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
     public Article() {
     }
