@@ -1,0 +1,9 @@
+<!-- fragments/category-tree-node.html -->
+<div th:fragment="category-tree-node(node)">
+  <div th:text="${node.getName()}"></div>
+  <ul th:if="${not node.getChildren().isEmpty()}">
+    <li th:each="child : ${node.getChildren()}">
+      <div th:replace="fragments/category-tree-node :: category-tree-node(node=${child})"></div>
+    </li>
+  </ul>
+</div>
