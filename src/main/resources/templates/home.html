@@ -257,8 +257,8 @@
 
     const createdAtElems = ducument.querySelectorAll('[id^="created-at-"]');
     createdAtElems.forEach(elem => {
-      let gmtDate = new Date(elem.textContent);
-      elem.textContent = gmtDate.toLocaleString();
+        let gmtDate = new Date(elem.textContent);
+        elem.textContent = gmtDate.toLocaleString();
     });
 </script>
 </body>
