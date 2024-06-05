@@ -1,6 +1,8 @@
 package com.example.blog.entity;
 
 import jakarta.persistence.*;
+import com.example.blog.entity.Article;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -16,6 +18,9 @@ public class Category {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
+    @OneToMany(mappedBy = "category")
+    private List<Article> articles;
+
     public Category() {
     }
 
@@ -23,6 +28,13 @@ public class Category {
         this.id = id;
         this.name = name;
         this.parent = parent;
+    }
+
+    public Category(Long id, String name, Category parent, List<Article> articles) {
+        this.id = id;
+        this.name = name;
+        this.parent = parent;
+        this.articles = articles;
     }
 
     public Long getId() {
@@ -65,4 +77,11 @@ public class Category {
         return "Category{id = " + id + ", name = " + name + ", parent = " + parent + "}";
     }
 
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
 }

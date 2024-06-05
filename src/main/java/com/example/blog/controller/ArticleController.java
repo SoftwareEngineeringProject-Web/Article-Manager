@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import java.lang.reflect.AnnotatedType;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -52,6 +53,18 @@ public class ArticleController {
         List<Article> articles = articleService.getArticlesByUserId(userId);
         List<Category> categories = categoryService.getAllCategories();
 
+        for(Category category:categories){
+            List<Article> categoryArticles = articleService.getArticlesByCategory(category);
+            // 使用 Iterator 进行迭代并移除不属于此登录用户的文章
+            Iterator<Article> iterator = categoryArticles.iterator();
+            while (iterator.hasNext()) {
+                Article article = iterator.next();
+                if (!article.getUser().getId().equals(userId)) {
+                    iterator.remove();
+                }
+            }
+            category.setArticles(categoryArticles);
+        }
         model.addAttribute("user", user);
         model.addAttribute("articles", articles);
         model.addAttribute("categories", categories);

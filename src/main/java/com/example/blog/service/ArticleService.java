@@ -1,6 +1,7 @@
 package com.example.blog.service;
 
 import com.example.blog.entity.Article;
+import com.example.blog.entity.Category;
 import com.example.blog.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,8 @@ public class ArticleService {
     }
     public void saveArticle(Article article) {
         articleRepository.save(article);
+    }
+    public List<Article> getArticlesByCategory(Category category){
+        return articleRepository.findByCategory(category);
     }
 }

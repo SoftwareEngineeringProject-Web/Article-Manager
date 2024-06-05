@@ -41,7 +41,7 @@
             color: #757575;
         }
         .sidebar {
-            background-color: #f7f7f7;
+            background-color: #fff;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 5px;
@@ -50,6 +50,8 @@
 
         .sidebar h4 {
             margin-bottom: 15px;
+            font-weight: bold;
+            color: #333;
         }
         .write-article-btn {
             margin-top: 20px;
@@ -63,7 +65,26 @@
             color: white;
         }
         .list-group-item {
+            border: none;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            margin-bottom: 5px;
+            transition: background-color 0.3s ease;
+            border-radius: 4px;
             cursor: pointer;
+        }
+        .card-header {
+            background-color: #fff;
+            border: none;
+            padding: 0;
+        }
+        .card {
+            border: none;
+            background-color: #f8f9fa;
+        }
+        .card-body {
+            padding: 10px 0;
+            background-color: #fff;
         }
         .list-group-item:hover {
             background-color: #e9ecef;
@@ -98,8 +119,8 @@
 
         /* 用户名文字样式 */
         .username-text {
-            font-size: 3rem; /* 文字大小 */
-            color: white; /* 文字颜色 */
+            font-size: 3rem;
+            color: white;
             padding: 1rem;
             border-radius: 10px;
             font-family: Segoe UI;
@@ -150,12 +171,26 @@
         <div class="col-md-4">
             <div class="sidebar">
                 <h4>文章分类</h4>
-                <ul class="list-group">
-                    <li class="list-group-item" th:each="category : ${categories}" th:text="${category.name}" th:href="@{/category/{id}(id=${category.id})}"></li>
-                </ul>
+                <div id="accordion">
+                    <div class="card" th:each="category : ${categories}">
+                        <div class="card-header" th:id="'heading-' + ${category.id}">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" th:data-target="'#collapse-' + ${category.id}" aria-expanded="false" th:aria-controls="'collapse-' + ${category.id}">
+                                    <span th:text="${category.name}"></span>
+                                </button>
+                            </h5>
+                        </div>
+                        <div th:id="'collapse-' + ${category.id}" class="collapse" th:aria-labelledby="'heading-' + ${category.id}" data-parent="#accordion">
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <a class="list-group-item" th:each="article : ${category.articles}" th:href="@{article/{id}(id=${article.id})}" th:text="${article.title}"></a>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a th:href="@{./create-article}" class="btn write-article-btn btn-block">写文章</a>
             </div>
-        </div>
         </div>
     </div>
 </div>
