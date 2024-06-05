@@ -194,6 +194,30 @@
         </div>
     </div>
 </div>
+<!-- 分页栏 -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <!-- 上一页按钮 -->
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{/{username}/home(username=${user.username}, page=${currentPage - 1})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <!-- 分页按钮 -->
+        <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}">
+            <a class="page-link" th:href="@{/{username}/home(username=${user.username}, page=${pageNo})}" th:text="${pageNo + 1}"></a>
+        </li>
+        <!-- 下一页按钮 -->
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/{username}/home(username=${user.username}, page=${currentPage + 1})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
 <button onclick="topFunction()" id="backToTopBtn" title="返回顶部">返回顶部</button>
 <script th:src="@{/js/jquery-3.3.1.slim.min.js}" type="text/javascript"></script>
 <script th:src="@{/js/popper.min.js}" type="text/javascript"></script>

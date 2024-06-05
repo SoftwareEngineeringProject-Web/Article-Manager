@@ -4,8 +4,9 @@ import com.example.blog.entity.Article;
 import com.example.blog.entity.Category;
 import com.example.blog.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -18,9 +19,9 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
-    public List<Article> getArticlesByUserId(Long userId) {
-        return articleRepository.findByUserId(userId);
-    }
+//    public List<Article> getArticlesByUserId(Long userId) {
+//        return articleRepository.findByUserId(userId);
+//    }
     public Article getArticleById(Long articleId) {
         return articleRepository.findById(articleId).orElse(null);
     }
@@ -29,5 +30,8 @@ public class ArticleService {
     }
     public List<Article> getArticlesByCategory(Category category){
         return articleRepository.findByCategory(category);
+    }
+    public Page<Article> getArticlesByUserIdPaged(Long userId, Pageable pageable) {
+        return articleRepository.findByUserId(userId, pageable);
     }
 }

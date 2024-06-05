@@ -7,6 +7,9 @@ import com.example.blog.entity.Category;
 import com.example.blog.service.CategoryService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,11 +50,16 @@ public class ArticleController {
     }
 
     @GetMapping("/{username}/home")
-    public String userHome(@PathVariable("username") String username, Model model) {
+    public String userHome(@PathVariable("username") String username,@RequestParam(name = "page", defaultValue = "0") int page,
+                           Model model) {
         User user = userService.findUserByUsername(username);
         Long userId = userService.findUserByUsername(username).getId();
-        List<Article> articles = articleService.getArticlesByUserId(userId);
+//        List<Article> articles = articleService.getArticlesByUserId(userId);
         List<Category> categories = categoryService.getAllCategories();
+
+        // 分页处理
+        Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
+        Page<Article> articlePage = articleService.getArticlesByUserIdPaged(userId, pageable);
 
         for(Category category:categories){
             List<Article> categoryArticles = articleService.getArticlesByCategory(category);
@@ -66,8 +74,10 @@ public class ArticleController {
             category.setArticles(categoryArticles);
         }
         model.addAttribute("user", user);
-        model.addAttribute("articles", articles);
+        model.addAttribute("articles", articlePage.getContent());
         model.addAttribute("categories", categories);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", articlePage.getTotalPages());
         return "home";
     }
 
