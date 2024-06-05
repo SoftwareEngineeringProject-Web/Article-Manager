@@ -35,6 +35,6 @@ public class ArticleService {
         return articleRepository.findByUserId(userId, pageable);
     }
     public void updateArticle(Article article){
-        articleRepository.updateArticle(article);
+        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.getId());
     }
 }

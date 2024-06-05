@@ -19,6 +19,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Modifying
     @Transactional
-    @Query("update Article a set a.title =?2, a.content = ?3, a.category = ?4 where a.id = ?1")
-    void updateArticle(Article article);
+    @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3 WHERE a.id = ?4")
+    void updateArticle(String title, String content, Category category, Long id);
 }
