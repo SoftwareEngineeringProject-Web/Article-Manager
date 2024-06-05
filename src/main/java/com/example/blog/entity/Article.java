@@ -3,6 +3,8 @@ package com.example.blog.entity;
 import java.time.Instant;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "articles")
@@ -26,7 +28,7 @@ public class Article {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at")
     private Instant createdAt;
 
     public Article() {
@@ -38,6 +40,7 @@ public class Article {
         this.content = content;
         this.user = user;
         this.category = category;
+        this.createdAt = Instant.now();
     }
 
 
@@ -77,6 +80,10 @@ public class Article {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setCreatedAt() {
+        this.createdAt = Instant.now();
     }
 
 

@@ -163,6 +163,7 @@ public class ArticleController {
         Category category = categoryService.getCategoryById(categoryId);
         article.setCategory(category);
         article.setUser(user);
+        article.setCreatedAt();
         articleService.saveArticle(article);
         return "redirect:/" + username + "/home";
     }
