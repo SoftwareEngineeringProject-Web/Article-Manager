@@ -88,7 +88,6 @@ public class Article {
         return this.createdAt;
     }
 
-
     public Category getCategory() {
         return category;
     }
