@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/blog?useSSL=false&serverTimezone=UTC
     username: root
-    password: 021228
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     static-path-pattern: /**
