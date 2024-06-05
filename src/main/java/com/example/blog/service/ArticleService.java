@@ -37,4 +37,7 @@ public class ArticleService {
     public void updateArticle(Article article){
         articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.getId());
     }
+    public void deleteById(Long id) {
+      articleRepository.deleteById(id);
+    }
 }

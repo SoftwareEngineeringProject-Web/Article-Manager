@@ -16,6 +16,7 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findByUserId(Long userId, Pageable pageable);
     List<Article> findByCategory(Category category);
+    void deleteById(Long id);
 
     @Modifying
     @Transactional
