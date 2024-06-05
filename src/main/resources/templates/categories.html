@@ -140,7 +140,7 @@
 <div class="container">
   <h2>文章分类</h2>
   <div class="table-responsive">
-    <div th:replace="fragments/category-tree-node :: category-tree-node(node=${rootCategory})"></div>
+    <div th:if="${rootCategory != null}" th:replace="fragments/category-tree-node :: category-tree-node(node=${rootCategory})"></div>
   </div>
 </div>
 
