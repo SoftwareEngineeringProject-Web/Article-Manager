@@ -34,4 +34,10 @@ public class ArticleService {
     public Page<Article> getArticlesByUserIdPaged(Long userId, Pageable pageable) {
         return articleRepository.findByUserId(userId, pageable);
     }
+    public void updateArticle(Article article){
+        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.getId());
+    }
+    public void deleteById(Long id) {
+      articleRepository.deleteById(id);
+    }
 }
