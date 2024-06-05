@@ -155,16 +155,16 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" th:href="@{./categories}">文章分类</a>
+        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{./manage}">文章管理</a>
+        <a class="nav-link" th:href="@{/{username}/manage(username=${user.username})}">文章管理</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{./change-information}">修改信息</a>
+        <a class="nav-link" th:href="@{/{username}/change-information(username=${user.username})}">修改信息</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{./change-password}">重置密码</a>
+        <a class="nav-link" th:href="@{/{username}/change-password(username=${user.username})}">重置密码</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" th:href="@{/logout}">注销</a>
@@ -178,7 +178,9 @@
     <table class="table table-borderless table-hover">
       <thead>
       <tr>
+        <th>ID</th>
         <th>标题</th>
+        <th>分类</th>
         <th>内容</th>
         <th>创建时间</th>
         <th>操作</th>
@@ -186,7 +188,9 @@
       </thead>
       <tbody>
       <tr th:each="article : ${articles}">
+        <td th:text="${article.id}"></td>
         <td th:text="${article.title}"></td>
+        <td th:text="${article.category.name}"></td>
         <td class="content-col" th:text="${#strings.abbreviate(article.content, 50)}"></td>
         <td class="post-created-time" th:id = "${'created-at-' + article.id}" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>
