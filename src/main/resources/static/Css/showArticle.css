@@ -172,3 +172,21 @@ h2 {
     font-family: 'Segoe UI';
     font-weight: bold;
 }
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination .page-item .page-link {
+    color: #007bff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+}
