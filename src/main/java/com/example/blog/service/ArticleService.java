@@ -51,4 +51,8 @@ public class ArticleService {
     public Page<Article> getArticlesByCategoryPaged(Long userId, Category category, Pageable pageable){
         return articleRepository.findByUserIdAndCategory(userId, category, pageable);
     }
+
+    public Page<Article> getStatisticsByUser(Long userId, Pageable pageable){
+        return articleRepository.getStatisticsByUser(userId, pageable);
+    }
 }
