@@ -1,0 +1,195 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.container {
+    margin-top: 100px;
+    flex: 1;
+}
+
+h2 {
+    margin-bottom: 30px;
+    color: #343a40;
+    text-align: center;
+    font-weight: bold;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-sidebar {
+    flex: 0 0 25%; /* 设置左侧分类栏宽度为25% */
+    margin-right: 20px; /* 添加一些间距 */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    align-self: flex-start; /* 让sidebar的高度由内容决定 */
+}
+
+.category-sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.category-sidebar li {
+    margin-bottom: 10px;
+    border-bottom: none; /* 移除默认的下边框 */
+}
+
+.category-sidebar a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.article-content {
+    flex: 1;
+    background-color: transparent; /* 设置背景为透明 */
+    padding: 0; /* 移除内部填充 */
+}
+
+.post-preview {
+    border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.post-preview:hover {
+    transform: scale(1.02);
+}
+
+.post-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+    text-align: left;
+}
+
+.post-created-time {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #333;
+    opacity: 0.5;
+}
+
+.post-excerpt {
+    font-size: 1rem;
+    color: #757575;
+}
+
+.table-responsive {
+    background-color: transparent; /* 设置背景为透明 */
+    padding: 0; /* 移除内部填充 */
+}
+
+.sidebar {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sidebar h4 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.write-article-btn {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.write-article-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.list-group-item {
+    border: none;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.card-header {
+    background-color: #fff;
+    border: none;
+    padding: 0;
+}
+
+.card {
+    border: none;
+    background-color: #f8f9fa;
+}
+
+.card-body {
+    padding: 10px 0;
+    background-color: #fff;
+}
+
+.list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+#backToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    background-color: #f1f1f1;
+    color: #333;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+#backToTopBtn:hover {
+    background-color: #e0e0e0;
+}
+
+/* 用户名文字样式 */
+.username-text {
+    font-size: 3rem;
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    font-family: 'Segoe UI';
+    font-weight: bold;
+}
