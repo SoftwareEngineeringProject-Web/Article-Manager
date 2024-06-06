@@ -164,6 +164,33 @@ public class ArticleController {
         return "manage";
     }
 
+    @GetMapping("/{username}/statistics")
+    public String articleStatisticsPage(@PathVariable("username") String username,
+                                        @RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+        // 获取用户信息
+        User user = userService.findUserByUsername(username);
+        Long userId = user.getId();
+
+        // 分页配置，每页显示10个统计数据
+        Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
+        Page<Article> articlePages;
+
+        // 获取分类列表
+        List<Category> categories = categoryService.getAllCategories();
+
+        // 获取统计数据
+        articlePages = articleService.getStatisticsByUser(userId, pageable);
+
+        // 将数据添加到模型中，传递给前端
+        model.addAttribute("user", user);
+        model.addAttribute("statistics", articlePages.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", articlePages.getTotalPages());
+        model.addAttribute("categories", categories);
+
+        return "statistics";
+    }
+
     @GetMapping("/{username}/create-article")
     public String createArticle(@PathVariable("username") String username, Model model) {
         User user = userService.findUserByUsername(username);
