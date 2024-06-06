@@ -135,16 +135,32 @@ public class ArticleController {
 
     @GetMapping("/{username}/manage")
     public String articleManagePage(@PathVariable("username") String username,
+                                    @RequestParam(value = "title", required = false) String title,
+                                    @RequestParam(value = "category", required = false) Long categoryId,
                                     @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         User user = userService.findUserByUsername(username);
         Long userId = user.getId();
         Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
-        Page<Article> articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
+        Page<Article> articlePages;
+        List<Category> categories = categoryService.getAllCategories();
+
+        if (title != null && !title.isEmpty() && categoryId != null) {
+            Category category = categoryService.getCategoryById(categoryId);
+            articlePages = articleService.getArticlesByTitleAndCategoryPaged(userId, title, category, pageable);
+        } else if (title != null && !title.isEmpty()) {
+            articlePages = articleService.getArticlesByTitlePaged(userId, title, pageable);
+        } else if (categoryId != null) {
+            Category category = categoryService.getCategoryById(categoryId);
+            articlePages = articleService.getArticlesByCategoryPaged(userId, category, pageable);
+        } else {
+            articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
+        }
 
         model.addAttribute("user", user);
         model.addAttribute("articles", articlePages.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", articlePages.getTotalPages());
+        model.addAttribute("categories", categories);
         return "manage";
     }
 

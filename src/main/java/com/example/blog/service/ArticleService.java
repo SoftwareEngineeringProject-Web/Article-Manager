@@ -40,4 +40,15 @@ public class ArticleService {
     public void deleteById(Long id) {
       articleRepository.deleteById(id);
     }
+
+    public Page<Article> getArticlesByTitleAndCategoryPaged(Long userId,String title, Category category,Pageable pageable){
+        return articleRepository.findByUserIdAndTitleAndCategory(userId, title, category, pageable);
+    }
+    public Page<Article> getArticlesByTitlePaged(Long userId, String title, Pageable pageable){
+        return articleRepository.findByUserIdAndTitle(userId, title, pageable);
+    }
+
+    public Page<Article> getArticlesByCategoryPaged(Long userId, Category category, Pageable pageable){
+        return articleRepository.findByUserIdAndCategory(userId, category, pageable);
+    }
 }

@@ -35,6 +35,17 @@
       font-weight: bold;
     }
 
+    .search-filter-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-filter-form input, .search-filter-form select {
+      margin-right: 10px;
+    }
+
     .table-responsive {
       background-color: white;
       border-radius: 8px;
@@ -174,6 +185,25 @@
 </nav>
 <div class="container">
   <h2>文章管理</h2>
+
+  <!-- 查询和筛选表单 -->
+  <form method="get" th:action="@{/{username}/manage(username=${user.username})}">
+    <div class="form-row mb-3">
+      <div class="col">
+        <input type="text" class="form-control" name="title" placeholder="按标题查询" th:value="${param.title}">
+      </div>
+      <div class="col">
+        <select class="form-control" name="category">
+          <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
+          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${param.category == category.id}"></option>
+        </select>
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">查询</button>
+      </div>
+    </div>
+  </form>
+
   <div class="table-responsive">
     <table class="table table-borderless table-hover">
       <thead>
@@ -203,6 +233,7 @@
       </tbody>
     </table>
   </div>
+
   <!-- 删除文章确认模态框 -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -214,7 +245,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class = "article-title"></div>
+          <div class="article-title"></div>
         </div>
         <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -254,17 +285,17 @@
 <script>
   $(document).ready(function() {
     $('#confirmDeleteModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget); // 触发模态框的按钮
-      var articleId = button.data('article-id'); // 从按钮中获取文章 id
+      var button = $(event.relatedTarget);        // 触发模态框的按钮
+      var articleId = button.data('article-id');  // 从按钮中获取文章 id
       var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
       var modal = $(this); // 找到模态框
-      modal.find('.article-title').text("确定要删除《"+ articleTitle + "》这篇文章吗？"); // 在模态框中显示文章标题
-      var confirmDeleteButton = $(this).find('#confirmDeleteButton'); // 找到模态框中的确认删除按钮
-      confirmDeleteButton.attr('href', 'delete-article/' + articleId); // 设置确认删除按钮的链接，替换其中的文章 id
+      modal.find('.article-title').text("确定要删除《"+ articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
+      var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+      confirmDeleteButton.attr('href', 'delete-article/' + articleId);  // 设置确认删除按钮的链接，替换其中的文章 id
     });
   });
 
-  const createdAtElems = ducument.querySelectorAll('[id^="created-at-"]');
+  const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
   createdAtElems.forEach(elem => {
     let gmtDate = new Date(elem.textContent);
     elem.textContent = gmtDate.toLocaleString();

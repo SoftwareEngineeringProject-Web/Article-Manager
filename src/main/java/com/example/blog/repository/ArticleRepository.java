@@ -17,7 +17,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findByUserId(Long userId, Pageable pageable);
     List<Article> findByCategory(Category category);
     void deleteById(Long id);
+    Page<Article> findByUserIdAndTitleAndCategory(Long userId, String title, Category category, Pageable pageable);
 
+    Page<Article> findByUserIdAndTitle(Long userId, String title, Pageable pageable);
+
+    Page <Article> findByUserIdAndCategory(Long userId, Category category, Pageable pageable);
     @Modifying
     @Transactional
     @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3 WHERE a.id = ?4")
