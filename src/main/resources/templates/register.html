@@ -21,27 +21,27 @@
     <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
       <div class="form-group">
         <label for="username">用户名</label>
-        <input type="text" id="username" name="username" class="form-control" required>
+        <input type="text" id="username" name="username" placeholder="请输入用户名" class="form-control" required>
         <i class="fas fa-user form-icon"></i>
       </div>
       <div class="form-group">
         <label for="name">昵称</label>
-        <input type="text" id="name" name="name" class="form-control" required>
+        <input type="text" id="name" name="name" placeholder="请输入昵称" class="form-control" required>
         <i class="fas fa-user form-icon"></i>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" class="form-control" required>
+        <input type="email" id="email" name="email" placeholder="请输入Email" class="form-control" required>
         <i class="fas fa-envelope form-icon"></i>
       </div>
       <div class="form-group">
         <label for="password">密码</label>
-        <input type="password" id="password" name="password" class="form-control" required>
+        <input type="password" id="password" name="password" placeholder="请输入密码" class="form-control" required>
         <i class="fas fa-lock form-icon"></i>
       </div>
       <div class="form-group">
         <label for="confirmPassword">确认密码</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请重新输入密码" class="form-control" required>
         <i class="fas fa-lock form-icon"></i>
       </div>
       <button type="submit" class="btn btn-primary btn-block">注册</button>
