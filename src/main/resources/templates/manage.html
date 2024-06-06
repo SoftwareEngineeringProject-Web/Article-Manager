@@ -155,6 +155,43 @@
       margin-right: auto;
     }
 
+    .search-form .input-group {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-form input,
+    .search-form select,
+    .search-form button {
+      border-radius: 0 !important;
+    }
+
+    .search-form .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .search-form .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+
+    .search-form .btn {
+      border-radius: 0 !important;
+      margin-left: 10px; /* 提交按钮左侧间距 */
+
+    }
+
+    .loading-all-btn {
+      background-color: #17a2b8;
+      color: white;
+    }
+    .search-form .input-group {
+      margin-right: 10px; /* 增加右侧间距 */
+    }
+
+    .search-form select {
+      margin-right: 10px; /* 分类下拉列表右侧间距 */
+    }
   </style>
 </head>
 <body>
@@ -187,22 +224,21 @@
   <h2>文章管理</h2>
 
   <!-- 查询和筛选表单 -->
-  <form method="get" th:action="@{/{username}/manage(username=${user.username})}">
-    <div class="form-row mb-3">
-      <div class="col">
-        <input type="text" class="form-control" name="title" placeholder="按标题查询" th:value="${param.title}">
+  <form method="get" th:action="@{/{username}/manage(username=${user.username})}" class="search-form">
+    <div class="input-group mb-3">
+      <div class="input-group-append">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
       </div>
-      <div class="col">
-        <select class="form-control" name="category">
-          <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
-          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${param.category == category.id}"></option>
-        </select>
-      </div>
-      <div class="col">
-        <button type="submit" class="btn btn-primary">查询</button>
-      </div>
+      <input type="text" class="form-control" name="title" placeholder="按标题查询" th:value="${param.title}">
+      <select class="form-control" name="category">
+        <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${param.category == category.id}"></option>
+      </select>
+      <button type="submit" class="btn btn-primary">查询</button>
+      <button type="button" class="btn loading-all-btn" onclick="loadAllArticles()">加载全部</button>
     </div>
   </form>
+
 
   <div class="table-responsive">
     <table class="table table-borderless table-hover">
@@ -300,6 +336,12 @@
     let gmtDate = new Date(elem.textContent);
     elem.textContent = gmtDate.toLocaleString();
   });
+
+  function loadAllArticles() {
+    document.querySelector('input[name="title"]').value = '';
+    document.querySelector('select[name="category"]').value = '';
+    document.querySelector('form').submit();
+  }
 </script>
 </body>
 </html>
