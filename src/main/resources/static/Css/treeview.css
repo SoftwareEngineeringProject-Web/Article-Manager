@@ -1,0 +1,25 @@
+.treeview-container {
+  display: grid;
+  grid-template-columns: calc(var(--level) * 1rem);
+  grid-template-areas: "spacer content";
+  transition: background-color 0.3s ease;
+}
+
+.treeview-container:hover {
+  background-color: var(--hover-color, inherit);
+}
+
+.treeview-content {
+  grid-area: content;
+}
+
+.treeview-ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.treeview-li {
+  display: list-item;
+  margin: 0;
+}

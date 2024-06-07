@@ -1,9 +1,11 @@
 <!-- fragments/category-tree-node.html -->
-<div th:fragment="category-tree-node(node)">
-  <a th:text="${node.getName()}" th:href="@{/{username}/categories(username=${user.username}, categoryId=${node.getId()})}"></a>
-  <ul class="list-group list-group-flush" th:if="${not node.getChildren().isEmpty()}">
-    <li class="list-group-item" th:each="child : ${node.getChildren()}">
-      <div th:replace="~{fragments/category-tree-node :: category-tree-node(node=${child})}"></div>
+<div th:fragment="category-tree-node(node, level)">
+  <div class="treeview-container", th:style="'border-radius: 0.2rem; --hover-color: #E0E0E0; --level: ' + ${level} + ';' + ${currentCategoryId != null and currentCategoryId == node.getId() ? ' background-color: #E0E0E0;' : ''}">
+    <a class="treeview-content" th:text="${node.getName()}" th:href="@{/{username}/categories(username=${user.username}, categoryId=${node.getId()})}"></a>
+  </div>
+  <ul class="treeview-ul" th:if="${not node.getChildren().isEmpty()}">
+    <li class="treeview-li" th:each="child : ${node.getChildren()}">
+      <div th:replace="~{fragments/category-tree-node :: category-tree-node(node=${child}, level=${level + 1})}"></div>
     </li>
   </ul>
 </div>

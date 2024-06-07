@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" th:href="@{/Css/showArticleList.css}" type="text/css">
   <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
+  <link rel="stylesheet" th:href="@{/Css/treeview.css}" type="text/css">
   <style>
     .category-sidebar ul {
       list-style: none;
@@ -114,9 +115,9 @@
   <div class="content-wrapper">
     <div class="sidebar-wrapper category-sidebar">
       <div class="table-responsive">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item" th:each="child : ${rootCategory.getChildren()}">
-            <div th:replace="~{fragments/category-tree-node :: category-tree-node(node=${child})}"></div>
+        <ul class="treeview-ul">
+          <li class="treeview-li" th:each="child : ${rootCategory.getChildren()}">
+            <div th:replace="~{fragments/category-tree-node :: category-tree-node(node=${child}, level=${1})}"></div>
           </li>
         </ul>
       </div>
