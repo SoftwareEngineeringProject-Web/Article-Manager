@@ -44,17 +44,6 @@ h2 {
     align-self: flex-start; /* 让sidebar的高度由内容决定 */
 }
 
-.category-sidebar ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-
-.category-sidebar li {
-    margin-bottom: 10px;
-    border-bottom: none; /* 移除默认的下边框 */
-}
-
 .category-sidebar a {
     text-decoration: none;
     color: #007bff;
@@ -121,8 +110,6 @@ h2 {
 }
 
 .write-article-btn {
-    margin-top: 20px;
-    margin-bottom: 20px;
     background-color: #28a745;
     border-color: #28a745;
     color: white;
@@ -138,7 +125,7 @@ h2 {
     padding: 10px 15px;
     background-color: #f8f9fa;
     margin-bottom: 5px;
-    transition: background-color 0.3s ease;
+    /*transition: background-color 0.3s ease;*/
     border-radius: 4px;
     cursor: pointer;
 }
@@ -159,9 +146,9 @@ h2 {
     background-color: #fff;
 }
 
-.list-group-item:hover {
-    background-color: #e9ecef;
-}
+/*.list-group-item:hover {*/
+/*    background-color: #e9ecef;*/
+/*}*/
 
 /* 用户名文字样式 */
 .username-text {

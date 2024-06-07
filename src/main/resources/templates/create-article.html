@@ -39,16 +39,22 @@
 <div class="container">
   <h2>写文章</h2>
   <form th:action="@{./create-article}" method="post" class="search-form">
-    <div class="input-group mb-3">
-      <label><input type="text" id="title" name="title" class="form-control" placeholder="请输入标题" required></label>
-      <select id="category" name="category" class="form-control" required>
-        <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
-        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-      </select>
-      <button type="submit" class="btn btn-primary">提交</button>
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <input type="text" id="title" name="title" class="form-control" placeholder="请输入标题" required>
+      </div>
+      <div class="col-md-4">
+        <select id="category" name="category" class="form-control" required>
+          <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
+          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+      </div>
     </div>
     <div class="content-container">
       <textarea id="content" name="content" class="form-control" rows="20" required></textarea>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">提交</button>
     </div>
   </form>
 </div>
