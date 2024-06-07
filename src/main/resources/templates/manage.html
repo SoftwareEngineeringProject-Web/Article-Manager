@@ -70,7 +70,7 @@
       <tr th:each="article : ${articles}">
         <td th:text="${article.id}"></td>
         <td th:text="${article.title}"></td>
-        <td th:text="${article.category.name}"></td>
+        <td th:text="${article.category != null} ? ${article.category.name} : '没有分类'"></td>
         <td class="content-col" th:text="${#strings.abbreviate(article.content, 50)}"></td>
         <td class="post-created-time" th:id = "${'created-at-' + article.id}" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>

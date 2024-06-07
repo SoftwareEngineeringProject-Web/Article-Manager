@@ -41,7 +41,7 @@
       <label><input type="text" id="title" name="title" class="form-control" th:value="${article.title}" placeholder="请输入标题" required></label>
       <select id="category" name="category" class="form-control" required>
         <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
-        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${article.category.id == category.id}"></option>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${article.category != null and article.category.id == category.id}"></option>
       </select>
       <button type="submit" class="btn btn-primary">提交</button>
     </div>

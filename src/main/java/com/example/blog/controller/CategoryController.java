@@ -9,7 +9,9 @@ import com.example.blog.service.ArticleService;
 import com.example.blog.service.CategoryService;
 import com.example.blog.service.UserService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +50,46 @@ public class CategoryController {
         }
     }
 
+    @GetMapping("/{username}/delete-category/{id}")
+    public String deleteCategory(@PathVariable("username") String username, @PathVariable("id") Long id) {
+        List<Category> categories = new ArrayList<>();
+        Category firstCategory = categoryService.getCategoryById(id);
+        if (firstCategory != null)
+          categories.add(firstCategory);
+
+        //为了删除时不破坏Category的外键约束
+        //该列表中的元素满足以下约束：如果A是B的父亲，则A一定在B前面
+        LinkedList<Category> toBeDeleted = new LinkedList<>();
+        while (!categories.isEmpty()) {
+            Category last = categories.get(categories.size() - 1);
+            categories.remove(categories.size() - 1);
+            categories.addAll(categoryService.findByParentId(last.getId()));
+            articleService.setCategoryIdtoNullByCategoryId(last.getId());
+            toBeDeleted.addFirst(last);
+        }
+        toBeDeleted.forEach(category -> { categoryService.deleteById(category.getId()); });
+        return "redirect:/" + username + "/categories";
+    }
+
+    @PostMapping("/{username}/create-category")
+    public String createCategory(@PathVariable("username") String username,
+                                 @RequestParam(name = "parentId", required = false) Long parentId,
+                                 @RequestParam(name = "categoryName", required = true) String categoryName) {
+        Category category = new Category(null, categoryName, categoryService.getCategoryById(parentId));
+        categoryService.saveCategory(category);
+        return "redirect:/" + username + "/categories" + (parentId != null ? "?categoryId=" + parentId : "");
+    }
+
     @GetMapping("/{username}/categories")
     public String showCategoryPage(@PathVariable("username") String username,
                                    @RequestParam(name = "page", defaultValue = "0") int page,
                                    @RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
         User user = userService.findUserByUsername(username);
         List<Category> categories = categoryService.getAllCategories();
-        CategoryTreeNode root = null;
         HashMap<Long, CategoryTreeNode> nodes = new HashMap<>();
         Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
         Page<Article> articles = null;
+        CategoryTreeNode dummyRoot = new CategoryTreeNode(-1L, null);
         if (categoryId != null) {
             Category categoryParam = categoryService.getCategoryById(categoryId);
             articles = articleService.getArticlesByCategoryPaged(user.getId(), categoryParam, pageable);
@@ -67,19 +99,18 @@ public class CategoryController {
         for (Category category : categories) {
             CategoryTreeNode currentNode = new CategoryTreeNode(category.getId(), category.getName());
             nodes.put(category.getId(), currentNode);
-            if (category.getParent() == null)
-                root = currentNode;
         }
         for (Category category : categories) {
             Category parent = category.getParent();
-            if (parent != null) {
-                nodes.get(parent.getId()).addChild(nodes.get(category.getId()));
-            }
+            CategoryTreeNode parentNode = parent == null ? dummyRoot : nodes.get(parent.getId());
+            parentNode.addChild(nodes.get(category.getId()));
         }
 
         model.addAttribute("articles", articles.getContent());
-        model.addAttribute("rootCategory", root);
+        model.addAttribute("rootCategory", dummyRoot);
         model.addAttribute("user", user);
+        model.addAttribute("currentCategoryId", categoryId);
+        model.addAttribute("currentCategoryName", categoryId != null ? nodes.get(categoryId).getName() : null);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", articles.getTotalPages());
         return "categories";
