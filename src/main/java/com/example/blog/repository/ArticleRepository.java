@@ -23,8 +23,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page <Article> findByUserIdAndCategory(Long userId, Category category, Pageable pageable);
 
-    List<Article> getStatisticsByUserIdAndCategory(Long userId, Category category);
-
     Integer countByUserId(Long userId);
 
     Integer countByCategoryIdAndUserId(Long categoryId, Long userId);

@@ -69,23 +69,26 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}" ><i class="bi bi-house-door-fill"></i> 首页</a></i></a>
+  <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}"><i class="bi bi-house-door-fill"></i> 首页</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/categories(username=${user.getUsername()})}">文章分类</a>
+        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/manage(username=${user.getUsername()})}" >文章管理</a>
+        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/change-information(username=${user.getUsername()})}">修改信息</a>
+        <a class="nav-link" th:href="@{/{username}/manage(username=${user.username})}">文章管理</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/change-password(username=${user.getUsername()})}">重置密码</a>
+        <a class="nav-link" th:href="@{/{username}/change-information(username=${user.username})}">修改信息</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/{username}/change-password(username=${user.username})}">重置密码</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" th:href="@{/logout}">注销</a>

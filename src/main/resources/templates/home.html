@@ -4,7 +4,7 @@
     <title>首页</title>
     <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" th:href="@{/Css/showArticle.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/Css/showArticleList.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
     <style>
         .full-screen-image {
@@ -21,26 +21,26 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#" ><i class="bi bi-house-door-fill"></i> 首页</a></i></a>
+    <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}"><i class="bi bi-house-door-fill"></i> 首页</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{./statistics}">文章统计</a>
+                <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{./categories}">文章分类</a>
+                <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{./manage}">文章管理</a>
+                <a class="nav-link" th:href="@{/{username}/manage(username=${user.username})}">文章管理</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{./change-information}">修改信息</a>
+                <a class="nav-link" th:href="@{/{username}/change-information(username=${user.username})}">修改信息</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{./change-password}">重置密码</a>
+                <a class="nav-link" th:href="@{/{username}/change-password(username=${user.username})}">重置密码</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/logout}">注销</a>

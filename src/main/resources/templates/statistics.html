@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>文章分类</title>
+    <title>文章统计</title>
     <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
@@ -13,7 +13,6 @@
             display: flex;
             flex-direction: column;
         }
-
         .navbar {
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -24,45 +23,74 @@
             font-size: 1.8rem;
             font-weight: bold;
         }
-        .category-title {
-            margin-top: 20px;
+
+        .container{
+            margin-top: 100px;
+            width: 100%;
+            padding-left: 0;
+            padding-right: 0;
         }
-        .category-card {
-            margin-bottom: 20px;
+
+        h1 {
+            margin-bottom: 30px;
+            color: #343a40;
+            text-align: center;
+            font-weight: bold;
         }
+
         .card {
             flex: 1;
             margin: 10px;
             color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+
         .bg-primary {
             background-color: #007bff !important;
         }
+
         .bg-success {
             background-color: #28a745 !important;
         }
+
         .bg-info {
             background-color: #17a2b8 !important;
         }
+
         .chart-container {
             position: relative;
             margin-top: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .bi-journal-text,
+        .bi-chat-left-dots,
+        .bi-hand-thumbs-up {
+            font-size: 4rem;
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#"><i class="bi bi-house-door-fill"></i> 首页</a>
+    <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}"><i class="bi bi-house-door-fill"></i> 首页</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/{username}/home(username=${user.username})}">首页</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/{username}/statistic(username=${user.username})}">文章统计</a>
+                <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
@@ -83,28 +111,29 @@
     </div>
 </nav>
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between">
+<div class="container">
+    <h1>文章管理</h1>
+    <div class="stats-container">
         <div class="card bg-primary text-center">
             <div class="card-body">
-                <h5 class="card-title">共发布x篇文章</h5>
-                <p class="card-text" th:text="'共发布 ' + ${totalArticles} + ' 篇文章'"></p>
+                <i class="bi bi-journal-text"></i>
+                <h5 class="card-text" th:text="'共发布 ' + ${totalArticles} + ' 篇文章'"></h5>
             </div>
         </div>
         <div class="card bg-success text-center">
             <div class="card-body">
-                <h5 class="card-title">共收到x条评论</h5>
-                <p class="card-text" th:text="'共收到 ' + ${totalComments} + ' 条评论'"></p>
+                <i class="bi bi-chat-left-dots"></i>
+                <h5 class="card-text" th:text="'共收到 ' + ${totalComments} + ' 条评论'"></h5>
             </div>
         </div>
         <div class="card bg-info text-center">
             <div class="card-body">
-                <h5 class="card-title">共获得x次点赞</h5>
-                <p class="card-text" th:text="'共获得 ' + ${totalLikes} + ' 次点赞'"></p>
+                <i class="bi bi-hand-thumbs-up"></i>
+                <h5 class="card-text" th:text="'共获得 ' + ${totalLikes} + ' 次点赞'"></h5>
             </div>
         </div>
     </div>
-    <div class="chart-container">
+    <div class="chart-container mt-4">
         <canvas id="categoryChart"></canvas>
     </div>
 </div>
