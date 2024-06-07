@@ -1,7 +1,7 @@
 <!-- fragments/category-tree-node.html -->
 <div th:fragment="category-tree-node(node, level)">
   <div class="treeview-container", th:style="'border-radius: 0.2rem; --hover-color: #E0E0E0; --level: ' + ${level} + ';' + ${currentCategoryId != null and currentCategoryId == node.getId() ? ' background-color: #E0E0E0;' : ''}">
-    <a class="treeview-content" th:text="${node.getName()}" th:href="@{/{username}/categories(username=${user.username}, categoryId=${node.getId()})}"></a>
+    <a class="treeview-content" th:text="${node.getName()}" th:href="@{/{username}/categories(username=${user.username}, categoryId=${node.getId() == currentCategoryId ? '' : node.getId()})}"></a>
   </div>
   <ul class="treeview-ul" th:if="${not node.getChildren().isEmpty()}">
     <li class="treeview-li" th:each="child : ${node.getChildren()}">
