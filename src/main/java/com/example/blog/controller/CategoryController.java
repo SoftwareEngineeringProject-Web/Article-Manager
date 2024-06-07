@@ -58,7 +58,7 @@ public class CategoryController {
           categories.add(firstCategory);
 
         //为了删除时不破坏Category的外键约束
-        //该列表中的元素满足以下约束：如果A是B的父亲，则A一定在B前面
+        //该列表中的元素满足以下约束：如果A是B的父亲，则A一定在B后面
         LinkedList<Category> toBeDeleted = new LinkedList<>();
         while (!categories.isEmpty()) {
             Category last = categories.get(categories.size() - 1);
