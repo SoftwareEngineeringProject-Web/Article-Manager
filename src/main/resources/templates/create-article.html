@@ -3,7 +3,6 @@
 <head>
   <title>写文章</title>
   <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
-  <link th:href="@{/Css/blog.css}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/Css/createArticlePage.css" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
@@ -38,7 +37,7 @@
   <h2>写文章</h2>
   <form th:action="@{./create-article}" method="post" class="search-form">
     <div class="input-group mb-3">
-      <input type="text" id="title" name="title" class="form-control" placeholder="请输入标题" required>
+      <label><input type="text" id="title" name="title" class="form-control" placeholder="请输入标题" required></label>
       <select id="category" name="category" class="form-control" required>
         <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
         <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>

@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 public class ArticleService {
-
     @Autowired
     private ArticleRepository articleRepository;
 
@@ -19,9 +18,6 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
-//    public List<Article> getArticlesByUserId(Long userId) {
-//        return articleRepository.findByUserId(userId);
-//    }
     public Article getArticleById(Long articleId) {
         return articleRepository.findById(articleId).orElse(null);
     }
@@ -52,7 +48,11 @@ public class ArticleService {
         return articleRepository.findByUserIdAndCategory(userId, category, pageable);
     }
 
-    public Page<Article> getStatisticsByUser(Long userId, Pageable pageable){
-        return articleRepository.getStatisticsByUser(userId, pageable);
+    public Integer countByUserId(Long userId){
+        return articleRepository.countByUserId(userId);
     }
+    public Integer countByCategoryIdAndUserId(Long categoryId, Long userId){
+        return articleRepository.countByCategoryIdAndUserId(categoryId, userId);
+    }
+
 }

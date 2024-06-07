@@ -23,7 +23,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page <Article> findByUserIdAndCategory(Long userId, Category category, Pageable pageable);
 
-    Page<Article> getStatisticsByUser(Long userId, Pageable pageable);
+    List<Article> getStatisticsByUserIdAndCategory(Long userId, Category category);
+
+    Integer countByUserId(Long userId);
+
+    Integer countByCategoryIdAndUserId(Long categoryId, Long userId);
     @Modifying
     @Transactional
     @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3 WHERE a.id = ?4")

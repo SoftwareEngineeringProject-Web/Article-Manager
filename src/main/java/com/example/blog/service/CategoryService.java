@@ -21,5 +21,11 @@ public class CategoryService {
         return categoryRepository.findById(id).orElse(null);
     }
 
+    public List<Category> findCategoriesByUserId(Long userId) {
+        return categoryRepository.findCategoriesByUserId(userId);
+    }
 
+    public Category saveCategory(Category category) {
+        return categoryRepository.save(category);
+    }
 }
