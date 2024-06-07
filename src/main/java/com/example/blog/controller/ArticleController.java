@@ -119,17 +119,14 @@ public class ArticleController {
     public String article(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         User user = userService.findUserByUsername(username);
         Article article = articleService.getArticleById(id);
-        Category categoryParam = categoryService.getCategoryById(article.getCategory().getId());
 
         // Construct full category paths
-        List<String> categoryPaths = new ArrayList<>();
-        Category category =  categoryService.getCategoryById(article.getCategory().getId());
-        categoryPaths.add(category.getFullCategoryPath());
+        Category category = categoryService.getCategoryById(article.getCategory() == null ? null : article.getCategory().getId());
+        String categoryPath = category == null ? null : category.getFullCategoryPath();
 
         model.addAttribute("user", user);
         model.addAttribute("article", article);
-        model.addAttribute("category", categoryParam);
-        model.addAttribute("categoryPaths", categoryPaths);
+        model.addAttribute("categoryPath", categoryPath);
         return "article";
     }
 

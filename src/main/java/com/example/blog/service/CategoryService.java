@@ -18,14 +18,22 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+        return id == null ? null : categoryRepository.findById(id).orElse(null);
     }
 
     public List<Category> findCategoriesByUserId(Long userId) {
         return categoryRepository.findCategoriesByUserId(userId);
     }
 
+    public List<Category> findByParentId(Long parentId) {
+        return categoryRepository.findByParentId(parentId);
+    }
+
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
+    }
+
+    public void deleteById(Long id) {
+      categoryRepository.deleteById(id);
     }
 }

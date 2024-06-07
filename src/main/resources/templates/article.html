@@ -100,7 +100,7 @@
   <div class="content-wrapper">
     <h1 class="article-title" th:text="${article.title}"></h1>
     <div class="article-categories">
-      <span th:each="categoryPath : ${categoryPaths}" th:text="${categoryPath}"></span>
+      <span th:if="${categoryPath != null}" th:text="${categoryPath}"></span>
     </div>
     <div class="article-content" th:utext="${article.formattedContent}"></div>
     <div class="back-link">
