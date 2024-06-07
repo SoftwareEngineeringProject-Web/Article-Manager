@@ -31,4 +31,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3 WHERE a.id = ?4")
     void updateArticle(String title, String content, Category category, Long id);
 
+    @Query("SELECT FUNCTION('DATE_FORMAT', a.createdAt, '%Y-%m') AS month, COUNT(a) AS count " +
+            "FROM Article a WHERE a.user.id = ?1 GROUP BY month ORDER BY FUNCTION('DATE_FORMAT', a.createdAt, '%Y-%m')")
+    List<Object[]> findMonthlyArticlesDataByUserId(Long userId);
 }

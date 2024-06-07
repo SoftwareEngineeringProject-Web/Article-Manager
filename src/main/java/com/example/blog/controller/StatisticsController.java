@@ -4,6 +4,7 @@ import com.example.blog.entity.Category;
 import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
 import com.example.blog.service.CategoryService;
+import com.example.blog.service.StatisticsService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class StatisticsController {
@@ -32,6 +35,8 @@ public class StatisticsController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private StatisticsService statisticsService;
 
     @ModelAttribute
     public void checkUser(@PathVariable("username") String username) throws ModelAndViewDefiningException {
@@ -62,18 +67,30 @@ public class StatisticsController {
             categoryData.add(createCategoryData(category.getName(), count));
         }
 
+        List<Object[]> monthlyArticlesData = statisticsService.findMonthlyArticlesDataByUserId(user.getId());
+        List<Map<String, Object>> articlesData = new ArrayList<>();
+        for (Object[] data : monthlyArticlesData) {
+            articlesData.add(createMonthlyArticleData((String) data[0], (Long) data[1]));
+        }
         model.addAttribute("user", user);
         model.addAttribute("totalArticles", totalArticles);
         model.addAttribute("totalComments", totalComments);
         model.addAttribute("totalLikes", totalLikes);
         model.addAttribute("categoryData", categoryData);
-
+        model.addAttribute("monthlyArticlesData", articlesData);
         return "statistics";
     }
 
     private Map<String, Object> createCategoryData(String name, int count) {
         Map<String, Object> data = new HashMap<>();
         data.put("name", name);
+        data.put("count", count);
+        return data;
+    }
+
+    private Map<String, Object> createMonthlyArticleData(String month, Long count) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("month", month);
         data.put("count", count);
         return data;
     }

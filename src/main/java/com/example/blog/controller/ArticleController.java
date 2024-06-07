@@ -211,6 +211,6 @@ public class ArticleController {
     @GetMapping("/{username}/delete-article/{id}")
     public String deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
         articleService.deleteById(articleId);
-        return "forward:/" + username + "/manage";
+        return "redirect:/" + username + "/manage";
     }
 }
