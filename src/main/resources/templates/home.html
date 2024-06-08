@@ -88,8 +88,9 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="sidebar">
-                <h4>文章分类</h4>
+            <div class="sidebar" style="position: sticky; top: 20vh;">
+              <h4>文章分类</h4>
+              <div style="overflow: auto; height: 50vh; margin-bottom: 10px; margin-top: 10px;">
                 <div id="accordion">
                     <div class="card" th:each="category : ${categories}">
                         <div class="card-header" th:id="'heading-' + ${category.id}">
@@ -108,7 +109,8 @@
                         </div>
                     </div>
                 </div>
-                <a th:href="@{./create-article}" class="btn write-article-btn btn-block">写文章</a>
+              </div>
+              <a th:href="@{./create-article}" class="btn write-article-btn btn-block">写文章</a>
             </div>
         </div>
     </div>
