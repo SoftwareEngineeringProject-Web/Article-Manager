@@ -44,7 +44,7 @@ h2 {
     align-self: flex-start; /* 让sidebar的高度由内容决定 */
 }
 
-.category-sidebar a {
+.category-sidebar-category-line  {
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
