@@ -24,22 +24,11 @@ body {
     padding-right: 0;
 }
 
-h2 {
+h1 {
     margin-bottom: 30px;
     color: #343a40;
     text-align: center;
     font-weight: bold;
-}
-
-.search-filter-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.search-filter-form input, .search-filter-form select {
-    margin-right: 10px;
 }
 
 .table-responsive {
@@ -151,6 +140,21 @@ tbody tr:last-child {
     margin-right: auto;
 }
 
+.loading-all-btn {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.search-form .form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-form .form-control {
+    border-radius: 0;
+}
+
 .search-form .input-group {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -172,19 +176,15 @@ tbody tr:last-child {
 }
 
 .search-form .btn {
-    border-radius: 0 !important;
-    margin-left: 10px; /* 提交按钮左侧间距 */
-
+    width: 100%; /* 使按钮宽度一致 */
 }
 
-.loading-all-btn {
+.btn-info {
     background-color: #17a2b8;
-    color: white;
-}
-.search-form .input-group {
-    margin-right: 10px; /* 增加右侧间距 */
+    border-color: #17a2b8;
 }
 
-.search-form select {
-    margin-right: 10px; /* 分类下拉列表右侧间距 */
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
 }

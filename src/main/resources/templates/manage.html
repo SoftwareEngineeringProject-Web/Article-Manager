@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
   <link rel="stylesheet" th:href="@{/Css/managePage.css}" type="text/css">
+
 </head>
 
 <body>
@@ -38,21 +39,31 @@
   </div>
 </nav>
 <div class="container">
-  <h2>文章管理</h2>
+  <h1>文章管理</h1>
 
   <!-- 查询和筛选表单 -->
   <form method="get" th:action="@{/{username}/manage(username=${user.username})}" class="search-form">
-    <div class="input-group mb-3">
-      <div class="input-group-append">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
+    <div class="form-row align-items-center">
+      <div class="col-md-5 mb-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+          </div>
+          <input type="text" class="form-control" name="title" placeholder="按标题查询" th:value="${param.title}">
+        </div>
       </div>
-      <input type="text" class="form-control" name="title" placeholder="按标题查询" th:value="${param.title}">
-      <select class="form-control" name="category">
-        <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
-        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${param.category == category.id}"></option>
-      </select>
-      <button type="submit" class="btn btn-primary">查询</button>
-      <button type="button" class="btn loading-all-btn" onclick="loadAllArticles()">加载全部</button>
+      <div class="col-md-3 mb-3">
+        <select class="form-control" name="category">
+          <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
+          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${param.category == category.id}"></option>
+        </select>
+      </div>
+      <div class="col-md-2 mb-3">
+        <button type="submit" class="btn btn-primary">查询</button>
+      </div>
+      <div class="col-md-2 mb-3">
+        <button type="button" class="btn btn-info loading-all-btn" onclick="loadAllArticles()">加载全部</button>
+      </div>
     </div>
   </form>
 
