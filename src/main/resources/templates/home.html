@@ -7,6 +7,11 @@
     <link rel="stylesheet" th:href="@{/Css/showArticleList.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
     <style>
+        .btn-light{
+            background-color: transparent;
+            border: none;
+            margin-bottom: 5px;
+        }
         .category-sidebar ul {
             list-style: none;
             padding-left: 0;
@@ -16,6 +21,14 @@
         .category-sidebar li {
             margin-bottom: 10px;
             border-bottom: none; /* 移除默认的下边框 */
+        }
+        .span-category {
+            font-size: 18px;
+            color: #005cbf;
+            font-weight: bold;
+        }
+        .span-category :hover {
+            text-decoration: none;
         }
 
         .full-screen-image {
@@ -81,8 +94,8 @@
                     <div class="card" th:each="category : ${categories}">
                         <div class="card-header" th:id="'heading-' + ${category.id}">
                             <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" th:data-target="'#collapse-' + ${category.id}" aria-expanded="false" th:aria-controls="'collapse-' + ${category.id}">
-                                    <span th:text="${category.name}"></span>
+                                <button class="btn btn-light" data-toggle="collapse" th:data-target="'#collapse-' + ${category.id}" aria-expanded="false" th:aria-controls="'collapse-' + ${category.id}">
+                                    <span class="span-category" th:text="${category.name}"></span>
                                 </button>
                             </h5>
                         </div>

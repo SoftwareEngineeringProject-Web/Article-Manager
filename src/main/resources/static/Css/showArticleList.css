@@ -50,6 +50,9 @@ h1 {
     font-weight: bold;
 }
 
+.category-sidebar-category-line:hover {
+    text-decoration: none;
+}
 .article-content {
     flex: 1;
     background-color: transparent; /* 设置背景为透明 */
@@ -146,9 +149,10 @@ h1 {
     background-color: #fff;
 }
 
-/*.list-group-item:hover {*/
-/*    background-color: #e9ecef;*/
-/*}*/
+.list-group-item:hover {
+    background-color: #e9ecef;
+    text-decoration: none;
+}
 
 /* 用户名文字样式 */
 .username-text {

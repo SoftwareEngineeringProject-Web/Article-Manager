@@ -3,6 +3,8 @@
   grid-template-columns: calc(var(--level) * 1rem);
   grid-template-areas: "spacer content";
   transition: background-color 0.3s ease;
+  grid-template-rows: 2rem;
+  align-items: center; /* 垂直居中 */
 }
 
 .treeview-container:hover {
@@ -11,6 +13,7 @@
 
 .treeview-content {
   grid-area: content;
+  align-items: center; /* 垂直居中 */
 }
 
 .treeview-ul {
