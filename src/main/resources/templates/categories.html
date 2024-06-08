@@ -8,16 +8,18 @@
   <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
   <link rel="stylesheet" th:href="@{/Css/treeview.css}" type="text/css">
   <style>
-    .category-sidebar ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0 0 0px;
-    }
+    /*.category-sidebar ul {*/
+    /*  list-style: none;*/
+    /*  padding-left: 0;*/
+    /*  margin: 0;*/
+    /*  border: none;*/
+    /*}*/
 
-    .category-sidebar li {
-      margin: 0 0 0px;
-      border-bottom: none; /* 移除默认的下边框 */
-    }
+    /*.category-sidebar li {*/
+    /*  margin: 0;*/
+    /*  padding: 10px;*/
+    /*  border-bottom: none;*/
+    /*}*/
 
     .btn-edit {
       color: white;
@@ -99,7 +101,7 @@
 </nav>
 
 <div class="container">
-  <h1>文章分类</h1>
+  <h2>文章分类</h2>
   <div class="content-wrapper">
     <div class="sidebar-wrapper category-sidebar">
       <div class="table-responsive">
@@ -177,7 +179,7 @@
 </div>
 
 <!-- 分页栏 -->
-<nav aria-label="Page navigation">
+<nav th:if="${totalPages != 0}" aria-label="Page navigation">
   <ul class="pagination justify-content-center">
     <!-- 上一页按钮 -->
     <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
