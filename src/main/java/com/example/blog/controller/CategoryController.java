@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -94,7 +95,7 @@ public class CategoryController {
             Category categoryParam = categoryService.getCategoryById(categoryId);
             articles = articleService.getArticlesByCategoryPaged(user.getId(), categoryParam, pageable);
         } else {
-            articles = articleService.getArticlesByUserIdPaged(user.getId(), pageable);
+            articles = new PageImpl<>(new ArrayList<>(), pageable, 0);
         }
         for (Category category : categories) {
             CategoryTreeNode currentNode = new CategoryTreeNode(category.getId(), category.getName());
