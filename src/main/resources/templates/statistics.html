@@ -24,9 +24,9 @@
             font-weight: bold;
         }
 
-        .container{
+        .container {
             margin-top: 100px;
-            width: 100%;
+            width: 100vw;
             padding-left: 0;
             padding-right: 0;
         }
@@ -71,30 +71,29 @@
             background: transparent;
             border-radius: 10px;
             width: 100%;
-            height: 300px;
+            height: 50vh;
+            display: grid;
+            grid-template-areas: 'title title'
+                                 'chart chart';
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 7fr;
         }
 
-        .chart-title {
+        .chart-container .chart-title {
             text-align: center;
-            margin-bottom: 15px;
             font-weight: bold;
             font-size: 1.2rem;
+            justify-self: center;
+            align-self: center;
+            overflow: hidden;
         }
 
-        .chart-container canvas {
+        .chart-container .chart-canvas {
+            justify-self: center;
+            align-self: center;
             width: 100%;
-            margin: 0 auto; /* 让图表居中 */
-            display: block;
-        }
-
-        #articlesTrendChart,
-        #categoryChart {
-            width: 100%;
-            height: 300px; /* 保持相同高度 */
-        }
-
-        .chart-wrapper canvas {
             height: 100%;
+            overflow: hidden;
         }
 
         .stats-container {
@@ -162,11 +161,11 @@
             </div>
         </div>
     </div>
-    <div class="chart-container mt-4">
-        <div class="chart-title">文章发布趋势</div>
-        <canvas id="articlesTrendChart"></canvas>
-        <div class="chart-title">文章分类统计</div>
-        <canvas id="categoryChart"></canvas>
+    <div class="chart-container">
+        <div class="chart-title" style="grid-row: 1; grid-column: 1;">文章发布趋势</div>
+        <div class="chart-title" style="grid-row: 1; grid-column: 2;">文章分类统计</div>
+        <div class="chart-canvas" style="grid-row: 2; grid-column: 1;"><canvas id="articlesTrendChart"></canvas></div>
+        <div class="chart-canvas" style="grid-row: 2; grid-column: 2;"><canvas id="categoryChart"></canvas></div>
     </div>
 </div>
 </div>
@@ -181,27 +180,25 @@
 <script th:src="@{/js/back-to-top.js}" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script th:inline="javascript">
-    document.addEventListener('DOMContentLoaded', function () {
-        var ctx = document.getElementById('categoryChart').getContext('2d');
-        var categoryData = /*[[${categoryData}]]*/ '[]';
-        var labels = categoryData.map(function(item) { return item.name; });
-        var data = categoryData.map(function(item) { return item.count; });
+    var ctx = document.getElementById('categoryChart').getContext('2d');
+    var categoryData = /*[[${categoryData}]]*/ '[]';
+    var labels = categoryData.map(function(item) { return item.name; });
+    var data = categoryData.map(function(item) { return item.count; });
 
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: '文章数目',
-                    data: data,
-                    backgroundColor: ['#007bff', '#28a745', '#17a2b8', '#ffc107', '#dc3545']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '文章数目',
+          data: data,
+          backgroundColor: ['#007bff', '#28a745', '#17a2b8', '#ffc107', '#dc3545']
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     });
 
     // Articles trend chart
@@ -223,6 +220,8 @@
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     beginAtZero: false,

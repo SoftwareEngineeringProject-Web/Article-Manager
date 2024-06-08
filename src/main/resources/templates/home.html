@@ -148,7 +148,7 @@
 <script th:src="@{/js/back-to-top.js}" type="text/javascript"></script>
 
 <script>
-    const createdAtElems = ducument.querySelectorAll('[id^="created-at-"]');
+    const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
     createdAtElems.forEach(elem => {
         let gmtDate = new Date(elem.textContent);
         elem.textContent = gmtDate.toLocaleString();
