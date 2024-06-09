@@ -54,7 +54,16 @@
     .modal-footer button:first-child {
       margin-right: auto;
     }
-
+    /* 提示信息样式 */
+    .article-content .no-category-selected {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      color: #b6b6b6;
+      font-weight: bold;
+      font-size: 5em;
+    }
   </style>
 </head>
 <body>
@@ -104,7 +113,10 @@
       </div>
     </div>
     <div class="article-content">
-      <div th:each="article : ${articles}">
+      <div th:if="${currentCategoryId == null}"  class="no-category-selected">
+        <p>请选择分类</p>
+      </div>
+      <div th:if="${currentCategoryId != null}" th:each="article : ${articles}">
         <div class="post-preview">
           <h2 class="post-title" th:text="${article.title}"></h2>
           <div class="post-created-time" th:id = "${'created-at-' + article.id}" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></div>
@@ -142,7 +154,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <h5 class="modal-title" id="categoryCreateModalLabel">输入分类名</h5>
+        <h5 class="modal-title" id="categoryCreateModalLabel">添加子分类</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -151,10 +163,10 @@
         <form th:action="@{/{username}/create-category(username = ${user.username})}" method="post">
           <div class="form-group">
             <!-- 隐藏的输入框，为了表单提交时提供父分类的ID -->
-            <label th:if="${currentCategoryId != null}" for="parentId">
+            <label th:if="${currentCategoryId != null}">
               <input type="hidden" name="parentId" th:value="${currentCategoryId}">
             </label>
-            <label for="分类名">
+            <label>
             <input type="text" class="form-control" placeholder="请输入分类名" id="categoryName" name="categoryName" required>
             </label>
           </div>
