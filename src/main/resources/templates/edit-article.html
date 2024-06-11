@@ -3,9 +3,10 @@
 <head>
   <title>编辑文章</title>
   <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
-  <link th:href="@{/Css/blog.css}" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" th:href="@{/Css/createArticlePage.css}" type="text/css">
+  <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
+
 </head>
 
 <body>
@@ -52,7 +53,7 @@
       </div>
     </div>
     <div class="content-container">
-      <textarea id="content" name="content" class="form-control" rows="20" required th:text="${article.content}"></textarea>
+      <textarea id="content" name="content" class="form-control" rows="15" required th:text="${article.content}"></textarea>
     </div>
     <div class="text-center">
       <button type="submit" class="btn btn-primary">提交</button>
