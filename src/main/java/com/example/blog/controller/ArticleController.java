@@ -5,6 +5,7 @@ import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
 import com.example.blog.entity.Category;
 import com.example.blog.service.CategoryService;
+import com.example.blog.service.LikeService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,8 @@ import java.util.List;
 public class ArticleController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private LikeService likeService;
     @Autowired
     private ArticleService articleService;
     @Autowired
@@ -180,6 +183,8 @@ public class ArticleController {
         article.setCategory(category);
         article.setUser(user);
         article.setCreatedAt();
+        article.setLikes(0);
+        article.setViews(0);
         articleService.saveArticle(article);
         return "redirect:/" + username + "/home";
     }
@@ -211,5 +216,16 @@ public class ArticleController {
     public String deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
         articleService.deleteById(articleId);
         return "redirect:/" + username + "/manage";
+    }
+
+    @GetMapping("/{username}/{id}/like")
+    public String likeArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
+        Long userId = userService.findUserByUsername(username).getId();
+        if (likeService.getByUserIdAndArticleId(userId, articleId) == null) {
+            articleService.updateLikesById(articleId, 1);
+        } else {
+            articleService.updateLikesById(articleId, -1);
+        }
+        return "forward:/" + username + "/article";
     }
 }
