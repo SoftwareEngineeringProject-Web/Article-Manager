@@ -8,7 +8,7 @@ body {
 
 .navbar {
     margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
 
@@ -40,11 +40,11 @@ h1 {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     align-self: flex-start; /* 让sidebar的高度由内容决定 */
 }
 
-.category-sidebar-category-line  {
+.category-sidebar-category-line {
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
@@ -53,6 +53,7 @@ h1 {
 .category-sidebar-category-line:hover {
     text-decoration: none;
 }
+
 .article-content {
     flex: 1;
     background-color: transparent; /* 设置背景为透明 */
@@ -65,7 +66,7 @@ h1 {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
@@ -93,6 +94,23 @@ h1 {
     color: #757575;
 }
 
+.post-meta-container {
+    display: flex;
+    align-items: center;
+}
+
+.post-meta {
+    font-size: 1rem;
+    color: #757575;
+}
+
+.like-meta {
+    margin-right: 10px;
+}
+
+.comment-meta {
+    margin-right: 0;
+}
 .table-responsive {
     background-color: transparent; /* 设置背景为透明 */
     padding: 0; /* 移除内部填充 */
@@ -103,7 +121,7 @@ h1 {
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar h4 {
