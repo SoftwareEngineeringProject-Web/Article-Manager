@@ -15,4 +15,14 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     
     @Query("SELECT like FROM Like like WHERE like.userId = ?1 AND like.articleId = ?2")
     Like findByUserIdAndArticleId(Long userId, Long articleId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Like like WHERE like.userId = ?1 AND like.articleId = ?2")
+    void deleteByUserIdAndArticleId(Long userId, Long articleId);
+
+    @Modifying
+    @Transactional
+    @Query("INSERT INTO Like (userId, articleId) VALUES (:userId, :articleId)")
+    void insertByUserIdAndArticleId(Long userId, Long articleId);
 }

@@ -14,5 +14,12 @@ public class LikeService {
     public Like getByUserIdAndArticleId(Long userId, Long articleId) {
         return likeRepository.findByUserIdAndArticleId(userId, articleId);
     }
+    public void insertByUserIdAndArticleId(Long userId, Long articleId) {
+        likeRepository.insertByUserIdAndArticleId(userId, articleId);
+    }
+    public void deleteByUserIdAndArticleId(Long userId, Long articleId) {
+        likeRepository.deleteByUserIdAndArticleId(userId, articleId);
+    }
+
 
 }

@@ -223,9 +223,11 @@ public class ArticleController {
         Long userId = userService.findUserByUsername(username).getId();
         if (likeService.getByUserIdAndArticleId(userId, articleId) == null) {
             articleService.updateLikesById(articleId, 1);
+            likeService.insertByUserIdAndArticleId(userId, articleId);
         } else {
             articleService.updateLikesById(articleId, -1);
+            likeService.deleteByUserIdAndArticleId(userId, articleId);
         }
-        return "forward:/" + username + "/article";
+        return "forward:/" + username + "/article/" + articleId;
     }
 }
