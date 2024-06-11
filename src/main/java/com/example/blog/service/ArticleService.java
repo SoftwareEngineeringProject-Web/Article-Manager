@@ -33,6 +33,9 @@ public class ArticleService {
     public void updateArticle(Article article){
         articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.getId());
     }
+    public void updateViews(Article article) {
+        articleRepository.updateViews(article.getId(), article.getViews());
+    }
     public void setCategoryIdtoNullByCategoryId(Long categoryId) {
         articleRepository.setCategoryIdToNullByCategoryId(categoryId);
     }

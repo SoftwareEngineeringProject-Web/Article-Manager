@@ -124,6 +124,8 @@ public class ArticleController {
         Category category = categoryService.getCategoryById(article.getCategory() == null ? null : article.getCategory().getId());
         String categoryPath = category == null ? null : category.getFullCategoryPath();
 
+        article.incrementViews();
+        articleService.updateViews(article);
         model.addAttribute("user", user);
         model.addAttribute("article", article);
         model.addAttribute("categoryPath", categoryPath);

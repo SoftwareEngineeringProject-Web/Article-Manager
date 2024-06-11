@@ -18,6 +18,9 @@ public class Article {
     @Lob
     private String content;
 
+    @Column(nullable = false)
+    private Integer views;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -39,11 +42,20 @@ public class Article {
         this.user = user;
         this.category = category;
         this.createdAt = Instant.now();
+        this.views = 0;
     }
 
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public Integer incrementViews() {
+        return ++views;
     }
 
 
