@@ -59,7 +59,7 @@ public class Article {
     }
 
     public Integer getLikes() {
-        return views;
+        return likes;
     }
 
     public void setViews(Integer views) {

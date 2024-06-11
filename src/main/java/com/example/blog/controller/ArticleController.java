@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import java.lang.reflect.AnnotatedType;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ArticleController {
@@ -219,7 +218,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{username}/{id}/like")
-    public String likeArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
+    public ResponseEntity<Map<String, Object>> likeArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
         Long userId = userService.findUserByUsername(username).getId();
         if (likeService.getByUserIdAndArticleId(userId, articleId) == null) {
             articleService.updateLikesById(articleId, 1);
@@ -228,6 +227,11 @@ public class ArticleController {
             articleService.updateLikesById(articleId, -1);
             likeService.deleteByUserIdAndArticleId(userId, articleId);
         }
-        return "forward:/" + username + "/article/" + articleId;
+        int likes = articleService.getArticleById(articleId).getLikes();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("likes", likes);
+        return ResponseEntity.ok(response);
     }
 }
