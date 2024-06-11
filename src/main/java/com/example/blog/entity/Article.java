@@ -21,6 +21,9 @@ public class Article {
     @Column(nullable = false)
     private Integer views;
 
+    @Column(nullable = false)
+    private Integer likes;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -43,6 +46,7 @@ public class Article {
         this.category = category;
         this.createdAt = Instant.now();
         this.views = 0;
+        this.likes = 0;
     }
 
 
@@ -54,10 +58,25 @@ public class Article {
         return views;
     }
 
+    public Integer getLikes() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
     public Integer incrementViews() {
         return ++views;
     }
 
+    public Integer incrementLikes() {
+        return ++likes;
+    }
 
     public void setId(Long id) {
         this.id = id;
