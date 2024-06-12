@@ -77,6 +77,7 @@
         <th>分类</th>
         <th>内容</th>
         <th>创建时间</th>
+        <th>权限</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -87,6 +88,7 @@
         <td th:text="${article.category != null} ? ${article.category.name} : '没有分类'"></td>
         <td class="content-col" th:text="${#strings.abbreviate(article.content, 50)}"></td>
         <td class="post-created-time" th:id = "${'created-at-' + article.id}" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${article.isPublic() ? '公开' : '私密'}"></td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
             <a th:href="@{/{username}/edit-article/{id}(id=${article.id}, username=${user.username})}" class="btn btn-edit btn-sm"><i class="bi bi-pencil-square"></i> 编辑文章</a>

@@ -32,8 +32,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Integer countByCategoryIdAndUserId(Long categoryId, Long userId);
     @Modifying
     @Transactional
-    @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3 WHERE a.id = ?4")
-    void updateArticle(String title, String content, Category category, Long id);
+    @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3, a.isPublic = ?4 WHERE a.id = ?5")
+    void updateArticle(String title, String content, Category category, Boolean isPublic, Long id);
 
     @Modifying
     @Transactional

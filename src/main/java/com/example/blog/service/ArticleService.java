@@ -31,7 +31,7 @@ public class ArticleService {
         return articleRepository.findByUserId(userId, pageable);
     }
     public void updateArticle(Article article){
-        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.getId());
+        articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.isPublic(), article.getId());
     }
     public void updateViews(Article article) {
         articleRepository.updateViews(article.getId(), article.getViews());

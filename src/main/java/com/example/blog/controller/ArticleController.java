@@ -1,9 +1,9 @@
 package com.example.blog.controller;
 
 import com.example.blog.entity.Article;
+import com.example.blog.entity.Category;
 import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
-import com.example.blog.entity.Category;
 import com.example.blog.service.CategoryService;
 import com.example.blog.service.LikeService;
 import com.example.blog.service.UserService;
@@ -19,10 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
-import java.lang.reflect.AnnotatedType;
-import java.util.*;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ArticleController {
@@ -210,10 +213,11 @@ public class ArticleController {
         return "edit-article";
     }
     @PostMapping("/{username}/edit-article/{id}")
-    public String editArticle(@ModelAttribute Article article, @PathVariable("username") String username, @PathVariable("id") Long id,
+    public String editArticle(@ModelAttribute Article article, @PathVariable("username") String username, @PathVariable("id") Long articleId,
                               @RequestParam("category") Long categoryId, @RequestParam(name = "isPublic") Boolean isPublic) {
         User user = userService.findUserByUsername(username);
-        if (article.getUser().getId() != user.getId()) {
+        Article oldArticle = articleService.getArticleById(articleId);
+        if (oldArticle.getUser().getId() != user.getId()) {
             return "redirect:/" + username + "/access-denied";
         }
         Category category = categoryService.getCategoryById(categoryId);
