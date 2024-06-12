@@ -6,17 +6,6 @@ body {
     flex-direction: column;
 }
 
-.navbar {
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-.navbar-brand {
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
 .container {
     margin-top: 100px;
     flex: 1;

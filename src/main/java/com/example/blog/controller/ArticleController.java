@@ -86,40 +86,6 @@ public class ArticleController {
         return "home";
     }
 
-    @GetMapping("/{username}/change-password")
-    public String changePassword(@PathVariable("username") String username, Model model) {
-        User user = userService.findUserByUsername(username);
-        userService.updateUser(user);
-        model.addAttribute("user", user);
-        return "change-password";
-    }
-
-    @PostMapping("/{username}/change-password")
-    public String changePasswordPost(@PathVariable("username") String username,@RequestParam("password") String password) {
-        User user = userService.findUserByUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        userService.updateUser(user);
-        return "redirect:/"+username+"/home";
-    }
-
-    @GetMapping("/{username}/change-information")
-    public String changeInformation(@PathVariable("username") String username,  Model model) {
-        User user = userService.findUserByUsername(username);
-        model.addAttribute("user", user);
-        return "change-information";
-    }
-
-    @PostMapping("/{username}/change-information")
-    public String changeInformationPost(@PathVariable("username") String username, @RequestParam("email") String email,
-                                        @RequestParam("name") String name, @RequestParam("username") String newUsername) {
-        User user = userService.findUserByUsername(username);
-        user.setEmail(email);
-        user.setUsername(newUsername);
-        user.setName(name);
-        userService.updateUser(user);
-        return "redirect:/"+user.getUsername() +"/home";
-    }
-
     @GetMapping("/{username}/article/{id}")
     public String article(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         User user = userService.findUserByUsername(username);
@@ -138,37 +104,6 @@ public class ArticleController {
         model.addAttribute("article", article);
         model.addAttribute("categoryPath", categoryPath);
         return "article";
-    }
-
-    @GetMapping("/{username}/manage")
-    public String articleManagePage(@PathVariable("username") String username,
-                                    @RequestParam(value = "title", required = false) String title,
-                                    @RequestParam(value = "category", required = false) Long categoryId,
-                                    @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-        User user = userService.findUserByUsername(username);
-        Long userId = user.getId();
-        Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
-        Page<Article> articlePages;
-        List<Category> categories = categoryService.getAllCategories();
-
-        if (title != null && !title.isEmpty() && categoryId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            articlePages = articleService.getArticlesByTitleAndCategoryPaged(userId, title, category, pageable);
-        } else if (title != null && !title.isEmpty()) {
-            articlePages = articleService.getArticlesByTitlePaged(userId, title, pageable);
-        } else if (categoryId != null) {
-            Category category = categoryService.getCategoryById(categoryId);
-            articlePages = articleService.getArticlesByCategoryPaged(userId, category, pageable);
-        } else {
-            articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
-        }
-
-        model.addAttribute("user", user);
-        model.addAttribute("articles", articlePages.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", articlePages.getTotalPages());
-        model.addAttribute("categories", categories);
-        return "manage";
     }
 
     @GetMapping("/{username}/create-article")
@@ -212,6 +147,7 @@ public class ArticleController {
         model.addAttribute("user", user);
         return "edit-article";
     }
+
     @PostMapping("/{username}/edit-article/{id}")
     public String editArticle(@ModelAttribute Article article, @PathVariable("username") String username, @PathVariable("id") Long articleId,
                               @RequestParam("category") Long categoryId, @RequestParam(name = "isPublic") Boolean isPublic) {
