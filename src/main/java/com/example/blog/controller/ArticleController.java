@@ -121,7 +121,10 @@ public class ArticleController {
     public String article(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         User user = userService.findUserByUsername(username);
         Article article = articleService.getArticleById(id);
-
+        // 检查用户要访问的文章是否为自己的文章，或者是否为共享
+        if (article.getUser().getId() != user.getId() && !article.isPublic()) {
+          return "redirect:/" + username + "/access-denied";
+        }
         // Construct full category paths
         Category category = categoryService.getCategoryById(article.getCategory() == null ? null : article.getCategory().getId());
         String categoryPath = category == null ? null : category.getFullCategoryPath();
@@ -176,12 +179,14 @@ public class ArticleController {
     }
 
     @PostMapping("/{username}/create-article")
-    public String createArticlePost(@ModelAttribute Article article, @PathVariable("username") String username, @RequestParam("category") Long categoryId) {
+    public String createArticlePost(@ModelAttribute Article article, @PathVariable("username") String username,
+                                    @RequestParam("category") Long categoryId, @RequestParam(name = "isPublic") Boolean isPublic) {
         User user = userService.findUserByUsername(username);
         Category category = categoryService.getCategoryById(categoryId);
         article.setCategory(category);
         article.setUser(user);
         article.setCreatedAt();
+        article.setPublic(isPublic);
         article.setLikes(0);
         article.setViews(0);
         articleService.saveArticle(article);
@@ -193,8 +198,12 @@ public class ArticleController {
     public String editArticleForm(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         Article article = articleService.getArticleById(id);
         User user = userService.findUserByUsername(username);
-        List<Category> categories = categoryService.getAllCategories();
 
+        if (article.getUser().getId() != user.getId()) {
+            return "redirect:/" + username + "/access-denied";
+        }
+
+        List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("article", article);
         model.addAttribute("categories", categories);
         model.addAttribute("user", user);
@@ -202,17 +211,25 @@ public class ArticleController {
     }
     @PostMapping("/{username}/edit-article/{id}")
     public String editArticle(@ModelAttribute Article article, @PathVariable("username") String username, @PathVariable("id") Long id,
-                              @RequestParam("category") Long categoryId) {
+                              @RequestParam("category") Long categoryId, @RequestParam(name = "isPublic") Boolean isPublic) {
         User user = userService.findUserByUsername(username);
+        if (article.getUser().getId() != user.getId()) {
+            return "redirect:/" + username + "/access-denied";
+        }
         Category category = categoryService.getCategoryById(categoryId);
         article.setCategory(category);
         article.setUser(user);
+        article.setPublic(isPublic);
         articleService.updateArticle(article);
         return "redirect:/" + username + "/manage";
     }
 
     @GetMapping("/{username}/delete-article/{id}")
     public String deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
+        Article article = articleService.getArticleById(articleId);
+        if (!article.getUser().getUsername().equals(username)) {
+            return "redirect:/" + username + "/access-denied";
+        }
         articleService.deleteById(articleId);
         return "redirect:/" + username + "/manage";
     }
