@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    Page<Article> findByUserId(Long userId, Pageable pageable);
+    Page<Article> findPagedByUserId(Long userId, Pageable pageable);
     List<Article> findByCategory(Category category);
     void deleteById(Long id);
     Page<Article> findByUserIdAndTitleAndCategory(Long userId, String title, Category category, Pageable pageable);
@@ -54,5 +54,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Modifying
     @Query("UPDATE Article a SET a.category = null WHERE a.category.id = :categoryId")
     void setCategoryIdToNullByCategoryId(Long categoryId);
+
+    @Transactional
+    @Query("SELECT SUM(a.likes) FROM Article a WHERE a.user.id = ?1")
+    Integer getTotalLikesByUserId(Long userId);
+
 
 }

@@ -28,7 +28,7 @@ public class ArticleService {
         return articleRepository.findByCategory(category);
     }
     public Page<Article> getArticlesByUserIdPaged(Long userId, Pageable pageable) {
-        return articleRepository.findByUserId(userId, pageable);
+        return articleRepository.findPagedByUserId(userId, pageable);
     }
     public void updateArticle(Article article){
         articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.isPublic(), article.getId());
@@ -66,5 +66,7 @@ public class ArticleService {
     public Integer countByCategoryIdAndUserId(Long categoryId, Long userId){
         return articleRepository.countByCategoryIdAndUserId(categoryId, userId);
     }
-
+    public Integer getTotalLikesByUserId(Long userId){
+        return articleRepository.getTotalLikesByUserId(userId);
+    }
 }

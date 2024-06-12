@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 public class StatisticsController {
@@ -58,7 +56,7 @@ public class StatisticsController {
         User user = userService.findUserByUsername(username);
         int totalArticles = articleService.countByUserId(user.getId()); // 共发布文章数量
         int totalComments = 0; // 共收到评论数量
-        int totalLikes = 0; // 共获得点赞数量
+        int totalLikes = articleService.getTotalLikesByUserId(user.getId()); // 共获得点赞数量
         List<Category> categories = categoryService.findCategoriesByUserId(user.getId()); // 分类数据
         // 模拟分类文章数量数据
         List<Map<String, Object>> categoryData = new ArrayList<>();

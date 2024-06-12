@@ -95,7 +95,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <a th:href="@{./article/{id}(id=${article.id})}" class="btn btn-primary">阅读更多</a>
                         <div class="post-meta-container d-flex">
-                            <p class="post-meta like-meta mr-3">点赞(0)</p>
+                            <p class="post-meta like-meta mr-3">点赞(<span th:text="${article.getLikes()}"></span>)</p>
                             <p class="post-meta comment-meta">评论(0)</p>
                         </div>
                     </div>
