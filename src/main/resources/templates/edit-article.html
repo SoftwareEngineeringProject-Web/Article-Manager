@@ -42,13 +42,20 @@
   <h1>编辑文章</h1>
   <form th:action="@{/{username}/edit-article/{id}(username=${user.getUsername()}, id=${article.id})}" method="post" class="search-form">
     <div class="row mb-3">
-      <div class="col-md-8">
+      <div class="col-md-4">
         <input type="text" id="title" name="title" class="form-control" th:value="${article.title}" placeholder="请输入标题" required>
       </div>
       <div class="col-md-4">
         <select id="category" name="category" class="form-control" required>
           <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
           <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${article.category != null and article.category.id == category.id}"></option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <select id="isPublic" name="isPublic" class="form-control" required>
+          <option value="" th:text="'选择查看权限'" th:selected="${param.isPublic == null}"></option>
+          <option value="true" th:text="'公开'">公开</option>
+          <option value="false" th:text="'私密'">私密</option>
         </select>
       </div>
     </div>
