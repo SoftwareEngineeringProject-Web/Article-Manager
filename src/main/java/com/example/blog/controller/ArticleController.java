@@ -161,17 +161,17 @@ public class ArticleController {
         article.setUser(user);
         article.setPublic(isPublic);
         articleService.updateArticle(article);
-        return "redirect:/" + username + "/manage";
+        return "redirect:/" + username + "/background";
     }
 
-    @GetMapping("/{username}/delete-article/{id}")
+    @PostMapping("/{username}/delete-article/{id}")
     public String deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
         Article article = articleService.getArticleById(articleId);
         if (!article.getUser().getUsername().equals(username)) {
             return "redirect:/" + username + "/access-denied";
         }
         articleService.deleteById(articleId);
-        return "redirect:/" + username + "/manage";
+        return "redirect:/" + username + "/background";
     }
 
     @GetMapping("/{username}/{id}/like")

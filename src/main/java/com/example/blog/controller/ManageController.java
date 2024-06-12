@@ -48,27 +48,12 @@ public class ManageController {
     }
   }
 
-  @GetMapping("/{username}/change-password")
-  public String changePassword(@PathVariable("username") String username, Model model) {
-    User user = userService.findUserByUsername(username);
-    userService.updateUser(user);
-    model.addAttribute("user", user);
-    return "change-password";
-  }
-
   @PostMapping("/{username}/change-password")
   public String changePasswordPost(@PathVariable("username") String username,@RequestParam("password") String password) {
     User user = userService.findUserByUsername(username);
     user.setPassword(passwordEncoder.encode(password));
     userService.updateUser(user);
     return "redirect:/"+username+"/home";
-  }
-
-  @GetMapping("/{username}/change-information")
-  public String changeInformation(@PathVariable("username") String username,  Model model) {
-    User user = userService.findUserByUsername(username);
-    model.addAttribute("user", user);
-    return "change-information";
   }
 
   @PostMapping("/{username}/change-information")
@@ -82,34 +67,54 @@ public class ManageController {
     return "redirect:/"+user.getUsername() +"/home";
   }
 
-  @GetMapping("/{username}/manage")
-  public String articleManagePage(@PathVariable("username") String username,
-                                  @RequestParam(value = "title", required = false) String title,
-                                  @RequestParam(value = "category", required = false) Long categoryId,
-                                  @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+  @GetMapping("/{username}/background")
+  public String managePage(@PathVariable("username") String username, Model model) {
+    User user = userService.findUserByUsername(username);
+    model.addAttribute("user", user);
+    return "background";
+  }
+
+  @GetMapping("/{username}/background/{htmlPage}")
+  public String loadContent(@PathVariable("username") String username,
+                            @PathVariable String htmlPage,
+                            @RequestParam(value = "title", required = false) String title,
+                            @RequestParam(value = "category", required = false) Long categoryId,
+                            @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
     User user = userService.findUserByUsername(username);
     Long userId = user.getId();
-    Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
-    Page<Article> articlePages;
-    List<Category> categories = categoryService.getAllCategories();
-
-    if (title != null && !title.isEmpty() && categoryId != null) {
-      Category category = categoryService.getCategoryById(categoryId);
-      articlePages = articleService.getArticlesByTitleAndCategoryPaged(userId, title, category, pageable);
-    } else if (title != null && !title.isEmpty()) {
-      articlePages = articleService.getArticlesByTitlePaged(userId, title, pageable);
-    } else if (categoryId != null) {
-      Category category = categoryService.getCategoryById(categoryId);
-      articlePages = articleService.getArticlesByCategoryPaged(userId, category, pageable);
-    } else {
-      articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
-    }
-
     model.addAttribute("user", user);
-    model.addAttribute("articles", articlePages.getContent());
-    model.addAttribute("currentPage", page);
-    model.addAttribute("totalPages", articlePages.getTotalPages());
-    model.addAttribute("categories", categories);
-    return "manage";
+
+    switch (htmlPage) {
+      case "manage-articles":
+        Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
+        Page<Article> articlePages;
+        List<Category> categories = categoryService.getAllCategories();
+
+        if (title != null && !title.isEmpty() && categoryId != null) {
+          Category category = categoryService.getCategoryById(categoryId);
+          articlePages = articleService.getArticlesByTitleAndCategoryPaged(userId, title, category, pageable);
+        } else if (title != null && !title.isEmpty()) {
+          articlePages = articleService.getArticlesByTitlePaged(userId, title, pageable);
+        } else if (categoryId != null) {
+          Category category = categoryService.getCategoryById(categoryId);
+          articlePages = articleService.getArticlesByCategoryPaged(userId, category, pageable);
+        } else {
+          articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
+        }
+
+        model.addAttribute("articles", articlePages.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", articlePages.getTotalPages());
+        model.addAttribute("categories", categories);
+        return "fragments/manage-articles";
+      case "change-information":
+        // 添加相应的model属性
+        return "fragments/change-information";
+      case "change-password":
+        // 添加相应的model属性
+        return "fragments/change-password";
+      default:
+        return "access-denied";
+    }
   }
 }

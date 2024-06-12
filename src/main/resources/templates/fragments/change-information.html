@@ -1,0 +1,31 @@
+<link rel="stylesheet" th:href="@{/Css/registerPage.css}" type="text/css">
+
+<div class="container">
+  <div class="register-container bg-light">
+    <h2 class="register-title">修改用户信息</h2>
+    <div id="errorAlert" class="alert alert-danger" role="alert">
+      <span id="errorMessage"></span>
+    </div>
+    <form th:action="@{/{username}/change-information(username=${user.getUsername()})}" method="post">
+      <div class="form-group">
+        <label for="username">您的用户名</label>
+        <input type="text" id="username" name="username" placeholder="请输入用户名" class="form-control" th:value="${user.getUsername()}" required>
+        <i class="fas fa-user form-icon"></i>
+      </div>
+      <div class="form-group">
+        <label for="name">昵称</label>
+        <input type="text" id="name" name="name" placeholder="请输入昵称" class="form-control" th:value="${user.getName()}"required>
+        <i class="fas fa-user form-icon"></i>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="请输入Email" class="form-control" th:value="${user.getEmail()}"required>
+        <i class="fas fa-envelope form-icon"></i>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">提交</button>
+    </form>
+    <p class="text-center mt-3">
+      <a th:href="@{/{username}/home(username=${user.getUsername()})}">返回主页</a>
+    </p>
+  </div>
+</div>
