@@ -91,7 +91,7 @@ public class ManageController {
     Long userId = user.getId();
     Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
     Page<Article> articlePages;
-    List<Category> categories = categoryService.getAllCategories();
+    List<Category> categories = categoryService.findByUserId(userId);
 
     if (title != null && !title.isEmpty() && categoryId != null) {
       Category category = categoryService.getCategoryById(categoryId);

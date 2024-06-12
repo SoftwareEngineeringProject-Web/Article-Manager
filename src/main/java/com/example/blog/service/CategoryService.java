@@ -13,16 +13,12 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-    }
-
     public Category getCategoryById(Long id) {
         return id == null ? null : categoryRepository.findById(id).orElse(null);
     }
 
-    public List<Category> findCategoriesByUserId(Long userId) {
-        return categoryRepository.findCategoriesByUserId(userId);
+    public List<Category> findByUserId(Long userId) {
+        return categoryRepository.findByUserId(userId);
     }
 
     public List<Category> findByParentId(Long parentId) {

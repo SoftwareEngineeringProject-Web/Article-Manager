@@ -18,16 +18,20 @@ public class Category {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
+    @Column(nullable = false)
+    private Long userId;
+
     @OneToMany(mappedBy = "category")
     private List<Article> articles;
 
     public Category() {
     }
 
-    public Category(Long id, String name, Category parent) {
+    public Category(Long id, String name, Category parent, Long userId) {
         this.id = id;
         this.name = name;
         this.parent = parent;
+        this.userId = userId;
     }
 
     public Category(Long id, String name, Category parent, List<Article> articles) {

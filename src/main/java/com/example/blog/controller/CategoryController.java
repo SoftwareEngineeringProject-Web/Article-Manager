@@ -76,7 +76,7 @@ public class CategoryController {
     public String createCategory(@PathVariable("username") String username,
                                  @RequestParam(name = "parentId", required = false) Long parentId,
                                  @RequestParam(name = "categoryName", required = true) String categoryName) {
-        Category category = new Category(null, categoryName, categoryService.getCategoryById(parentId));
+        Category category = new Category(null, categoryName, categoryService.getCategoryById(parentId), userService.findUserByUsername(username).getId());
         categoryService.saveCategory(category);
         return "redirect:/" + username + "/categories" + (parentId != null ? "?categoryId=" + parentId : "");
     }
@@ -86,7 +86,7 @@ public class CategoryController {
                                    @RequestParam(name = "page", defaultValue = "0") int page,
                                    @RequestParam(value = "categoryId", required = false) Long categoryId, Model model) {
         User user = userService.findUserByUsername(username);
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.findByUserId(user.getId());
         HashMap<Long, CategoryTreeNode> nodes = new HashMap<>();
         Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
         Page<Article> articles = null;
