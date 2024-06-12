@@ -60,7 +60,7 @@ public class ArticleController {
         User user = userService.findUserByUsername(username);
         Long userId = userService.findUserByUsername(username).getId();
 //        List<Article> articles = articleService.getArticlesByUserId(userId);
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.findByUserId(user.getId());
 
         // 分页处理
         Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
@@ -109,7 +109,7 @@ public class ArticleController {
     @GetMapping("/{username}/create-article")
     public String createArticle(@PathVariable("username") String username, Model model) {
         User user = userService.findUserByUsername(username);
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.findByUserId(user.getId());
 
         model.addAttribute("user", user);
         model.addAttribute("categories", categories);
@@ -141,7 +141,7 @@ public class ArticleController {
             return "redirect:/" + username + "/access-denied";
         }
 
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.findByUserId(user.getId());
         model.addAttribute("article", article);
         model.addAttribute("categories", categories);
         model.addAttribute("user", user);

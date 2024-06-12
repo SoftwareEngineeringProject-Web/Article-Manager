@@ -57,7 +57,7 @@ public class StatisticsController {
         int totalArticles = articleService.countByUserId(user.getId()); // 共发布文章数量
         int totalComments = 0; // 共收到评论数量
         int totalLikes = articleService.getTotalLikesByUserId(user.getId()); // 共获得点赞数量
-        List<Category> categories = categoryService.findCategoriesByUserId(user.getId()); // 分类数据
+        List<Category> categories = categoryService.findByUserId(user.getId()); // 分类数据
         // 模拟分类文章数量数据
         List<Map<String, Object>> categoryData = new ArrayList<>();
         for (Category category : categories) {
