@@ -1,9 +1,11 @@
 package com.example.blog.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.example.blog.data.FavoriteWithArticles;
+import com.example.blog.entity.Article;
+import com.example.blog.entity.Category;
+import com.example.blog.entity.Favorite;
+import com.example.blog.entity.User;
+import com.example.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,23 +16,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.example.blog.data.FavoriteWithArticles;
-import com.example.blog.entity.Article;
-import com.example.blog.entity.Category;
-import com.example.blog.entity.User;
-import com.example.blog.service.ArticleService;
-import com.example.blog.service.CategoryService;
-import com.example.blog.service.LikeService;
-import com.example.blog.service.UserService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ArticleController {
@@ -42,6 +36,10 @@ public class ArticleController {
     private ArticleService articleService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private FavoriteArticleService favoriteArticleService;
+    @Autowired
+    private FavoriteService favoriteService;
     @Autowired
     public PasswordEncoder passwordEncoder;
 
@@ -65,7 +63,13 @@ public class ArticleController {
         User user = userService.findUserByUsername(username);
         Long userId = userService.findUserByUsername(username).getId();
 //        List<Article> articles = articleService.getArticlesByUserId(userId);
-        List<FavoriteWithArticles> favoriteWithArticlesList = FavoriteWithArticles.getAllByUserId(userId);
+
+        List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
+        ArrayList<FavoriteWithArticles> favoriteWithArticlesList = new ArrayList<>();
+        favorites.forEach((favorite) -> {
+            favoriteWithArticlesList.add(new FavoriteWithArticles(favorite,
+                favoriteService.getArticlesByFavoriteId(favorite.getId())));
+        });
 
         // 分页处理
         Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
@@ -83,6 +87,7 @@ public class ArticleController {
     public String article(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
         User user = userService.findUserByUsername(username);
         Article article = articleService.getArticleById(id);
+
         // 检查用户要访问的文章是否为自己的文章，或者是否为共享
         if (article.getUser().getId() != user.getId() && !article.isPublic()) {
           return "redirect:/" + username + "/access-denied";
@@ -90,12 +95,14 @@ public class ArticleController {
         // Construct full category paths
         Category category = categoryService.getCategoryById(article.getCategory() == null ? null : article.getCategory().getId());
         String categoryPath = category == null ? null : category.getFullCategoryPath();
-
+        List<Favorite> favoriteList = favoriteService.getFavoritesByUserId(user.getId());
         article.incrementViews();
         articleService.updateViews(article);
+
         model.addAttribute("user", user);
         model.addAttribute("article", article);
         model.addAttribute("categoryPath", categoryPath);
+        model.addAttribute("favoriteList", favoriteList);
         return "article";
     }
 
@@ -183,5 +190,12 @@ public class ArticleController {
         response.put("success", true);
         response.put("likes", likes);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{username}/{id}/favorite")
+    public String favoriteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId,
+                                  @RequestParam(name = "favoriteId") Long favoriteId) {
+        favoriteArticleService.favoriteArticle(favoriteId, articleId);
+        return "redirect:/" + username + "/article/" + articleId;
     }
 }

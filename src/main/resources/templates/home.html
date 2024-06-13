@@ -96,24 +96,24 @@
         </div>
         <div class="col-md-4">
             <div class="sidebar" style="position: sticky; top: 20vh;">
-                <h4>文章分类</h4>
+                <h4>我的收藏夹</h4>
                 <div style="overflow: auto; height: 50vh; margin-bottom: 10px; margin-top: 10px;">
                     <div id="accordion">
-                        <div class="card" th:each="category : ${categories}">
-                            <div class="card-header" th:id="'heading-' + ${category.id}">
+                        <div class="card" th:each="favoriteWithArticle : ${favoriteWithArticlesList}">
+                            <div class="card-header" th:id="'heading-' + ${favoriteWithArticle.favorite.id}">
                                 <h5 class="mb-0">
                                     <button class="btn btn-light" data-toggle="collapse"
-                                            th:data-target="'#collapse-' + ${category.id}" aria-expanded="false"
-                                            th:aria-controls="'collapse-' + ${category.id}">
-                                        <span class="span-category" th:text="${category.name}"></span>
+                                            th:data-target="'#collapse-' + ${favoriteWithArticle.favorite.id}" aria-expanded="false"
+                                            th:aria-controls="'collapse-' + ${favoriteWithArticle.favorite.id}">
+                                        <span class="span-category" th:text="${favoriteWithArticle.favorite.name}"></span>
                                     </button>
                                 </h5>
                             </div>
-                            <div th:id="'collapse-' + ${category.id}" class="collapse"
-                                 th:aria-labelledby="'heading-' + ${category.id}" data-parent="#accordion">
+                            <div th:id="'collapse-' + ${favoriteWithArticle.favorite.id}" class="collapse"
+                                 th:aria-labelledby="'heading-' + ${favoriteWithArticle.favorite.id}" data-parent="#accordion">
                                 <div class="card-body">
                                     <ul class="list-group">
-                                        <a class="list-group-item" th:each="article : ${category.articles}"
+                                        <a class="list-group-item" th:each="article : ${favoriteWithArticle.articles}"
                                            th:href="@{article/{id}(id=${article.id})}" th:text="${article.title}"></a>
                                     </ul>
                                 </div>
