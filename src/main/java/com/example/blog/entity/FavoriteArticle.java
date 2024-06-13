@@ -13,4 +13,8 @@ public class FavoriteArticle {
   private Long articleId;
 
   public FavoriteArticle() {}
+  public FavoriteArticle(Long favoriteId, Long articleId) {
+    this.favoriteId = favoriteId;
+    this.articleId = articleId;
+  }
 }
