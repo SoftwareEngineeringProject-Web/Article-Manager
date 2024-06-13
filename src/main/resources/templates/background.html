@@ -80,9 +80,9 @@
 </nav>
 <div class="wrapper">
   <nav class="sidebar">
-    <a href="#manage-articles" class="active" onclick="loadContent('manage-articles')">文章管理</a>
-    <a href="#change-information" onclick="loadContent('change-information')">修改信息</a>
-    <a href="#change-password" onclick="loadContent('change-password')">重置密码</a>
+    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'manage-articles\')'">文章管理</a>
+    <a href="#change-information" th:attr="onclick='loadContent(\'change-information\')'">修改信息</a>
+    <a href="#change-password" th:attr="onclick='loadContent(\'change-password\')'">重置密码</a>
     <a href="#logout" th:href="@{/logout}">注销</a>
   </nav>
   <div class="content">
@@ -149,6 +149,33 @@
         setTimeout(function() {
             errorAlert.style.display = 'none';
         }, 3000);
+    }
+</script>
+<script>
+    function loadAllArticles() {
+        document.querySelector('input[name="title"]').value = '';
+        document.querySelector('select[name="category"]').value = '';
+        document.querySelector('form').submit();
+    }
+    function searchArticles(username) {
+        const title = document.querySelector('input[name="title"]').value;
+        const category = document.querySelector('select[name="category"]').value;
+        const formData = new URLSearchParams({title: title, category: category});
+        const url = "background/manage-articles?" + formData.toString();
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',  // 设置请求头，表明发送的数据类型
+            }
+        })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('content-container').innerHTML = data;  // 更新内容区域
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error);
+            });
     }
 </script>
 </body>

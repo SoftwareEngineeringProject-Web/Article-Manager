@@ -76,9 +76,9 @@ public class ManageController {
 
   @GetMapping("/{username}/background/{htmlPage}")
   public String loadContent(@PathVariable("username") String username,
-                            @PathVariable String htmlPage,
-                            @RequestParam(value = "title", required = false) String title,
-                            @RequestParam(value = "category", required = false) Long categoryId,
+                            @PathVariable("htmlPage") String htmlPage,
+                            @RequestParam(name = "title", required = false) String title,
+                            @RequestParam(name = "category", required = false) Long categoryId,
                             @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
     User user = userService.findUserByUsername(username);
     Long userId = user.getId();
@@ -108,10 +108,8 @@ public class ManageController {
         model.addAttribute("categories", categories);
         return "fragments/manage-articles";
       case "change-information":
-        // 添加相应的model属性
         return "fragments/change-information";
       case "change-password":
-        // 添加相应的model属性
         return "fragments/change-password";
       default:
         return "access-denied";

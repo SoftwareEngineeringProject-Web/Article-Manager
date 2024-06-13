@@ -129,7 +129,7 @@
           <div class="form-group">
             <label>
               <select class="form-control" name="favoriteId">
-                <option value="0">请选择分类</option>
+                <option value="0">选择收藏夹</option>
                 <option th:each="favorite : ${favoriteList}" th:value="${favorite.id}" th:text="${favorite.name}"></option>
               </select>
             </label>

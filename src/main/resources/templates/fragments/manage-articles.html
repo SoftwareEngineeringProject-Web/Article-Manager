@@ -1,7 +1,7 @@
 <link rel="stylesheet" th:href="@{/Css/manageArticlePage.css}" type="text/css">
 <div class="container">
 
-  <form method="get" th:action="@{/{username}/manage(username=${user.username})}" class="search-form">
+  <form class="search-form" id="search-form">
     <div class="form-row align-items-center">
       <div class="col-md-5 mb-3">
         <div class="input-group">
@@ -18,7 +18,7 @@
         </select>
       </div>
       <div class="col-md-2 mb-3">
-        <button type="submit" class="btn btn-primary">查询</button>
+        <button type="button" class="btn btn-primary" th:attr="onclick='searchArticles(\'${user.username}\')'">查询</button>
       </div>
       <div class="col-md-2 mb-3">
         <button type="button" class="btn btn-info loading-all-btn" onclick="loadAllArticles()">加载全部</button>
@@ -103,18 +103,5 @@
       </li>
     </ul>
   </nav>
-  <button id="backToTopBtn" title="Back to top">
-    <i class="bi bi-arrow-up-circle"></i>
-  </button>
 
 </div>
-
-<script th:src="@{/js/back-to-top.js}" type="text/javascript"></script>
-<script th:src="@{/js/jquery-3.3.1.slim.min.js}" type="text/javascript"></script>
-<script>
-    function loadAllArticles() {
-        document.querySelector('input[name="title"]').value = '';
-        document.querySelector('select[name="category"]').value = '';
-        document.querySelector('form').submit();
-    }
-</script>
