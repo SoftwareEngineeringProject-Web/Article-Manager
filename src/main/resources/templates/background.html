@@ -10,9 +10,11 @@
   <link rel="stylesheet" th:href="@{/Css/globalBody.css}" type="text/css">
 
   <style>
+      .alert {
+          display: none; /* 默认隐藏 */
+      }
 
       .wrapper {
-          border-top: 100px;
           display: flex;
           width: 100%;
       }
@@ -22,6 +24,11 @@
           background-color: #343a40;
           color: #fff;
           min-height: 100vh;
+          position: fixed;
+          padding-top: 70px;
+          top: 0;
+          left: 0;
+          overflow-y: auto;
       }
 
       .sidebar a {
@@ -39,11 +46,13 @@
       .content {
           flex: 1;
           padding: 20px;
+          margin-left: 250px; /* 确保内容不被侧边栏遮挡 */
       }
 
       .active {
           background-color: #495057;
       }
+
   </style>
 </head>
 <body>
@@ -99,6 +108,20 @@
             .then(response => response.text())
             .then(html => {
                 contentContainer.innerHTML = html;
+                $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);        // 触发模态框的按钮
+                    var articleId = button.data('article-id');  // 从按钮中获取文章 id
+                    var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
+                    var modal = $(this); // 找到模态框
+                    modal.find('.article-title').text("确定要删除《"+ articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
+                    var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+                    confirmDeleteButton.attr('href', 'delete-article/' + articleId);  // 设置确认删除按钮的链接，替换其中的文章 id
+                });
+                const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
+                createdAtElems.forEach(elem => {
+                    let gmtDate = new Date(elem.textContent);
+                    elem.textContent = gmtDate.toLocaleString();
+                });
             })
             .catch(error => console.error('Error loading content:', error));
     }
@@ -108,6 +131,25 @@
         loadContent('manage-articles');
     });
 
+    function validateForm() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        if (password !== confirmPassword) {
+            showError('两次输入的密码不一致，请重新输入');
+            return false; // 阻止表单提交
+        }
+        return true; // 允许表单提交
+    }
+
+    function showError(message) {
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorAlert.style.display = 'block';
+        setTimeout(function() {
+            errorAlert.style.display = 'none';
+        }, 3000);
+    }
 </script>
 </body>
 </html>

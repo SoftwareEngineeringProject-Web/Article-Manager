@@ -1,6 +1,6 @@
 <link rel="stylesheet" th:href="@{/Css/manageArticlePage.css}" type="text/css">
 <div class="container">
-  <h1>文章管理</h1>
+
   <form method="get" th:action="@{/{username}/manage(username=${user.username})}" class="search-form">
     <div class="form-row align-items-center">
       <div class="col-md-5 mb-3">
@@ -112,24 +112,6 @@
 <script th:src="@{/js/back-to-top.js}" type="text/javascript"></script>
 <script th:src="@{/js/jquery-3.3.1.slim.min.js}" type="text/javascript"></script>
 <script>
-    $(document).ready(function() {
-        $('#confirmDeleteModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);        // 触发模态框的按钮
-            var articleId = button.data('article-id');  // 从按钮中获取文章 id
-            var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
-            var modal = $(this); // 找到模态框
-            modal.find('.article-title').text("确定要删除《"+ articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
-            var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
-            confirmDeleteButton.attr('href', 'delete-article/' + articleId);  // 设置确认删除按钮的链接，替换其中的文章 id
-        });
-    });
-
-    const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
-    createdAtElems.forEach(elem => {
-        let gmtDate = new Date(elem.textContent);
-        elem.textContent = gmtDate.toLocaleString();
-    });
-
     function loadAllArticles() {
         document.querySelector('input[name="title"]').value = '';
         document.querySelector('select[name="category"]').value = '';

@@ -164,7 +164,7 @@ public class ArticleController {
         return "redirect:/" + username + "/background";
     }
 
-    @PostMapping("/{username}/delete-article/{id}")
+    @GetMapping("/{username}/delete-article/{id}")
     public String deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
         Article article = articleService.getArticleById(articleId);
         if (!article.getUser().getUsername().equals(username)) {
