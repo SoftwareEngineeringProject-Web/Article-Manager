@@ -1,12 +1,9 @@
 package com.example.blog.controller;
 
-import com.example.blog.entity.Article;
-import com.example.blog.entity.Category;
-import com.example.blog.entity.User;
-import com.example.blog.service.ArticleService;
-import com.example.blog.service.CategoryService;
-import com.example.blog.service.LikeService;
-import com.example.blog.service.UserService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,15 +14,23 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import com.example.blog.data.FavoriteWithArticles;
+import com.example.blog.entity.Article;
+import com.example.blog.entity.Category;
+import com.example.blog.entity.User;
+import com.example.blog.service.ArticleService;
+import com.example.blog.service.CategoryService;
+import com.example.blog.service.LikeService;
+import com.example.blog.service.UserService;
 
 @Controller
 public class ArticleController {
@@ -60,27 +65,15 @@ public class ArticleController {
         User user = userService.findUserByUsername(username);
         Long userId = userService.findUserByUsername(username).getId();
 //        List<Article> articles = articleService.getArticlesByUserId(userId);
-        List<Category> categories = categoryService.findByUserId(user.getId());
+        List<FavoriteWithArticles> favoriteWithArticlesList = FavoriteWithArticles.getAllByUserId(userId);
 
         // 分页处理
         Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
         Page<Article> articlePage = articleService.getArticlesByUserIdPaged(userId, pageable);
 
-        for(Category category:categories){
-            List<Article> categoryArticles = articleService.getArticlesByCategory(category);
-            // 使用 Iterator 进行迭代并移除不属于此登录用户的文章
-            Iterator<Article> iterator = categoryArticles.iterator();
-            while (iterator.hasNext()) {
-                Article article = iterator.next();
-                if (!article.getUser().getId().equals(userId)) {
-                    iterator.remove();
-                }
-            }
-            category.setArticles(categoryArticles);
-        }
         model.addAttribute("user", user);
         model.addAttribute("articles", articlePage.getContent());
-        model.addAttribute("categories", categories);
+        model.addAttribute("favoriteWithArticlesList", favoriteWithArticlesList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", articlePage.getTotalPages());
         return "home";
