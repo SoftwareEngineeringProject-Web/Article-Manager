@@ -36,6 +36,13 @@ public class Comment {
 
   public Comment() {}
 
+  public Comment(User user, Article article, String content, Comment responseTo) {
+    this.user = user;
+    this.article = article;
+    this.content = content;
+    this.responseTo = responseTo;
+  }
+
   public User getUser() {
     return user;
   }
