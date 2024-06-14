@@ -20,7 +20,7 @@
     }
 
     .sidebar {
-      width: 250px;
+      width: 200px;
       background-color: #343a40;
       color: #fff;
       min-height: 100vh;
@@ -80,8 +80,10 @@
 </nav>
 <div class="wrapper">
   <nav class="sidebar">
+    <i class="bi bi-gear" style="font-size: 100px; margin-bottom: 20px; margin-left: 50px;"></i>
     <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'manage-articles\')'">文章管理</a>
     <a href="#manage-comments" th:attr="onclick='loadContent(\'manage-comments\')'">评论管理</a>
+    <a href="#manage-favorites" th:attr="onclick='loadContent(\'manage-favorites\')'">收藏夹管理</a>
     <a href="#change-information" th:attr="onclick='loadContent(\'change-information\')'">修改信息</a>
     <a href="#change-password" th:attr="onclick='loadContent(\'change-password\')'">重置密码</a>
     <a href="#logout" th:href="@{/logout}">注销</a>
@@ -164,7 +166,6 @@
 <script>
   function loadAllArticles() {
     const url = "background/manage-articles?title=&category=";
-
     fetch(url, {
       method: 'GET',
       headers: {
@@ -185,7 +186,6 @@
     const category = document.querySelector('select[name="category"]').value;
     const formData = new URLSearchParams({title: title, category: category});
     const url = "background/manage-articles?" + formData.toString();
-
     fetch(url, {
       method: 'GET',
       headers: {

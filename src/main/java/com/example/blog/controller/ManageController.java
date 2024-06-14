@@ -1,13 +1,8 @@
 package com.example.blog.controller;
 
-import com.example.blog.entity.Article;
-import com.example.blog.entity.Category;
-import com.example.blog.entity.Comment;
-import com.example.blog.entity.User;
-import com.example.blog.service.ArticleService;
-import com.example.blog.service.CategoryService;
-import com.example.blog.service.CommentService;
-import com.example.blog.service.UserService;
+import com.example.blog.data.FavoriteWithArticles;
+import com.example.blog.entity.*;
+import com.example.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,6 +33,8 @@ public class ManageController {
   private CategoryService categoryService;
   @Autowired
   private CommentService commentService;
+  @Autowired
+  private FavoriteService favoriteService;
 
   @ModelAttribute
   public void checkUser(@PathVariable("username") String username) throws ModelAndViewDefiningException {
@@ -118,6 +116,15 @@ public class ManageController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", commentPages.getTotalPages());
         return "manage/manage-comments";
+      case "manage-favorites":
+        List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
+        ArrayList<FavoriteWithArticles> favoriteWithArticlesList = new ArrayList<>();
+        favorites.forEach((favorite) -> {
+          favoriteWithArticlesList.add(new FavoriteWithArticles(favorite,
+              favoriteService.getArticlesByFavoriteId(favorite.getId())));
+        });
+        model.addAttribute("favoriteWithArticlesList", favoriteWithArticlesList);
+        return "manage/manage-favorites";
       case "change-information":
         return "manage/change-information";
       case "change-password":
