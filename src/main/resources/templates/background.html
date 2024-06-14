@@ -153,9 +153,21 @@
 </script>
 <script>
     function loadAllArticles() {
-        document.querySelector('input[name="title"]').value = '';
-        document.querySelector('select[name="category"]').value = '';
-        document.querySelector('form').submit();
+      const url = "background/manage-articles?title=&category=";
+
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',  // 设置请求头，表明发送的数据类型
+        }
+      })
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('content-container').innerHTML = data;  // 更新内容区域
+          })
+          .catch(error => {
+            console.error('Error during fetch:', error);
+          });
     }
     function searchArticles(username) {
         const title = document.querySelector('input[name="title"]').value;
