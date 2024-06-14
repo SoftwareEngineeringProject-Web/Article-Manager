@@ -1,51 +1,77 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>收藏夹管理</title>
-  <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" th:href="@{/Css/manageArticlePage.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/Css/manageArticlePage.css}"/>
+<style>
+  .container {
+    margin-top: 20px;
+  }
 
-  <style>
-    .container {
-      margin-top: 20px;
-    }
+  .card {
+    margin-bottom: 10px;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
 
-    .card {
-      margin-bottom: 10px;
-    }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #e9ecef;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
-    .list-group-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .card-header h5 {
+    margin: 0;
+    flex-grow: 1;
+    font-weight: bold;
+  }
 
-    .btn-group {
-      display: flex;
-    }
+  .card-header .btn-group {
+    margin-left: 10px;
+  }
 
-    .btn-group button {
-      margin-left: 5px;
-    }
-  </style>
-</head>
-<body>
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: none;
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+
+  .btn-group {
+    display: flex;
+    background-color: #e9ecef;
+  }
+</style>
+
 <div class="container">
   <div id="accordion">
     <div class="card" th:each="favoriteWithArticle : ${favoriteWithArticlesList}">
-      <div class="card-header" th:id="'heading-' + ${favoriteWithArticle.favorite.id}">
-        <h5 class="mb-0">
-          <button class="btn btn-light" data-toggle="collapse"
-                  th:data-target="'#collapse-' + ${favoriteWithArticle.favorite.id}" aria-expanded="false"
-                  th:aria-controls="'collapse-' + ${favoriteWithArticle.favorite.id}">
+      <div style="display:grid;grid-template-columns:5fr 1fr;">
+        <div class="card-header" th:id="'heading-' + ${favoriteWithArticle.favorite.id}"
+             data-toggle="collapse" th:data-target="'#collapse-' + ${favoriteWithArticle.favorite.id}"
+             aria-expanded="false" th:aria-controls="'collapse-' + ${favoriteWithArticle.favorite.id}">
+          <h5 class="mb-0">
             <span class="span-category" th:text="${favoriteWithArticle.favorite.name}"></span>
-          </button>
-          <button class="btn btn-sm btn-primary" onclick="editFavorite(${favoriteWithArticle.favorite.id})">编辑
-          </button>
-          <button class="btn btn-sm btn-danger" onclick="deleteFavorite(${favoriteWithArticle.favorite.id})">删除
-          </button>
-        </h5>
+          </h5>
+        </div>
+        <div class="btn-group">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <a class="btn btn-edit btn-sm" data-toggle="modal" data-target="#editFavoriteModal">
+              <i class="bi bi-pencil-square"></i> 编辑
+            </a>
+            <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal">
+              <i class="bi bi-trash"></i> 删除
+            </a>
+          </div>
+        </div>
       </div>
       <div th:id="'collapse-' + ${favoriteWithArticle.favorite.id}" class="collapse"
            th:aria-labelledby="'heading-' + ${favoriteWithArticle.favorite.id}" data-parent="#accordion">
@@ -54,9 +80,9 @@
             <li class="list-group-item" th:each="article : ${favoriteWithArticle.articles}">
               <a th:href="@{article/{id}(id=${article.id})}" th:text="${article.title}"></a>
               <div class="btn-group">
-                <button class="btn btn-sm btn-danger"
-                        onclick="removeArticle(${favoriteWithArticle.favorite.id}, ${article.id})">移出
-                </button>
+                <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal">
+                  <i class="bi bi-trash"></i> 移出收藏夹
+                </a>
               </div>
             </li>
           </ul>
@@ -88,5 +114,4 @@
     </div>
   </div>
 </div>
-</body>
-</html>
+
