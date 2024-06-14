@@ -106,11 +106,11 @@ public class ManageController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", articlePages.getTotalPages());
         model.addAttribute("categories", categories);
-        return "fragments/manage-articles";
+        return "manage/manage-articles";
       case "change-information":
-        return "fragments/change-information";
+        return "manage/change-information";
       case "change-password":
-        return "fragments/change-password";
+        return "manage/change-password";
       default:
         return "access-denied";
     }

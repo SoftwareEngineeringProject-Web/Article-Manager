@@ -108,6 +108,31 @@
         </button>
       </div>
     </div>
+    <div class="comment-form mt-4">
+      <h4>留下您的评论</h4>
+      <form id="commentForm" th:action="@{/{username}/{articleId}/submit-comment(username=${user.username}, articleId=${article.id})}" method="post">
+        <div class="form-group">
+          <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="请输入你的评论..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">提交</button>
+      </form>
+    </div>
+
+    <div class="comments-section mt-5">
+      <h4>Comments</h4>
+      <div id="commentsContainer">
+        <div th:each="comment : ${comments}" class="comment mb-3">
+          <div class="comment-header">
+            <h5 th:text="${comment.user.name}"></h5>
+            <small class="text-muted" th:text="${comment.user.email}"></small>
+          </div>
+          <div class="comment-body">
+            <p th:text="${comment.content}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 

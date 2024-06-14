@@ -51,6 +51,10 @@ public class Comment {
     return article;
   }
 
+  public String getContent() {
+    return content;
+  }
+
   public Comment getResponseTo() {
     return responseTo;
   }

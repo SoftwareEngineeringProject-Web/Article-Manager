@@ -205,4 +205,14 @@ public class ArticleController {
         favoriteArticleService.favoriteArticle(favoriteId, articleId);
         return "redirect:/" + username + "/article/" + articleId;
     }
+
+    @PostMapping("/{username}/{id}/submit-comment")
+    public String submitComment(@PathVariable("username") String username, @PathVariable("id") Long articleId,
+                                @RequestParam("comment") String comment) {
+        User user = userService.findUserByUsername(username);
+        Article article = articleService.getArticleById(articleId);
+        Comment commentEntity = new Comment(user, article, comment, null);
+        commentService.saveComment(commentEntity);
+        return "redirect:/" + username + "/article/" + articleId;
+    }
 }
