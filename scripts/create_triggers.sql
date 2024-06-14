@@ -1,9 +1,17 @@
 use blog;
 
 DELIMITER $$
-create trigger delete_likes_before_deleting_article before delete on articles for each row
+create trigger before_deleting_article before delete on articles for each row
 BEGIN
   delete from likes where article_id = old.id;
+  delete from comments where article_id = old.id;
 END;
 $$
+
+create trigger before_deleting_comment before delete on comments for each row
+BEGIN
+  update comments set response_id = null where response_id = old.id;
+END;
+$$
+
 DELIMITER ;

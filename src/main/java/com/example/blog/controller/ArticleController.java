@@ -3,9 +3,11 @@ package com.example.blog.controller;
 import com.example.blog.data.FavoriteWithArticles;
 import com.example.blog.entity.Article;
 import com.example.blog.entity.Category;
+import com.example.blog.entity.Comment;
 import com.example.blog.entity.Favorite;
 import com.example.blog.entity.User;
 import com.example.blog.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,8 @@ import java.util.Map;
 
 @Controller
 public class ArticleController {
+    @Autowired
+    private CommentService commentService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -84,9 +88,9 @@ public class ArticleController {
     }
 
     @GetMapping("/{username}/article/{id}")
-    public String article(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
+    public String article(@PathVariable("username") String username, @PathVariable("id") Long articleId, Model model) {
         User user = userService.findUserByUsername(username);
-        Article article = articleService.getArticleById(id);
+        Article article = articleService.getArticleById(articleId);
 
         // 检查用户要访问的文章是否为自己的文章，或者是否为共享
         if (article.getUser().getId() != user.getId() && !article.isPublic()) {
@@ -99,10 +103,13 @@ public class ArticleController {
         article.incrementViews();
         articleService.updateViews(article);
 
+        List<Comment> comments = commentService.getCommentsByArticleId(articleId);
+
         model.addAttribute("user", user);
         model.addAttribute("article", article);
         model.addAttribute("categoryPath", categoryPath);
         model.addAttribute("favoriteList", favoriteList);
+        model.addAttribute("comments", comments);
         return "article";
     }
 
