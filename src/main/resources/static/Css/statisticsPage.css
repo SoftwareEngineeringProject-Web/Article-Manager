@@ -1,0 +1,102 @@
+.container {
+    margin-top: 100px;
+    width: 100vw;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #343a40;
+    text-align: center;
+    font-weight: bold;
+}
+
+.card {
+    flex: 1;
+    margin: 10px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.bg-blue {
+    background-color: #68a0a8;
+}
+
+.bg-green {
+    background-color: #8bc4b7;
+}
+
+.bg-pink {
+    background-color: #f7a399;
+}
+
+.bg-gray {
+    background-color: #b0b3b8;
+}
+
+.bg-yellow {
+    background-color: #ffda79;
+}
+
+.bg-purple {
+    background-color: #bfa2db;
+}
+
+.chart-container {
+    position: relative;
+    margin-top: 30px;
+    padding: 20px;
+    background: transparent;
+    border-radius: 10px;
+    width: 100%;
+    height: 50vh;
+    display: grid;
+    grid-template-areas: 'title title'
+                                 'chart chart';
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 7fr;
+}
+
+.chart-container .chart-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    justify-self: center;
+    align-self: center;
+    overflow: hidden;
+}
+
+.chart-container .chart-canvas {
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.card-text {
+    font-weight: bold;
+}
+
+.bi-journal-text,
+.bi-chat-left-dots,
+.bi-hand-thumbs-up,
+.bi-eyeglasses,
+.bi-clock-history,
+.bi-star {
+    font-size: 4rem;
+}
