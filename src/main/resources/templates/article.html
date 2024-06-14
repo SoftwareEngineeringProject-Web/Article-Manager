@@ -88,7 +88,8 @@
     <h1 class="article-title" th:text="${article.title}"></h1>
     <div style="display: grid; grid-template-areas: 'author time view'; grid-template-columns: 1fr 1fr 1fr;">
       <span style="grid-area: author; text-align: center;" th:text="'作者: ' + ${article.user.name}"></span>
-      <span style="grid-area: time; text-align:center" id="created-at" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+      <span style="grid-area: time; text-align:center" id="created-at"
+            th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
       <span style="grid-area: view; text-align: center;" th:text="'浏览量:' + ${article.views}"></span>
     </div>
     <div class="article-categories">
@@ -97,16 +98,12 @@
     <div class="article-content"></div>
     <div class="article-tags d-flex justify-content-between align-items-center">
       <div class="btn-group">
-        <button class="btn btn-primary" th:attr="onclick='favoriteArticle(\'' + ${user.username} + '\', \'' + ${article.id} + '\')'">
-
-        </button>
-        <button class="btn btn-edit btn-sm" data-toggle="modal" data-target="#favouriteModal">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#favouriteModal">
           <i class="bi bi-star" style="font-size: 1.2rem;"></i> 收藏(0)
         </button>
-
       </div>
-      <div class = "btn-group">
-        <button class="btn btn-primary" th:attr="onclick='likeArticle(\'' + ${user.username} + '\', \'' + ${article.id} + '\')'">
+      <div class="btn-group">
+        <button class="btn btn-primary">
           <i class="bi bi-hand-thumbs-up" style="font-size: 1.2rem;"></i> 点赞(<span id="like-count" th:text="${article.likes}"></span>)
         </button>
       </div>
@@ -114,8 +111,9 @@
   </div>
 </div>
 
-<!-- 创建分类模态框 -->
-<div class="modal fade" id="favouriteModal" tabindex="-1" role="dialog" aria-labelledby="favouriteModalLabel" aria-hidden="true">
+<!-- 收藏文章模态框 -->
+<div class="modal fade" id="favouriteModal" tabindex="-1" role="dialog" aria-labelledby="favouriteModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header border-0">
@@ -125,16 +123,47 @@
         </button>
       </div>
       <div class="modal-body">
-        <form th:action="@{/{username}/{articleId}/favorite(username = ${user.username}, articleId = ${article.id})}" method="post">
+        <form th:action="@{/{username}/{articleId}/favorite(username = ${user.username}, articleId = ${article.id})}"
+              method="post">
           <div class="form-group">
             <label>
-              <select class="form-control" name="favoriteId">
+              <select class="form-control" name="favoriteId" id="favoriteId">
                 <option value="0">选择收藏夹</option>
-                <option th:each="favorite : ${favoriteList}" th:value="${favorite.id}" th:text="${favorite.name}"></option>
+                <option th:each="favorite : ${favoriteList}" th:value="${favorite.id}"
+                        th:text="${favorite.name}"></option>
               </select>
             </label>
           </div>
           <button type="submit" class="btn btn-secondary">确认</button>
+        </form>
+        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addFavoriteModal">
+          添加收藏夹
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 添加收藏夹模态框 -->
+<div class="modal fade" id="addFavoriteModal" tabindex="-1" role="dialog" aria-labelledby="addFavoriteModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="addFavoriteModalLabel">添加收藏夹</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addFavoriteForm">
+          <div class="form-group">
+            <label for="favoriteName">收藏夹名称</label>
+            <input type="text" class="form-control" id="favoriteName" name="favoriteName" required>
+          </div>
+          <button type="button" class="btn btn-secondary"
+                  th:attr="onclick='addFavorite(\'' + ${user.username} + '\', \'' + ${article.id} + '\')'">提交
+          </button>
         </form>
       </div>
     </div>
@@ -156,15 +185,15 @@
 <script>
   function likeArticle(username, articleId) {
     fetch(`/${username}/${articleId}/like`)
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                document.getElementById('like-count').innerText = data.likes;
-              } else {
-                alert('操作失败，请重试');
-              }
-            })
-            .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById('like-count').innerText = data.likes;
+          } else {
+            alert('操作失败，请重试');
+          }
+        })
+        .catch(error => console.error('Error:', error));
   }
 
 </script>
@@ -176,6 +205,37 @@
   // 将转换后的 HTML 插入到页面
   const articleContentElem = document.querySelector('.article-content');
   articleContentElem.innerHTML = htmlText;
+</script>
+
+<script>
+  function addFavorite(username, articleId) {
+    const favoriteName = document.getElementById('favoriteName').value;
+
+    fetch(`/${username}/${articleId}/add-favorite`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({name: favoriteName})
+    })
+        .then(response => response.json()
+        )
+        .then(data => {
+          // 更新收藏夹列表
+          const favoriteSelect = document.getElementById('favoriteId');
+          const newOption = document.createElement('option');
+          newOption.value = data.id;
+          newOption.text = data.name;
+          favoriteSelect.add(newOption);
+
+          // 关闭添加收藏夹模态框，回到收藏文章模态框
+          $('#addFavoriteModal').modal('hide');
+          $('#favouriteModal').modal('show');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+  }
 </script>
 </body>
 </html>
