@@ -81,6 +81,7 @@
 <div class="wrapper">
   <nav class="sidebar">
     <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'manage-articles\')'">文章管理</a>
+    <a href="#manage-comments" th:attr="onclick='loadContent(\'manage-comments\')'">评论管理</a>
     <a href="#change-information" th:attr="onclick='loadContent(\'change-information\')'">修改信息</a>
     <a href="#change-password" th:attr="onclick='loadContent(\'change-password\')'">重置密码</a>
     <a href="#logout" th:href="@{/logout}">注销</a>
@@ -122,6 +123,15 @@
                     let gmtDate = new Date(elem.textContent);
                     elem.textContent = gmtDate.toLocaleString();
                 });
+                $('#confirmDeleteCommentModal').on('show.bs.modal', function (event) {
+                  var button = $(event.relatedTarget);        // 触发模态框的按钮
+                  var commentId = button.data('comment-id');
+                  var commentContent = button.data('comment-content');
+                  var modal = $(this);
+                  modal.find('.comment-content').text("确定要删除评论：\""+ commentContent + "\" 吗？");
+                  var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+                  confirmDeleteButton.attr('href', commentId + '/delete-comment');
+              });
             })
             .catch(error => console.error('Error loading content:', error));
     }

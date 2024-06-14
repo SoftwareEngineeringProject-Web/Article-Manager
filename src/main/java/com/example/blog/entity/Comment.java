@@ -10,6 +10,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -33,6 +35,9 @@ public class Comment {
   @JoinColumn(name = "response_id")
   private Comment responseTo;
 
+  @Column(name = "created_at")
+  private Instant createdAt;
+
 
   public Comment() {}
 
@@ -41,8 +46,11 @@ public class Comment {
     this.article = article;
     this.content = content;
     this.responseTo = responseTo;
+    this.setCreatedAt();
   }
-
+  public Long getId() {
+    return id;
+  }
   public User getUser() {
     return user;
   }
@@ -58,4 +66,12 @@ public class Comment {
   public Comment getResponseTo() {
     return responseTo;
   }
+  public void setCreatedAt() {
+    this.createdAt = Instant.now();
+  }
+
+  public Instant getCreateTime() {
+    return this.createdAt;
+  }
+
 }

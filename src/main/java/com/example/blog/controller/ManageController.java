@@ -2,9 +2,11 @@ package com.example.blog.controller;
 
 import com.example.blog.entity.Article;
 import com.example.blog.entity.Category;
+import com.example.blog.entity.Comment;
 import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
 import com.example.blog.service.CategoryService;
+import com.example.blog.service.CommentService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,8 @@ public class ManageController {
   private ArticleService articleService;
   @Autowired
   private CategoryService categoryService;
+  @Autowired
+  private CommentService commentService;
 
   @ModelAttribute
   public void checkUser(@PathVariable("username") String username) throws ModelAndViewDefiningException {
@@ -83,10 +87,11 @@ public class ManageController {
     User user = userService.findUserByUsername(username);
     Long userId = user.getId();
     model.addAttribute("user", user);
+    Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
+    model.addAttribute("defaultPage", "manage-articles");
 
     switch (htmlPage) {
       case "manage-articles":
-        Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
         Page<Article> articlePages;
         List<Category> categories = categoryService.findByUserId(user.getId());
 
@@ -107,6 +112,12 @@ public class ManageController {
         model.addAttribute("totalPages", articlePages.getTotalPages());
         model.addAttribute("categories", categories);
         return "manage/manage-articles";
+      case "manage-comments":
+        Page<Comment> commentPages = commentService.getCommentsByUserIdPaged(userId, pageable);
+        model.addAttribute("comments", commentPages.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", commentPages.getTotalPages());
+        return "manage/manage-comments";
       case "change-information":
         return "manage/change-information";
       case "change-password":
