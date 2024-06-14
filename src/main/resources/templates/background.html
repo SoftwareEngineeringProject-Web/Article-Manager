@@ -10,48 +10,48 @@
   <link rel="stylesheet" th:href="@{/Css/globalBody.css}" type="text/css">
 
   <style>
-      .alert {
-          display: none; /* 默认隐藏 */
-      }
+    .alert {
+      display: none; /* 默认隐藏 */
+    }
 
-      .wrapper {
-          display: flex;
-          width: 100%;
-      }
+    .wrapper {
+      display: flex;
+      width: 100%;
+    }
 
-      .sidebar {
-          width: 250px;
-          background-color: #343a40;
-          color: #fff;
-          min-height: 100vh;
-          position: fixed;
-          padding-top: 70px;
-          top: 0;
-          left: 0;
-          overflow-y: auto;
-      }
+    .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      color: #fff;
+      min-height: 100vh;
+      position: fixed;
+      padding-top: 70px;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+    }
 
-      .sidebar a {
-          color: #fff;
-          text-decoration: none;
-          padding: 15px;
-          display: block;
-          transition: background-color 0.2s;
-      }
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      padding: 15px;
+      display: block;
+      transition: background-color 0.2s;
+    }
 
-      .sidebar a:hover {
-          background-color: #495057;
-      }
+    .sidebar a:hover {
+      background-color: #495057;
+    }
 
-      .content {
-          flex: 1;
-          padding: 20px;
-          margin-left: 250px; /* 确保内容不被侧边栏遮挡 */
-      }
+    .content {
+      flex: 1;
+      padding: 20px;
+      margin-left: 250px; /* 确保内容不被侧边栏遮挡 */
+    }
 
-      .active {
-          background-color: #495057;
-      }
+    .active {
+      background-color: #495057;
+    }
 
   </style>
 </head>
@@ -98,107 +98,108 @@
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
 
 <script>
-    function loadContent(page) {
-        const contentContainer = document.getElementById('content-container');
-        contentContainer.innerHTML = ''; // 清空内容容器
-        $('.sidebar a').removeClass('active'); // 移除所有链接的活动类
-        $(`.sidebar a[href="#${page}"]`).addClass('active'); // 为当前链接添加活动类
+  function loadContent(page) {
+    const contentContainer = document.getElementById('content-container');
+    contentContainer.innerHTML = ''; // 清空内容容器
+    $('.sidebar a').removeClass('active'); // 移除所有链接的活动类
+    $(`.sidebar a[href="#${page}"]`).addClass('active'); // 为当前链接添加活动类
 
-        // 动态加载页面内容
-        fetch(`background/${page}`)
-            .then(response => response.text())
-            .then(html => {
-                contentContainer.innerHTML = html;
-                $('#confirmDeleteModal').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget);        // 触发模态框的按钮
-                    var articleId = button.data('article-id');  // 从按钮中获取文章 id
-                    var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
-                    var modal = $(this); // 找到模态框
-                    modal.find('.article-title').text("确定要删除《"+ articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
-                    var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
-                    confirmDeleteButton.attr('href', 'delete-article/' + articleId);  // 设置确认删除按钮的链接，替换其中的文章 id
-                });
-                const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
-                createdAtElems.forEach(elem => {
-                    let gmtDate = new Date(elem.textContent);
-                    elem.textContent = gmtDate.toLocaleString();
-                });
-                $('#confirmDeleteCommentModal').on('show.bs.modal', function (event) {
-                  var button = $(event.relatedTarget);        // 触发模态框的按钮
-                  var commentId = button.data('comment-id');
-                  var commentContent = button.data('comment-content');
-                  var modal = $(this);
-                  modal.find('.comment-content').text("确定要删除评论：\""+ commentContent + "\" 吗？");
-                  var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
-                  confirmDeleteButton.attr('href', commentId + '/delete-comment');
-              });
-            })
-            .catch(error => console.error('Error loading content:', error));
+    // 动态加载页面内容
+    fetch(`background/${page}`)
+        .then(response => response.text())
+        .then(html => {
+          contentContainer.innerHTML = html;
+          $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);        // 触发模态框的按钮
+            var articleId = button.data('article-id');  // 从按钮中获取文章 id
+            var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
+            var modal = $(this); // 找到模态框
+            modal.find('.article-title').text("确定要删除《" + articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
+            var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+            confirmDeleteButton.attr('href', 'delete-article/' + articleId);  // 设置确认删除按钮的链接，替换其中的文章 id
+          });
+          const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
+          createdAtElems.forEach(elem => {
+            let gmtDate = new Date(elem.textContent);
+            elem.textContent = gmtDate.toLocaleString();
+          });
+          $('#confirmDeleteCommentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);        // 触发模态框的按钮
+            var commentId = button.data('comment-id');
+            var commentContent = button.data('comment-content');
+            var modal = $(this);
+            modal.find('.comment-content').text("确定要删除评论：\"" + commentContent + "\" 吗？");
+            var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+            confirmDeleteButton.attr('href', commentId + '/delete-comment');
+          });
+        })
+        .catch(error => console.error('Error loading content:', error));
+  }
+
+  // 默认加载文章管理内容
+  document.addEventListener('DOMContentLoaded', function () {
+    loadContent('manage-articles');
+  });
+
+  function validateForm() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    if (password !== confirmPassword) {
+      showError('两次输入的密码不一致，请重新输入');
+      return false; // 阻止表单提交
     }
+    return true; // 允许表单提交
+  }
 
-    // 默认加载文章管理内容
-    document.addEventListener('DOMContentLoaded', function () {
-        loadContent('manage-articles');
-    });
-
-    function validateForm() {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        if (password !== confirmPassword) {
-            showError('两次输入的密码不一致，请重新输入');
-            return false; // 阻止表单提交
-        }
-        return true; // 允许表单提交
-    }
-
-    function showError(message) {
-        const errorAlert = document.getElementById('errorAlert');
-        const errorMessage = document.getElementById('errorMessage');
-        errorMessage.textContent = message;
-        errorAlert.style.display = 'block';
-        setTimeout(function() {
-            errorAlert.style.display = 'none';
-        }, 3000);
-    }
+  function showError(message) {
+    const errorAlert = document.getElementById('errorAlert');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    errorAlert.style.display = 'block';
+    setTimeout(function () {
+      errorAlert.style.display = 'none';
+    }, 3000);
+  }
 </script>
 <script>
-    function loadAllArticles() {
-      const url = "background/manage-articles?title=&category=";
+  function loadAllArticles() {
+    const url = "background/manage-articles?title=&category=";
 
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',  // 设置请求头，表明发送的数据类型
-        }
-      })
-          .then(response => response.text())
-          .then(data => {
-            document.getElementById('content-container').innerHTML = data;  // 更新内容区域
-          })
-          .catch(error => {
-            console.error('Error during fetch:', error);
-          });
-    }
-    function searchArticles(username) {
-        const title = document.querySelector('input[name="title"]').value;
-        const category = document.querySelector('select[name="category"]').value;
-        const formData = new URLSearchParams({title: title, category: category});
-        const url = "background/manage-articles?" + formData.toString();
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',  // 设置请求头，表明发送的数据类型
-            }
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',  // 设置请求头，表明发送的数据类型
+      }
+    })
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('content-container').innerHTML = data;  // 更新内容区域
         })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('content-container').innerHTML = data;  // 更新内容区域
-            })
-            .catch(error => {
-                console.error('Error during fetch:', error);
-            });
-    }
+        .catch(error => {
+          console.error('Error during fetch:', error);
+        });
+  }
+
+  function searchArticles(username) {
+    const title = document.querySelector('input[name="title"]').value;
+    const category = document.querySelector('select[name="category"]').value;
+    const formData = new URLSearchParams({title: title, category: category});
+    const url = "background/manage-articles?" + formData.toString();
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',  // 设置请求头，表明发送的数据类型
+      }
+    })
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('content-container').innerHTML = data;  // 更新内容区域
+        })
+        .catch(error => {
+          console.error('Error during fetch:', error);
+        });
+  }
 </script>
 </body>
 </html>

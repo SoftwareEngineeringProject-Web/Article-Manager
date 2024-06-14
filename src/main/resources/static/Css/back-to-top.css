@@ -1,28 +1,28 @@
 #backToTopBtn {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99;
-    border: none;
-    outline: none;
-    background-color: transparent; /* 设置为透明 */
-    color: #000000;
-    cursor: pointer;
-    padding: 15px;
-    border-radius: 50%; /* 设置为圆形 */
-    /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: transparent; /* 设置为透明 */
+  color: #000000;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%; /* 设置为圆形 */
+  /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #backToTopBtn:hover {
-    transform: scale(1.1); /* 放大效果 */
+  transform: scale(1.1); /* 放大效果 */
 }
 
 #backToTopBtn:focus {
-    outline: none;
+  outline: none;
 }
 
 #backToTopBtn i {
-    font-size: 2rem; /* 使用图标 */
+  font-size: 2rem; /* 使用图标 */
 }

@@ -18,7 +18,11 @@
         <td class="content-col" th:text="${#strings.abbreviate(comment.content, 50)}"></td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a th:href="@{/{username}/{id}/delete-comment/(id=${comment.id}, username=${user.username})}" class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteCommentModal" th:data-comment-id = "${comment.id}" th:data-comment-content="${comment.content}"><i class="bi bi-trash"></i> 删除评论</a>
+            <a th:href="@{/{username}/{id}/delete-comment/(id=${comment.id}, username=${user.username})}"
+               class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteCommentModal"
+               th:data-comment-id="${comment.id}" th:data-comment-content="${comment.content}">
+              <i class="bi bi-trash"></i> 删除评论
+            </a>
           </div>
         </td>
       </tr>
@@ -27,7 +31,8 @@
   </div>
 
   <!-- 删除评论确认模态框 -->
-  <div class="modal fade" id="confirmDeleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteCommentModalLabel" aria-hidden="true">
+  <div class="modal fade" id="confirmDeleteCommentModal" tabindex="-1" role="dialog"
+       aria-labelledby="confirmDeleteCommentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header border-0">
@@ -50,18 +55,22 @@
     <ul class="pagination justify-content-center">
       <!-- 上一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage - 1})}" aria-label="Previous">
+        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage - 1})}"
+           aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
         </a>
       </li>
       <!-- 分页按钮 -->
-      <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${pageNo == currentPage} ? 'active'">
-        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${pageNo})}" th:text="${pageNo + 1}"></a>
+      <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}"
+          th:classappend="${pageNo == currentPage} ? 'active'">
+        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${pageNo})}"
+           th:text="${pageNo + 1}"></a>
       </li>
       <!-- 下一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage + 1})}" aria-label="Next">
+        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage + 1})}"
+           aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
         </a>

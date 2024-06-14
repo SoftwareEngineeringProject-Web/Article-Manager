@@ -1,54 +1,54 @@
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: url('../images/loginBackground.png') no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Arial', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: url('../images/loginBackground.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Arial', sans-serif;
 }
 
 .register-title {
-    margin-bottom: 30px;
-    text-align: center;
-    font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .form-group {
-    position: relative;
-    font-weight: bold;
+  position: relative;
+  font-weight: bold;
 
 }
 
 .form-icon {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 
 .form-control {
-    margin-bottom: 15px;
-    font-size: 1rem;
-    padding: 0.75rem;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  padding: 0.75rem;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    font-weight: bold;
+  background-color: #007bff;
+  border-color: #007bff;
+  font-weight: bold;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
+  background-color: #0056b3;
+  border-color: #004085;
 }
 
 .register-container {
-    max-width: 350px;
-    margin: 50px auto;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
-    background-color: rgba(255, 255, 255, 0.6) !important; /* Semi-transparent background */
+  max-width: 350px;
+  margin: 50px auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+  background-color: rgba(255, 255, 255, 0.6) !important; /* Semi-transparent background */
 
 }

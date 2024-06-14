@@ -1,164 +1,165 @@
 .container {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    margin-top: 80px;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 80px;
 }
 
 .table-responsive {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 15px;
-    min-width: 1000px; /* 设置表格最小宽度 */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  min-width: 1000px; /* 设置表格最小宽度 */
 }
 
 table {
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
-    min-width: 1000px; /* 设置表格最小宽度 */
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+  min-width: 1000px; /* 设置表格最小宽度 */
 }
 
 th, td {
-    padding: 0.75rem;
-    text-align: center;
-    vertical-align: middle;
+  padding: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
 }
 
 thead th {
-    border-bottom: 2px solid #dee2e6;
-    background-color: #e9ecef;
-    color: #495057;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #e9ecef;
+  color: #495057;
 }
 
 tbody tr {
-    border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
 }
 
 tbody tr:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .btn-edit {
-    color: white;
-    background-color: #28a745;
-    border-color: #28a745;
-    margin-right: 5px;
+  color: white;
+  background-color: #28a745;
+  border-color: #28a745;
+  margin-right: 5px;
 }
 
 .btn-delete {
-    color: white;
-    background-color: #dc3545;
-    border-color: #dc3545;
+  color: white;
+  background-color: #dc3545;
+  border-color: #dc3545;
 }
 
 .pagination {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .pagination .page-item .page-link {
-    color: #007bff;
+  color: #007bff;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
 }
 
 .pagination .page-item.disabled .page-link {
-    color: #6c757d;
+  color: #6c757d;
 }
 
 .btn-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .content-col {
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
 /* 删除文章确认模态框样式 */
 .modal-dialog {
-    max-width: 500px;
+  max-width: 500px;
 }
 
 .modal-content {
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }
 
 .modal-title {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .modal-body, .modal-footer {
-    text-align: center;
+  text-align: center;
 }
 
-.modal-footer button, [type="button"]{
-    width: 120px;
-    border-radius: 20px;
-    border: none;
+.modal-footer button, [type="button"] {
+  width: 120px;
+  border-radius: 20px;
+  border: none;
 }
 
 .modal-footer button:first-child {
-    margin-right: auto;
+  margin-right: auto;
 }
 
 .loading-all-btn {
-    background-color: #17a2b8;
-    color: white;
+  background-color: #17a2b8;
+  color: white;
 }
 
 .search-form .form-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .search-form .form-control {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .search-form .input-group {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-form input,
 .search-form select,
 .search-form button {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .search-form .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .search-form .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
 .search-form .btn {
-    width: 100%; /* 使按钮宽度一致 */
+  width: 100%; /* 使按钮宽度一致 */
 }
 
 .btn-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
 }
 
 .btn-info:hover {
-    background-color: #138496;
-    border-color: #117a8b;
+  background-color: #138496;
+  border-color: #117a8b;
 }

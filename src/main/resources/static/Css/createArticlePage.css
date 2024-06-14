@@ -1,70 +1,70 @@
 h1 {
-    margin-bottom: 30px;
-    color: #343a40;
-    text-align: center;
-    font-weight: bold;
+  margin-bottom: 30px;
+  color: #343a40;
+  text-align: center;
+  font-weight: bold;
 }
 
-.modal-footer button, [type="button"]{
-    width: 120px;
-    border-radius: 20px;
-    border: none;
+.modal-footer button, [type="button"] {
+  width: 120px;
+  border-radius: 20px;
+  border: none;
 }
 
 .search-form button {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .search-filter-form input, .search-filter-form select {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .search-form .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+  background-color: #0056b3;
+  border-color: #0056b3;
 }
 
 .search-form .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .container {
-    margin-top: 100px;
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
+  margin-top: 100px;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .content-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-form input,
 .search-form select,
 .search-form button {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .search-form .input-group {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-form .btn {
-    border-radius: 0 !important;
-    margin-left: 10px; /* 提交按钮左侧间距 */
+  border-radius: 0 !important;
+  margin-left: 10px; /* 提交按钮左侧间距 */
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
-    font-weight: bold;
-    color: #333;
+  font-weight: bold;
+  color: #333;
 }

@@ -14,11 +14,13 @@
       <div class="col-md-3 mb-3">
         <select class="form-control" name="category">
           <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
-          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${param.category == category.id}"></option>
+          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"
+                  th:selected="${param.category == category.id}"></option>
         </select>
       </div>
       <div class="col-md-2 mb-3">
-        <button type="button" class="btn btn-primary" th:attr="onclick='searchArticles(\'${user.username}\')'">查询</button>
+        <button type="button" class="btn btn-primary" th:attr="onclick='searchArticles(\'${user.username}\')'">查询
+        </button>
       </div>
       <div class="col-md-2 mb-3">
         <button type="button" class="btn btn-info loading-all-btn" onclick="loadAllArticles()">加载全部</button>
@@ -34,7 +36,7 @@
         <th>ID</th>
         <th>标题</th>
         <th>分类</th>
-<!--        <th>内容</th>-->
+        <!--        <th>内容</th>-->
         <th>创建时间</th>
         <th>权限</th>
         <th>操作</th>
@@ -45,13 +47,21 @@
         <td th:text="${article.id}"></td>
         <td th:text="${article.title}"></td>
         <td th:text="${article.category != null} ? ${article.category.name} : '没有分类'"></td>
-<!--        <td class="content-col" th:text="${#strings.abbreviate(article.content, 50)}"></td>-->
-        <td class="post-created-time" th:id = "${'created-at-' + article.id}" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <!--        <td class="content-col" th:text="${#strings.abbreviate(article.content, 50)}"></td>-->
+        <td class="post-created-time" th:id="${'created-at-' + article.id}"
+            th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td th:text="${article.isPublic() ? '公开' : '私密'}"></td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a th:href="@{/{username}/edit-article/{id}(id=${article.id}, username=${user.username})}" class="btn btn-edit btn-sm"><i class="bi bi-pencil-square"></i> 编辑文章</a>
-            <a th:href="@{/{username}/delete-article/{id}(id=${article.id}, username=${user.username})}" class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal" th:data-article-title="${article.title}" th:data-article-id="${article.id}"><i class="bi bi-trash"></i> 删除文章</a>
+            <a th:href="@{/{username}/edit-article/{id}(id=${article.id}, username=${user.username})}"
+               class="btn btn-edit btn-sm">
+              <i class="bi bi-pencil-square"></i> 编辑文章
+            </a>
+            <a th:href="@{/{username}/delete-article/{id}(id=${article.id}, username=${user.username})}"
+               class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal"
+               th:data-article-title="${article.title}" th:data-article-id="${article.id}">
+              <i class="bi bi-trash"></i> 删除文章
+            </a>
           </div>
         </td>
       </tr>
@@ -60,7 +70,8 @@
   </div>
 
   <!-- 删除文章确认模态框 -->
-  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+       aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header border-0">
@@ -85,18 +96,22 @@
     <ul class="pagination justify-content-center">
       <!-- 上一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage - 1})}" aria-label="Previous">
+        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage - 1})}"
+           aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
         </a>
       </li>
       <!-- 分页按钮 -->
-      <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${pageNo == currentPage} ? 'active'">
-        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${pageNo})}" th:text="${pageNo + 1}"></a>
+      <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}"
+          th:classappend="${pageNo == currentPage} ? 'active'">
+        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${pageNo})}"
+           th:text="${pageNo + 1}"></a>
       </li>
       <!-- 下一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage + 1})}" aria-label="Next">
+        <a class="page-link" th:href="@{/{username}/manage(username=${user.username}, page=${currentPage + 1})}"
+           aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
         </a>
