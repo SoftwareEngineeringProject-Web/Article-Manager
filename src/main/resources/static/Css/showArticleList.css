@@ -83,11 +83,6 @@ h1 {
   color: #757575;
 }
 
-.post-meta-container {
-  display: flex;
-  align-items: center;
-}
-
 .post-meta {
   font-size: 1rem;
   color: #757575;
