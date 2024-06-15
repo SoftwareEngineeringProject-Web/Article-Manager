@@ -36,7 +36,6 @@
         <th>ID</th>
         <th>标题</th>
         <th>分类</th>
-        <!--        <th>内容</th>-->
         <th>创建时间</th>
         <th>权限</th>
         <th>操作</th>
@@ -47,7 +46,6 @@
         <td th:text="${article.id}"></td>
         <td th:text="${article.title}"></td>
         <td th:text="${article.category != null} ? ${article.category.name} : '没有分类'"></td>
-        <!--        <td class="content-col" th:text="${#strings.abbreviate(article.content, 50)}"></td>-->
         <td class="post-created-time" th:id="${'created-at-' + article.id}"
             th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td th:text="${article.isPublic() ? '公开' : '私密'}"></td>

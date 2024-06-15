@@ -64,10 +64,12 @@
         </div>
         <div class="btn-group">
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a class="btn btn-edit btn-sm" data-toggle="modal" data-target="#editFavoriteModal">
+            <a class="btn btn-edit btn-sm" data-toggle="modal" data-target="#editFavoriteModal"
+               th:data-favorite-id="${favoriteWithArticle.favorite.id}" th:data-favorite-name="${favoriteWithArticle.favorite.name}">
               <i class="bi bi-pencil-square"></i> 编辑
             </a>
-            <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteFavoriteModal">
+            <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteFavoriteModal"
+               th:data-favorite-id="${favoriteWithArticle.favorite.id}" th:data-favorite-name="${favoriteWithArticle.favorite.name}">
               <i class="bi bi-trash"></i> 删除
             </a>
           </div>
@@ -125,10 +127,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="comment-content"></div>
+      <div class="favorite-content"></div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <a type="button" id="confirmDeleteFavoriteButton" class="btn btn-danger" href="#">删除</a>
+        <a type="button" id="confirmDeleteFavoriteButton" class="btn btn-danger">删除</a>
       </div>
     </div>
   </div>
@@ -144,10 +146,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="comment-content"></div>
+      <div class="favorite-article-content"></div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <a type="button" id="confirmRemovesFromFavoriteButton" class="btn btn-danger" href="#">移出</a>
+        <a type="button" id="confirmRemovesFromFavoriteButton" class="btn btn-danger">移出</a>
       </div>
     </div>
   </div>

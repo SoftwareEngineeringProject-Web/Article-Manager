@@ -134,6 +134,30 @@
             var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
             confirmDeleteButton.attr('href', commentId + '/delete-comment');
           });
+          $('#confirmDeleteFavoriteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var favoriteId = button.data('favorite-id');
+            var favoriteName = button.data('favorite-name');
+            var modal = $(this);
+            modal.find('.favorite-content').text("确定要删除收藏夹：\"" + favoriteName + "\" 吗？");
+            var confirmDeleteFavoriteButton = $(this).find('#confirmDeleteFavoriteButton');
+            confirmDeleteFavoriteButton.data('favorite-id', favoriteId);
+          });
+          $('#confirmDeleteFavoriteButton').on('click', function () {
+            var favoriteId = $(this).data('favorite-id');
+            fetch(`${favoriteId}/delete-favorite`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('删除失败');
+              }
+            });
+          });
         })
         .catch(error => console.error('Error loading content:', error));
   }
@@ -142,26 +166,6 @@
   document.addEventListener('DOMContentLoaded', function () {
     loadContent('manage-articles');
   });
-
-  function validateForm() {
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    if (password !== confirmPassword) {
-      showError('两次输入的密码不一致，请重新输入');
-      return false; // 阻止表单提交
-    }
-    return true; // 允许表单提交
-  }
-
-  function showError(message) {
-    const errorAlert = document.getElementById('errorAlert');
-    const errorMessage = document.getElementById('errorMessage');
-    errorMessage.textContent = message;
-    errorAlert.style.display = 'block';
-    setTimeout(function () {
-      errorAlert.style.display = 'none';
-    }, 3000);
-  }
 </script>
 <script>
   function loadAllArticles() {
@@ -199,6 +203,27 @@
         .catch(error => {
           console.error('Error during fetch:', error);
         });
+  }
+</script>
+<script>
+  function validateForm() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    if (password !== confirmPassword) {
+      showError('两次输入的密码不一致，请重新输入');
+      return false; // 阻止表单提交
+    }
+    return true; // 允许表单提交
+  }
+
+  function showError(message) {
+    const errorAlert = document.getElementById('errorAlert');
+    const errorMessage = document.getElementById('errorMessage');
+    errorMessage.textContent = message;
+    errorAlert.style.display = 'block';
+    setTimeout(function () {
+      errorAlert.style.display = 'none';
+    }, 3000);
   }
 </script>
 </body>

@@ -8,9 +8,15 @@ BEGIN
 END;
 $$
 
-create trigger before_deleting_comment before delete on comments for each row
+-- create trigger before_deleting_comment before delete on comments for each row
+-- BEGIN
+--   update comments set response_id = null where response_id = old.id;
+-- END;
+-- $$
+
+create trigger before_deleting_favorite before delete on favorites for each row
 BEGIN
-  update comments set response_id = null where response_id = old.id;
+  delete from favorite_articles where favorite_id = old.id;
 END;
 $$
 
