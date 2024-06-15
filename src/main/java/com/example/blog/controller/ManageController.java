@@ -51,11 +51,11 @@ public class ManageController {
   }
 
   @PostMapping("/{username}/change-password")
-  public String changePasswordPost(@PathVariable("username") String username,@RequestParam("password") String password) {
+  public String changePasswordPost(@PathVariable("username") String username, @RequestParam("password") String password) {
     User user = userService.findUserByUsername(username);
     user.setPassword(passwordEncoder.encode(password));
     userService.updateUser(user);
-    return "redirect:/"+username+"/home";
+    return "redirect:/" + username + "/home";
   }
 
   @PostMapping("/{username}/change-information")
@@ -66,7 +66,7 @@ public class ManageController {
     user.setUsername(newUsername);
     user.setName(name);
     userService.updateUser(user);
-    return "redirect:/"+user.getUsername() +"/home";
+    return "redirect:/" + user.getUsername() + "/home";
   }
 
   @GetMapping("/{username}/background")

@@ -12,12 +12,14 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByArticleId(Long parentId);
-    List<Comment> findByUserId(Long userId);
-    Page<Comment> findPagedByUserId(Long userId, Pageable pageable);
+  List<Comment> findByArticleId(Long parentId);
 
-    @Query("SELECT comment FROM Comment comment WHERE comment.responseTo.id = :responseId")
-    List<Comment> findByResponseId(Long responseId);
+  List<Comment> findByUserId(Long userId);
 
-    void deleteById(Long id);
+  Page<Comment> findPagedByUserId(Long userId, Pageable pageable);
+
+  @Query("SELECT comment FROM Comment comment WHERE comment.responseTo.id = :responseId")
+  List<Comment> findByResponseId(Long responseId);
+
+  void deleteById(Long id);
 }

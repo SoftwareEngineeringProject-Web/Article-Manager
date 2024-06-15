@@ -9,8 +9,9 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findByParentId(Long parentId);
-    List<Category> findByUserId(Long userId);
+  List<Category> findByParentId(Long parentId);
 
-    void deleteById(Long id);
+  List<Category> findByUserId(Long userId);
+
+  void deleteById(Long id);
 }

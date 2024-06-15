@@ -22,6 +22,7 @@ public class FavoriteController {
   UserService userService;
   @Autowired
   FavoriteService favoriteService;
+
   @PostMapping("/{username}/add-favorite/{articleId}")
   public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
                                               @RequestBody Map<String, String> payload) {
@@ -37,7 +38,7 @@ public class FavoriteController {
                                                @RequestBody Map<String, String> payload) {
     String favoriteName = payload.get("name");
     Favorite favorite = favoriteService.getFavoriteById(favoriteId);
-    if(Objects.equals(favorite.getUserId(), userService.findUserByUsername(username).getId())){
+    if (Objects.equals(favorite.getUserId(), userService.findUserByUsername(username).getId())) {
       favorite.setName(favoriteName);
       favoriteService.update(favorite);
       return ResponseEntity.ok(favorite);
@@ -48,7 +49,7 @@ public class FavoriteController {
 
   @DeleteMapping("/{username}/delete-favorite/{favoriteId}")
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
-    if(Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())){
+    if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
       favoriteService.deleteById(favoriteId);
       return ResponseEntity.ok("删除成功");
     } else {

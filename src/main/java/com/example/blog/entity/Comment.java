@@ -39,7 +39,8 @@ public class Comment {
   private Instant createdAt;
 
 
-  public Comment() {}
+  public Comment() {
+  }
 
   public Comment(User user, Article article, String content, Comment responseTo) {
     this.user = user;
@@ -48,9 +49,11 @@ public class Comment {
     this.responseTo = responseTo;
     this.setCreatedAt();
   }
+
   public Long getId() {
     return id;
   }
+
   public User getUser() {
     return user;
   }
@@ -66,6 +69,7 @@ public class Comment {
   public Comment getResponseTo() {
     return responseTo;
   }
+
   public void setCreatedAt() {
     this.createdAt = Instant.now();
   }

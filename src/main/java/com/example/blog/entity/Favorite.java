@@ -15,7 +15,8 @@ public class Favorite {
   @Column(nullable = false)
   private String name;
 
-  public Favorite() {}
+  public Favorite() {
+  }
 
   public Favorite(Long userId, String name) {
     this.userId = userId;

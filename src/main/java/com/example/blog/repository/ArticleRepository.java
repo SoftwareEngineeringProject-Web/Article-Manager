@@ -14,50 +14,54 @@ import java.util.List;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    Page<Article> findPagedByUserId(Long userId, Pageable pageable);
-    List<Article> findByCategory(Category category);
-    void deleteById(Long id);
-    Page<Article> findByUserIdAndTitleAndCategory(Long userId, String title, Category category, Pageable pageable);
+  Page<Article> findPagedByUserId(Long userId, Pageable pageable);
 
-    Page<Article> findByUserIdAndTitle(Long userId, String title, Pageable pageable);
+  List<Article> findByCategory(Category category);
 
-    Page <Article> findByUserIdAndCategory(Long userId, Category category, Pageable pageable);
+  void deleteById(Long id);
 
-    @Query("SELECT FUNCTION('DATE_FORMAT', a.createdAt, '%Y-%m') AS month, COUNT(a) AS count " +
-            "FROM Article a WHERE a.user.id = ?1 GROUP BY month ORDER BY FUNCTION('DATE_FORMAT', a.createdAt, '%Y-%m')")
-    List<Object[]> findMonthlyArticlesDataByUserId(Long userId);
+  Page<Article> findByUserIdAndTitleAndCategory(Long userId, String title, Category category, Pageable pageable);
 
-    Integer countByUserId(Long userId);
+  Page<Article> findByUserIdAndTitle(Long userId, String title, Pageable pageable);
 
-    Integer countByCategoryIdAndUserId(Long categoryId, Long userId);
-    @Modifying
-    @Transactional
-    @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3, a.isPublic = ?4 WHERE a.id = ?5")
-    void updateArticle(String title, String content, Category category, Boolean isPublic, Long id);
+  Page<Article> findByUserIdAndCategory(Long userId, Category category, Pageable pageable);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Article a SET a.views = ?2 WHERE a.id = ?1")
-    void updateViews(Long id, Integer views);
+  @Query("SELECT FUNCTION('DATE_FORMAT', a.createdAt, '%Y-%m') AS month, COUNT(a) AS count " +
+      "FROM Article a WHERE a.user.id = ?1 GROUP BY month ORDER BY FUNCTION('DATE_FORMAT', a.createdAt, '%Y-%m')")
+  List<Object[]> findMonthlyArticlesDataByUserId(Long userId);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Article a SET a.likes = ?2 WHERE a.id = ?1")
-    void updateLikes(Long id, Integer likes);
+  Integer countByUserId(Long userId);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Article a SET a.likes = a.likes + (?2) WHERE a.id = ?1")
-    void updateLikesById(Long id, Integer moreLikes);
+  Integer countByCategoryIdAndUserId(Long categoryId, Long userId);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE Article a SET a.category = null WHERE a.category.id = :categoryId")
-    void setCategoryIdToNullByCategoryId(Long categoryId);
+  @Modifying
+  @Transactional
+  @Query("UPDATE Article a SET a.title = ?1, a.content = ?2, a.category = ?3, a.isPublic = ?4 WHERE a.id = ?5")
+  void updateArticle(String title, String content, Category category, Boolean isPublic, Long id);
 
-    @Transactional
-    @Query("SELECT SUM(a.likes) FROM Article a WHERE a.user.id = ?1")
-    Integer getTotalLikesByUserId(Long userId);
+  @Modifying
+  @Transactional
+  @Query("UPDATE Article a SET a.views = ?2 WHERE a.id = ?1")
+  void updateViews(Long id, Integer views);
+
+  @Modifying
+  @Transactional
+  @Query("UPDATE Article a SET a.likes = ?2 WHERE a.id = ?1")
+  void updateLikes(Long id, Integer likes);
+
+  @Modifying
+  @Transactional
+  @Query("UPDATE Article a SET a.likes = a.likes + (?2) WHERE a.id = ?1")
+  void updateLikesById(Long id, Integer moreLikes);
+
+  @Transactional
+  @Modifying
+  @Query("UPDATE Article a SET a.category = null WHERE a.category.id = :categoryId")
+  void setCategoryIdToNullByCategoryId(Long categoryId);
+
+  @Transactional
+  @Query("SELECT SUM(a.likes) FROM Article a WHERE a.user.id = ?1")
+  Integer getTotalLikesByUserId(Long userId);
 
 
 }
