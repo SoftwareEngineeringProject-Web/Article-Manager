@@ -13,35 +13,35 @@ import java.util.List;
 @Service
 public class FavoriteService {
 
-    @Autowired
-    private FavoriteRepository favoriteRepository;
+  @Autowired
+  private FavoriteRepository favoriteRepository;
 
-    @Autowired
-    private FavoriteArticleRepository favoriteArticleRepository;
+  @Autowired
+  private FavoriteArticleRepository favoriteArticleRepository;
 
-    public Favorite getFavoriteById(Long id) {
-      return favoriteRepository.findById(id).orElse(null);
-    }
+  public Favorite getFavoriteById(Long id) {
+    return favoriteRepository.findById(id).orElse(null);
+  }
 
-    public List<Favorite> getFavoritesByUserId(Long userId) {
-      return favoriteRepository.findByUserId(userId);
-    }
+  public List<Favorite> getFavoritesByUserId(Long userId) {
+    return favoriteRepository.findByUserId(userId);
+  }
 
-    public void deleteById(Long id) {
-      favoriteRepository.deleteById(id);
-    }
+  public void deleteById(Long id) {
+    favoriteRepository.deleteById(id);
+  }
 
-    public void insert(Favorite favorite) {
-      favorite.setId(null);
-      favoriteRepository.save(favorite);
-    }
+  public void insert(Favorite favorite) {
+    favorite.setId(null);
+    favoriteRepository.save(favorite);
+  }
 
-    public void update(Favorite favorite) {
-      assert(favorite.getId() != null);
-      favoriteRepository.save(favorite);
-    }
+  public void update(Favorite favorite) {
+    assert (favorite.getId() != null);
+    favoriteRepository.save(favorite);
+  }
 
-    public List<Article> getArticlesByFavoriteId(Long favoriteId) {
-      return favoriteArticleRepository.findArticlesByFavoriteId(favoriteId);
-    }
+  public List<Article> getArticlesByFavoriteId(Long favoriteId) {
+    return favoriteArticleRepository.findArticlesByFavoriteId(favoriteId);
+  }
 }

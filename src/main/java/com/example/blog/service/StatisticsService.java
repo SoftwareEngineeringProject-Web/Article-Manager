@@ -9,9 +9,10 @@ import java.util.List;
 @Service
 public class StatisticsService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
-    public List<Object[]> findMonthlyArticlesDataByUserId(Long userId) {
-        return articleRepository.findMonthlyArticlesDataByUserId(userId);
-    }
+  @Autowired
+  private ArticleRepository articleRepository;
+
+  public List<Object[]> findMonthlyArticlesDataByUserId(Long userId) {
+    return articleRepository.findMonthlyArticlesDataByUserId(userId);
+  }
 }
