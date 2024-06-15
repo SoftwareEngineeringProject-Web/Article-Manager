@@ -86,9 +86,11 @@
           <div class="post-created-time" th:id="${'created-at-' + article.id}"
                th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></div>
           <p class="post-excerpt" th:text="${#strings.abbreviate(article.content, 150)}"></p>
-          <div style="display: grid; grid-template-areas: 'read-more like-and-comment'; grid-template-columns: 2fr 1fr;">
-            <a style="grid-area: read-more; text-align: left;" th:href="@{./article/{id}(id=${article.id})}" class="link-post-preview">阅读更多</a>
-            <div style="grid-area: like-and-comment; text-align: right; justify-self: end;" class="post-meta-container d-flex">
+          <div style="display: grid; grid-template-areas: 'read-more like-and-comment'; grid-template-columns: 2fr 1fr; height: 24px;">
+            <a style="grid-area: read-more; text-align: left; " th:href="@{./article/{id}(id=${article.id})}"
+               class="link-post-preview">阅读更多</a>
+            <div style="grid-area: like-and-comment; text-align: right; justify-self: end;"
+                 class="post-meta-container d-flex">
               <p class="post-meta like-meta">点赞(<span th:text="${article.getLikes()}"></span>)</p>
               <p class="post-meta comment-meta">评论(<span th:text="${article.getComments()}"></span>)</p>
             </div>
