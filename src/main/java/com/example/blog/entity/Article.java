@@ -30,6 +30,9 @@ public class Article {
   @Column(nullable = false)
   private Integer comments;
 
+  @Column(nullable = false)
+  private Integer favorites;
+
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
@@ -54,9 +57,9 @@ public class Article {
     this.views = 0;
     this.likes = 0;
     this.comments = 0;
+    this.favorites = 0;
     this.isPublic = false;
   }
-
 
   public Long getId() {
     return id;
@@ -68,6 +71,10 @@ public class Article {
 
   public Integer getLikes() {
     return likes;
+  }
+
+  public Integer getFavorites() {
+    return favorites;
   }
 
   public void setViews(Integer views) {

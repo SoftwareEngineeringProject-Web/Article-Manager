@@ -54,9 +54,11 @@ public class StatisticsController {
   public String getStatistics(Model model, @PathVariable String username) {
 
     User user = userService.findUserByUsername(username);
-    int totalArticles = articleService.countByUserId(user.getId()); // 共发布文章数量
-    int totalComments = 0; // 共收到评论数量
-    int totalLikes = articleService.getTotalLikesByUserId(user.getId()); // 共获得点赞数量
+    Integer totalArticles = articleService.countByUserId(user.getId()); // 共发布文章数量
+    Integer totalComments = articleService.getTotalCommentsByUserId(user.getId()); // 共收到评论数量
+    Integer totalLikes = articleService.getTotalLikesByUserId(user.getId()); // 共获得点赞数量
+    Integer totalViews = articleService.getTotalViewsByUserId(user.getId()); // 共浏览文章数量
+    Integer totalFavorites = articleService.getTotalFavoritesByUserId(user.getId()); // 共收藏文章数量
     List<Category> categories = categoryService.findByUserId(user.getId()); // 分类数据
     // 模拟分类文章数量数据
     List<Map<String, Object>> categoryData = new ArrayList<>();
@@ -74,6 +76,8 @@ public class StatisticsController {
     model.addAttribute("totalArticles", totalArticles);
     model.addAttribute("totalComments", totalComments);
     model.addAttribute("totalLikes", totalLikes);
+    model.addAttribute("totalViews", totalViews);
+    model.addAttribute("totalFavorites", totalFavorites);
     model.addAttribute("categoryData", categoryData);
     model.addAttribute("monthlyArticlesData", articlesData);
     return "statistics";

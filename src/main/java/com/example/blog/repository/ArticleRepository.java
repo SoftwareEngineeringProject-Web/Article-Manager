@@ -63,10 +63,26 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
   @Query("SELECT SUM(a.likes) FROM Article a WHERE a.user.id = ?1")
   Integer getTotalLikesByUserId(Long userId);
 
+  @Transactional
+  @Query("SELECT SUM(a.comments) FROM Article a WHERE a.user.id = ?1")
+  Integer getTotalCommentsByUserId(Long userId);
+
+  @Transactional
+  @Query("SELECT SUM(a.views) FROM Article a WHERE a.user.id = ?1")
+  Integer getTotalViewsByUserId(Long userId);
+
   @Modifying
   @Transactional
   @Query("UPDATE Article a SET a.comments = a.comments + (?2) WHERE a.id = ?1")
   void updateCommentsById(Long id, Integer moreComments);
 
+  @Modifying
+  @Transactional
+  @Query("UPDATE Article a SET a.favorites = a.favorites + (?2) WHERE a.id = ?1")
+  void updateFavoritesById(Long id, Integer moreFavorites);
+
+  @Transactional
+  @Query("SELECT SUM(a.favorites) FROM Article a WHERE a.user.id = ?1")
+  Integer getTotalFavoritesByUserId(Long userId);
 
 }

@@ -22,4 +22,9 @@ public interface FavoriteArticleRepository extends JpaRepository<FavoriteArticle
   @Query("SELECT COUNT(favoriteArticle) FROM FavoriteArticle favoriteArticle WHERE favoriteArticle.articleId = :articleId")
   int countByArticleId(Long articleId);
 
+  @Transactional
+  @Query("SELECT a FROM Article a , FavoriteArticle f WHERE a.id = f.articleId AND f.favoriteId = ?1")
+  List<Long> findArticleIdsByFavoriteId(Long favoriteId);
+
+  FavoriteArticle findByArticleIdAndFavoriteId(Long articleId, Long favoriteId);
 }

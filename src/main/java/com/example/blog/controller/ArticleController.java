@@ -200,11 +200,20 @@ public class ArticleController {
   @PostMapping("/{username}/{id}/favorite")
   public ResponseEntity<Map<String, Object>> favoriteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId,
                                                              @RequestBody Map<String, Long> payload) {
-    favoriteArticleService.favoriteArticle(payload.get("favoriteId"), articleId);
-    int favoriteCount = favoriteArticleService.countFavoriteArticle(articleId);
+    Long favoriteId = payload.get("favoriteId");
+    FavoriteArticle favoriteArticle = favoriteArticleService.findByArticleIdAndFavoriteId(articleId, favoriteId);
     Map<String, Object> response = new HashMap<>();
-    response.put("success", true);
-    response.put("favoriteCount", favoriteCount);
+    if (favoriteArticle != null) {
+      response.put("success", false);
+      response.put("favoriteCount", 0);
+    } else {
+      favoriteArticleService.favoriteArticle(favoriteId, articleId);
+      articleService.updateFavoritesById(articleId, 1);
+      Article article = articleService.getArticleById(articleId);
+      int favoriteCount = article.getFavorites();
+      response.put("success", true);
+      response.put("favoriteCount", favoriteCount);
+    }
     return ResponseEntity.ok(response);
   }
 }

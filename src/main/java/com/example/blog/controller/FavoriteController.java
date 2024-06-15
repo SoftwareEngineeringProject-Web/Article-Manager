@@ -2,6 +2,7 @@ package com.example.blog.controller;
 
 import com.example.blog.entity.Favorite;
 import com.example.blog.entity.User;
+import com.example.blog.service.ArticleService;
 import com.example.blog.service.FavoriteArticleService;
 import com.example.blog.service.FavoriteService;
 import com.example.blog.service.UserService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -21,6 +23,8 @@ import java.util.Objects;
 public class FavoriteController {
   @Autowired
   UserService userService;
+  @Autowired
+  ArticleService articleService;
   @Autowired
   FavoriteService favoriteService;
   @Autowired
@@ -54,6 +58,10 @@ public class FavoriteController {
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
     if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
       favoriteService.deleteById(favoriteId);
+      List<Long> articleIds = favoriteArticleService.findArticleIdsByFavoriteId(favoriteId);
+      for (Long articleId : articleIds) {
+        articleService.updateFavoritesById(articleId, -1);
+      }
       return ResponseEntity.ok("删除成功");
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
@@ -65,6 +73,7 @@ public class FavoriteController {
                                                            @PathVariable("articleId") Long articleId) {
     if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
       favoriteArticleService.deleteFavoriteArticle(articleId, favoriteId);
+      articleService.updateFavoritesById(articleId, -1);
       return ResponseEntity.ok("删除成功");
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");

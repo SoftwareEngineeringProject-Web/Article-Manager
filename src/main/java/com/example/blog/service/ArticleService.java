@@ -55,6 +55,10 @@ public class ArticleService {
     articleRepository.updateCommentsById(articleId, moreComments);
   }
 
+  public void updateFavoritesById(Long articleId, Integer moreFavorites) {
+    articleRepository.updateFavoritesById(articleId, moreFavorites);
+  }
+
   public void setCategoryIdtoNullByCategoryId(Long categoryId) {
     articleRepository.setCategoryIdToNullByCategoryId(categoryId);
   }
@@ -86,4 +90,17 @@ public class ArticleService {
   public Integer getTotalLikesByUserId(Long userId) {
     return articleRepository.getTotalLikesByUserId(userId);
   }
+
+  public Integer getTotalCommentsByUserId(Long userId) {
+    return articleRepository.getTotalCommentsByUserId(userId);
+  }
+
+  public Integer getTotalViewsByUserId(Long userId) {
+    return articleRepository.getTotalViewsByUserId(userId);
+  }
+
+  public Integer getTotalFavoritesByUserId(Long userId) {
+    return articleRepository.getTotalFavoritesByUserId(userId);
+  }
+
 }
