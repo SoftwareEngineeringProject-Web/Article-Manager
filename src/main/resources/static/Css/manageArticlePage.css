@@ -105,7 +105,8 @@ tbody tr:last-child {
   text-align: center;
 }
 
-.modal-footer button, [type="button"] {
+.modal-footer button,
+.modal-footer [type="button"] {
   width: 120px;
   border-radius: 20px;
   border: none;
