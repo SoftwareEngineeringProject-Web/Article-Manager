@@ -67,7 +67,7 @@
             <a class="btn btn-edit btn-sm" data-toggle="modal" data-target="#editFavoriteModal">
               <i class="bi bi-pencil-square"></i> 编辑
             </a>
-            <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal">
+            <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteFavoriteModal">
               <i class="bi bi-trash"></i> 删除
             </a>
           </div>
@@ -80,7 +80,7 @@
             <li class="list-group-item" th:each="article : ${favoriteWithArticle.articles}">
               <a th:href="@{article/{id}(id=${article.id})}" th:text="${article.title}"></a>
               <div class="btn-group">
-                <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal">
+                <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmRemoveFromFavoriteModal">
                   <i class="bi bi-trash"></i> 移出收藏夹
                 </a>
               </div>
@@ -115,3 +115,40 @@
   </div>
 </div>
 
+<div class="modal fade" id="confirmDeleteFavoriteModal" tabindex="-1" role="dialog"
+     aria-labelledby="confirmDeleteFavoriteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="confirmDeleteFavoriteModalLabel">删除收藏夹</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="comment-content"></div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <a type="button" id="confirmDeleteFavoriteButton" class="btn btn-danger" href="#">删除</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmRemoveFromFavoriteModal" tabindex="-1" role="dialog"
+     aria-labelledby="confirmRemoveFromFavoriteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="confirmRemoveFromFavoriteModalLabel">移出收藏夹</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="comment-content"></div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <a type="button" id="confirmRemovesFromFavoriteButton" class="btn btn-danger" href="#">移出</a>
+      </div>
+    </div>
+  </div>
+</div>
