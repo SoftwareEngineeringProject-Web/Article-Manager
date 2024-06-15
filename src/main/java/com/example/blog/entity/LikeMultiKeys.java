@@ -15,7 +15,7 @@ public class LikeMultiKeys implements Serializable {
     this.userId = userId;
   }
 
-  public Long getarticleId() {
+  public Long getArticleId() {
     return articleId;
   }
 

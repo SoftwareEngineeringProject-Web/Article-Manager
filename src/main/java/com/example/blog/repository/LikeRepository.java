@@ -23,6 +23,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
   @Modifying
   @Transactional
-  @Query("INSERT INTO Like (userId, articleId) VALUES (:userId, :articleId)")
+  @Query(value = "INSERT INTO likes (user_id, article_id) VALUES (?1, ?2)", nativeQuery = true)
   void insertByUserIdAndArticleId(Long userId, Long articleId);
 }

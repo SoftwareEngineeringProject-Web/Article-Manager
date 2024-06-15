@@ -15,7 +15,7 @@ public class FavoriteArticleMultiKeys implements Serializable {
     this.favoriteId = favoriteId;
   }
 
-  public Long getarticleId() {
+  public Long getArticleId() {
     return articleId;
   }
 

@@ -1,13 +1,8 @@
 package com.example.blog.controller;
 
 import com.example.blog.data.FavoriteWithArticles;
-import com.example.blog.entity.Article;
-import com.example.blog.entity.Category;
-import com.example.blog.entity.Comment;
-import com.example.blog.entity.Favorite;
-import com.example.blog.entity.User;
+import com.example.blog.entity.*;
 import com.example.blog.service.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
