@@ -129,7 +129,7 @@
             <a style="grid-area: read-more; text-align: left;" th:href="@{./article/{id}(id=${article.id})}" class="link-post-preview">阅读更多</a>
             <div style="grid-area: like-and-comment; text-align: right; justify-self: end;" class="post-meta-container d-flex">
               <p class="post-meta like-meta">点赞(<span th:text="${article.getLikes()}"></span>)</p>
-              <p class="post-meta comment-meta">评论(0)</p>
+              <p class="post-meta comment-meta">评论(<span th:text="${article.getComments()}"></span>)</p>
             </div>
           </div>
       </div>

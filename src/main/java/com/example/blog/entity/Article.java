@@ -27,6 +27,9 @@ public class Article {
   @Column(nullable = false)
   private Boolean isPublic;
 
+  @Column(nullable = false)
+  private Integer comments;
+
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
@@ -50,6 +53,7 @@ public class Article {
     this.createdAt = Instant.now();
     this.views = 0;
     this.likes = 0;
+    this.comments = 0;
     this.isPublic = false;
   }
 
@@ -80,6 +84,10 @@ public class Article {
 
   public Integer incrementLikes() {
     return ++likes;
+  }
+
+  public Integer getComments() {
+    return comments;
   }
 
   public void setId(Long id) {

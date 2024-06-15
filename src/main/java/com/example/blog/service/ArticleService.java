@@ -42,6 +42,10 @@ public class ArticleService {
     public void updateLikes(Article article) {
         articleRepository.updateLikes(article.getId(), article.getLikes());
     }
+
+    public void updateCommentsById(Long articleId, Integer moreComments) {
+        articleRepository.updateCommentsById(articleId, moreComments);
+    }
     public void setCategoryIdtoNullByCategoryId(Long categoryId) {
         articleRepository.setCategoryIdToNullByCategoryId(categoryId);
     }

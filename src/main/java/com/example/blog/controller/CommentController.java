@@ -45,6 +45,7 @@ public class CommentController {
   public String submitComment(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
                               @RequestParam("comment") String comment) {
     User user = userService.findUserByUsername(username);
+    articleService.updateCommentsById(articleId, 1);
     Article article = articleService.getArticleById(articleId);
     Comment commentEntity = new Comment(user, article, comment, null);
     commentService.saveComment(commentEntity);
@@ -55,6 +56,7 @@ public class CommentController {
   public ResponseEntity<String> deleteComment(@PathVariable("username") String username, @PathVariable("commentId") Long commentId, Model model) {
     Comment comment = commentService.getCommentById(commentId);
     model.addAttribute("defaultPage", "manage-comments");
+    articleService.updateCommentsById(comment.getArticle().getId(), -1);
     if (comment.getArticle().getUser().getUsername().equals(username)
         || comment.getUser().getUsername().equals(username)) {
       commentService.deleteCommentById(commentId);
