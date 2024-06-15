@@ -19,4 +19,8 @@ public class FavoriteArticleService {
   public void deleteFavoriteArticle(Long articleId, Long favoriteId) {
     favoriteArticleRepository.deleteByArticleIdAndFavoriteId(articleId, favoriteId);
   }
+
+  public int countFavoriteArticle(Long articleId) {
+    return favoriteArticleRepository.countByArticleId(articleId);
+  }
 }

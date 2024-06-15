@@ -87,6 +87,7 @@ public class ArticleController {
   public String article(@PathVariable("username") String username, @PathVariable("id") Long articleId, Model model) {
     User user = userService.findUserByUsername(username);
     Article article = articleService.getArticleById(articleId);
+    int favoriteCount = favoriteArticleService.countFavoriteArticle(articleId);
 
     // 检查用户要访问的文章是否为自己的文章，或者是否为共享
     if (article.getUser().getId() != user.getId() && !article.isPublic()) {
@@ -106,6 +107,7 @@ public class ArticleController {
     model.addAttribute("categoryPath", categoryPath);
     model.addAttribute("favoriteList", favoriteList);
     model.addAttribute("comments", comments);
+    model.addAttribute("favoriteCount", favoriteCount);
     return "article";
   }
 
@@ -196,9 +198,13 @@ public class ArticleController {
   }
 
   @PostMapping("/{username}/{id}/favorite")
-  public String favoriteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId,
-                                @RequestParam(name = "favoriteId") Long favoriteId) {
-    favoriteArticleService.favoriteArticle(favoriteId, articleId);
-    return "redirect:/" + username + "/article/" + articleId;
+  public ResponseEntity<Map<String, Object>> favoriteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId,
+                                                             @RequestBody Map<String, Long> payload) {
+    favoriteArticleService.favoriteArticle(payload.get("favoriteId"), articleId);
+    int favoriteCount = favoriteArticleService.countFavoriteArticle(articleId);
+    Map<String, Object> response = new HashMap<>();
+    response.put("success", true);
+    response.put("favoriteCount", favoriteCount);
+    return ResponseEntity.ok(response);
   }
 }

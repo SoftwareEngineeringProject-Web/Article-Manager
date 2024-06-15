@@ -18,4 +18,8 @@ public interface FavoriteArticleRepository extends JpaRepository<FavoriteArticle
 
   @Transactional
   void deleteByArticleIdAndFavoriteId(Long articleId, Long favoriteId);
+
+  @Query("SELECT COUNT(favoriteArticle) FROM FavoriteArticle favoriteArticle WHERE favoriteArticle.articleId = :articleId")
+  int countByArticleId(Long articleId);
+
 }
