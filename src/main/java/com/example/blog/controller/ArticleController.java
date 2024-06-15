@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -171,14 +172,14 @@ public class ArticleController {
     return "redirect:/" + username + "/background";
   }
 
-  @GetMapping("/{username}/delete-article/{id}")
-  public String deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
+  @DeleteMapping("/{username}/delete-article/{id}")
+  public ResponseEntity<String> deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
     Article article = articleService.getArticleById(articleId);
     if (!article.getUser().getUsername().equals(username)) {
-      return "redirect:/" + username + "/access-denied";
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
     }
     articleService.deleteById(articleId);
-    return "redirect:/" + username + "/background";
+    return ResponseEntity.ok("删除成功");
   }
 
   @GetMapping("/{username}/{id}/like")

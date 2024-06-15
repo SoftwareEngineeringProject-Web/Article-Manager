@@ -18,8 +18,7 @@
         <td class="content-col" th:text="${#strings.abbreviate(comment.content, 50)}"></td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a th:href="@{/{username}/{id}/delete-comment/(id=${comment.id}, username=${user.username})}"
-               class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteCommentModal"
+            <a class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteCommentModal"
                th:data-comment-id="${comment.id}" th:data-comment-content="${comment.content}">
               <i class="bi bi-trash"></i> 删除评论
             </a>
@@ -44,7 +43,7 @@
         <div class="comment-content"></div>
         <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          <a type="button" id="confirmDeleteButton" class="btn btn-danger" href="#">删除</a>
+          <a type="button" id="confirmDeleteCommentButton" class="btn btn-danger">删除</a>
         </div>
       </div>
     </div>

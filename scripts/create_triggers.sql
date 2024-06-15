@@ -5,6 +5,7 @@ create trigger before_deleting_article before delete on articles for each row
 BEGIN
   delete from likes where article_id = old.id;
   delete from comments where article_id = old.id;
+  delete from favorite_articles where article_id = old.id;
 END;
 $$
 

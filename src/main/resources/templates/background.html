@@ -118,22 +118,55 @@
             var modal = $(this); // 找到模态框
             modal.find('.article-title').text("确定要删除《" + articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
             var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
-            confirmDeleteButton.attr('href', 'delete-article/' + articleId);  // 设置确认删除按钮的链接，替换其中的文章 id
+            confirmDeleteButton.data('article-id', articleId);
           });
+          $('#confirmDeleteButton').on('click', function () {
+            var articleId = $(this).data('article-id');
+            fetch(`delete-article/${articleId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('删除失败');
+              }
+            });
+          });
+
           const createdAtElems = document.querySelectorAll('[id^="created-at-"]');
           createdAtElems.forEach(elem => {
             let gmtDate = new Date(elem.textContent);
             elem.textContent = gmtDate.toLocaleString();
           });
+
           $('#confirmDeleteCommentModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);        // 触发模态框的按钮
             var commentId = button.data('comment-id');
             var commentContent = button.data('comment-content');
             var modal = $(this);
             modal.find('.comment-content').text("确定要删除评论：\"" + commentContent + "\" 吗？");
-            var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
-            confirmDeleteButton.attr('href', commentId + '/delete-comment');
+            var confirmDeleteCommentButton = $(this).find('#confirmDeleteCommentButton');   // 找到模态框中的确认删除按钮
+            confirmDeleteCommentButton.data('comment-id', commentId);
           });
+          $('#confirmDeleteCommentButton').on('click', function () {
+            var commentId = $(this).data('comment-id');
+            fetch(`delete-comment/${commentId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('删除失败');
+              }
+            });
+          });
+
           $('#confirmDeleteFavoriteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var favoriteId = button.data('favorite-id');
@@ -145,7 +178,7 @@
           });
           $('#confirmDeleteFavoriteButton').on('click', function () {
             var favoriteId = $(this).data('favorite-id');
-            fetch(`${favoriteId}/delete-favorite`, {
+            fetch(`delete-favorite/${favoriteId}`, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json'

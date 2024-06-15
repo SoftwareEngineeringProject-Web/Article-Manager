@@ -22,8 +22,8 @@ public class FavoriteController {
   UserService userService;
   @Autowired
   FavoriteService favoriteService;
-  @PostMapping("/{username}/{id}/add-favorite")
-  public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @PathVariable("id") Long articleId,
+  @PostMapping("/{username}/add-favorite/{articleId}")
+  public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
                                               @RequestBody Map<String, String> payload) {
     String favoriteName = payload.get("name");
     User user = userService.findUserByUsername(username);
@@ -31,7 +31,7 @@ public class FavoriteController {
     favoriteService.insert(favorite);
     return ResponseEntity.ok(favorite);
   }
-  @DeleteMapping("/{username}/{favoriteId}/delete-favorite")
+  @DeleteMapping("/{username}/delete-favorite/{favoriteId}")
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
     if(Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())){
       favoriteService.deleteById(favoriteId);

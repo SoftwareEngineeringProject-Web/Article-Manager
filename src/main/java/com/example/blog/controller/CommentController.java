@@ -7,6 +7,8 @@ import com.example.blog.service.ArticleService;
 import com.example.blog.service.CommentService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,8 +41,8 @@ public class CommentController {
     }
   }
 
-  @PostMapping("/{username}/{id}/submit-comment")
-  public String submitComment(@PathVariable("username") String username, @PathVariable("id") Long articleId,
+  @PostMapping("/{username}/submit-comment/{articleId}")
+  public String submitComment(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
                               @RequestParam("comment") String comment) {
     User user = userService.findUserByUsername(username);
     Article article = articleService.getArticleById(articleId);
@@ -49,17 +51,16 @@ public class CommentController {
     return "redirect:/" + username + "/article/" + articleId;
   }
 
-  @GetMapping("/{username}/{id}/delete-comment")
-  public String deleteComment(@PathVariable("username") String username, @PathVariable("id") Long commentId, Model model) {
-    User user = userService.findUserByUsername(username);
+  @DeleteMapping("/{username}/delete-comment/{commentId}")
+  public ResponseEntity<String> deleteComment(@PathVariable("username") String username, @PathVariable("commentId") Long commentId, Model model) {
     Comment comment = commentService.getCommentById(commentId);
     model.addAttribute("defaultPage", "manage-comments");
     if (comment.getArticle().getUser().getUsername().equals(username)
         || comment.getUser().getUsername().equals(username)) {
       commentService.deleteCommentById(commentId);
     } else {
-      return "redirect:/" + username + "/access-denied";
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
     }
-    return "redirect:/" + username + "/background";
+    return ResponseEntity.ok("删除成功");
   }
 }
