@@ -15,4 +15,8 @@ public class FavoriteArticleService {
   public void favoriteArticle(Long favoriteId, Long articleId) {
     favoriteArticleRepository.save(new FavoriteArticle(favoriteId, articleId));
   }
+
+  public void deleteFavoriteArticle(Long articleId, Long favoriteId) {
+    favoriteArticleRepository.deleteByArticleIdAndFavoriteId(articleId, favoriteId);
+  }
 }

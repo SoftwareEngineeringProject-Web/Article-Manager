@@ -218,6 +218,32 @@
             });
           });
 
+          $('#confirmRemoveFromFavoriteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var favoriteId = button.data('favorite-id');
+            var articleId = button.data('article-id');
+            var modal = $(this);
+            modal.find('.favorite-article-content').text("确定要将文章《" + button.data('article-title') + "》从收藏夹\"" + button.data('favorite-name') + "\" 移除吗？");
+            var confirmRemoveFromFavoriteButton = $(this).find('#confirmRemoveFromFavoriteButton');
+            confirmRemoveFromFavoriteButton.data('favorite-id', favoriteId);
+            confirmRemoveFromFavoriteButton.data('article-id', articleId);
+          });
+          $('#confirmRemoveFromFavoriteButton').on('click', function () {
+            var favoriteId = $(this).data('favorite-id');
+            var articleId = $(this).data('article-id');
+            fetch(`delete-article-from-favorite/${favoriteId}/${articleId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            }).then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('删除失败');
+              }
+            });
+          });
         })
         .catch(error => console.error('Error loading content:', error));
   }

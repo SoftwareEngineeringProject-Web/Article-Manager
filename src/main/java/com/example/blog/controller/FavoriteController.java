@@ -2,6 +2,7 @@ package com.example.blog.controller;
 
 import com.example.blog.entity.Favorite;
 import com.example.blog.entity.User;
+import com.example.blog.service.FavoriteArticleService;
 import com.example.blog.service.FavoriteService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class FavoriteController {
   UserService userService;
   @Autowired
   FavoriteService favoriteService;
+  @Autowired
+  FavoriteArticleService favoriteArticleService;
 
   @PostMapping("/{username}/add-favorite/{articleId}")
   public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
@@ -51,6 +54,17 @@ public class FavoriteController {
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
     if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
       favoriteService.deleteById(favoriteId);
+      return ResponseEntity.ok("删除成功");
+    } else {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
+    }
+  }
+
+  @DeleteMapping("/{username}/delete-article-from-favorite/{favoriteId}/{articleId}")
+  public ResponseEntity<String> deleteArticleFromFavorites(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId,
+                                                           @PathVariable("articleId") Long articleId) {
+    if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
+      favoriteArticleService.deleteFavoriteArticle(articleId, favoriteId);
       return ResponseEntity.ok("删除成功");
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
