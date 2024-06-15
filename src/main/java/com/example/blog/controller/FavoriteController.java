@@ -31,6 +31,21 @@ public class FavoriteController {
     favoriteService.insert(favorite);
     return ResponseEntity.ok(favorite);
   }
+
+  @PostMapping("/{username}/edit-favorite/{favoriteId}")
+  public ResponseEntity<Favorite> editFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId,
+                                               @RequestBody Map<String, String> payload) {
+    String favoriteName = payload.get("name");
+    Favorite favorite = favoriteService.getFavoriteById(favoriteId);
+    if(Objects.equals(favorite.getUserId(), userService.findUserByUsername(username).getId())){
+      favorite.setName(favoriteName);
+      favoriteService.update(favorite);
+      return ResponseEntity.ok(favorite);
+    } else {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    }
+  }
+
   @DeleteMapping("/{username}/delete-favorite/{favoriteId}")
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
     if(Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())){

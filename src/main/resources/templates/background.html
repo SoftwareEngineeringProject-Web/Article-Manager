@@ -191,6 +191,33 @@
               }
             });
           });
+
+          $('#editFavoriteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var favoriteId = button.data('favorite-id');
+            var favoriteName = button.data('favorite-name');
+            document.getElementById('editFavoriteName').value = favoriteName; // 显示当前收藏夹名称
+            var editFavoriteButton = $(this).find('#editFavoriteButton');
+            editFavoriteButton.data('favorite-id', favoriteId);
+          });
+          $('#editFavoriteButton').on('click', function () {
+            var favoriteId = $(this).data('favorite-id');
+            const favoriteName = document.getElementById('editFavoriteName').value;
+            fetch(`edit-favorite/${favoriteId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({name: favoriteName})
+            }).then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                alert('修改失败');
+              }
+            });
+          });
+
         })
         .catch(error => console.error('Error loading content:', error));
   }
