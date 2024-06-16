@@ -121,8 +121,7 @@
       maintainAspectRatio: false
     }
   });
-
-  // Articles trend chart
+  // 文章发布趋势
   var articlesTrendCtx = document.getElementById('articlesTrendChart').getContext('2d');
   var monthlyArticlesData = /*[[${monthlyArticlesData}]]*/ '{}';
   var articlesTrendLabels = monthlyArticlesData.map(function (item) {

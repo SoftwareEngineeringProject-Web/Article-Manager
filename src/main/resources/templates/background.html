@@ -100,6 +100,9 @@
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
 
 <script>
+  $(document).ready(function () {
+    loadContent('manage-articles'); // 默认加载文章管理页面
+    });
   function loadContent(page) {
     const contentContainer = document.getElementById('content-container');
     contentContainer.innerHTML = ''; // 清空内容容器
@@ -129,7 +132,8 @@
               }
             }).then(response => {
               if (response.ok) {
-                window.location.reload();
+                $('#confirmDeleteModal').modal('hide');
+                loadContent('manage-articles');
               } else {
                 alert('删除失败');
               }
@@ -160,7 +164,8 @@
               }
             }).then(response => {
               if (response.ok) {
-                window.location.reload();
+                $('#confirmDeleteCommentModal').modal('hide');
+                loadContent('manage-comments');
               } else {
                 alert('删除失败');
               }
@@ -185,7 +190,8 @@
               }
             }).then(response => {
               if (response.ok) {
-                window.location.reload();
+                $('#confirmDeleteFavoriteModal').modal('hide');
+                loadContent('manage-favorites');
               } else {
                 alert('删除失败');
               }
@@ -211,7 +217,8 @@
               body: JSON.stringify({name: favoriteName})
             }).then(response => {
               if (response.ok) {
-                window.location.reload();
+                $('#editFavoriteModal').modal('hide');
+                loadContent('manage-favorites');
               } else {
                 alert('修改失败');
               }
@@ -238,7 +245,8 @@
               },
             }).then(response => {
               if (response.ok) {
-                window.location.reload();
+                $('#confirmRemoveFromFavoriteModal').modal('hide');
+                loadContent('manage-favorites');
               } else {
                 alert('删除失败');
               }
@@ -247,11 +255,6 @@
         })
         .catch(error => console.error('Error loading content:', error));
   }
-
-  // 默认加载文章管理内容
-  document.addEventListener('DOMContentLoaded', function () {
-    loadContent('manage-articles');
-  });
 </script>
 <script>
   function loadAllArticles() {
