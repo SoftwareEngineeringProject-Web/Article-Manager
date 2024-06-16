@@ -77,6 +77,10 @@ public class Article {
     return favorites;
   }
 
+  public Integer setFavorites(Integer favorites) {
+    return this.favorites = favorites;
+  }
+
   public void setViews(Integer views) {
     this.views = views;
   }
@@ -93,6 +97,10 @@ public class Article {
     return ++likes;
   }
 
+  public Integer setComments(Integer comments) {
+    return this.comments = comments;
+  }
+  
   public Integer getComments() {
     return comments;
   }

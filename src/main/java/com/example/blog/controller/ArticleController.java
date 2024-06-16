@@ -132,6 +132,8 @@ public class ArticleController {
     article.setPublic(isPublic);
     article.setLikes(0);
     article.setViews(0);
+    article.setFavorites(0);
+    article.setComments(0);
     articleService.saveArticle(article);
     return "redirect:/" + username + "/home";
   }
