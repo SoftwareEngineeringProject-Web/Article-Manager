@@ -52,9 +52,9 @@
       </div>
       <div class="col-md-4">
         <select id="isPublic" name="isPublic" class="form-control" required>
-          <option value="" th:text="'选择查看权限'" th:selected="${param.isPublic == null}"></option>
-          <option value="true" th:text="'公开'">公开</option>
-          <option value="false" th:text="'私密'">私密</option>
+          <option value="" th:text="'选择查看权限'" th:selected="${article.isPublic == null}"></option>
+          <option value="true" th:text="'公开'" th:selected="${article.isPublic == true}">公开</option>
+          <option value="false" th:text="'私密'" th:selected="${article.isPublic == false}">私密</option>
         </select>
       </div>
     </div>
