@@ -2,6 +2,8 @@ package com.example.blog.entity;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -19,6 +21,9 @@ public class User {
 
   @Column(nullable = false)
   private String name;
+
+  @Column(nullable = false)
+  private Instant createdAt;
 
   public User() {
   }
@@ -71,6 +76,14 @@ public class User {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Instant getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt() {
+    this.createdAt = Instant.now();
   }
 
   public String toString() {

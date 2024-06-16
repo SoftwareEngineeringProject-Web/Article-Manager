@@ -64,7 +64,7 @@
     <div class="card bg-yellow text-center">
       <div class="card-body">
         <i class="bi bi-clock-history"></i>
-        <h5 class="card-text" th:text="'已发布文章 ' + ${totalComments} + ' 天'"></h5>
+        <h5 class="card-text" id="register-time"></h5>
       </div>
     </div>
     <div class="card bg-purple text-center">
@@ -162,6 +162,28 @@
     }
   });
 
+</script>
+<script th:inline="javascript">
+  $(document).ready(function () {
+    let user = /*[[${user}]]*/ '{}';
+    if (user.createdAt) {
+      const createdAtString = user.createdAt.replace(' ', 'T');
+      const createdAtDate = new Date(createdAtString);
+
+      // 检查日期是否有效
+      if (!isNaN(createdAtDate)) {
+        const currentDate = new Date();
+        const timeDifference = currentDate - createdAtDate;
+        const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        document.getElementById('register-time').innerHTML = '已发布文章 ' + daysAgo + ' 天';
+      } else {
+        document.getElementById('register-time').innerHTML = '无效的注册日期';
+      }
+    } else {
+      document.getElementById('register-time').innerHTML = '用户注册日期不可用';
+    }
+  });
+</script>
 </script>
 </body>
 </html>
