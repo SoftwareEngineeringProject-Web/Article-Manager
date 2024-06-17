@@ -1,5 +1,7 @@
 package com.example.blog.entity;
 
+import com.example.blog.multikeys.LikeMultiKeys;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;

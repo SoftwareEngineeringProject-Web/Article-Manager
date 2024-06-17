@@ -1,6 +1,11 @@
 package com.example.blog.entity;
 
-import jakarta.persistence.*;
+import com.example.blog.multikeys.FavoriteArticleMultiKeys;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "favorite_articles")

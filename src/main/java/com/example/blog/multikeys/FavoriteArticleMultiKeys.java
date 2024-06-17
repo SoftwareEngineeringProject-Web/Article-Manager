@@ -1,18 +1,18 @@
-package com.example.blog.entity;
+package com.example.blog.multikeys;
 
 import java.io.Serializable;
 
-public class LikeMultiKeys implements Serializable {
+public class FavoriteArticleMultiKeys implements Serializable {
 
-  private Long userId;
+  private Long favoriteId;
   private Long articleId;
 
-  public Long getUserId() {
-    return userId;
+  public Long getFavoriteId() {
+    return favoriteId;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setFavoriteId(Long favoriteId) {
+    this.favoriteId = favoriteId;
   }
 
   public Long getArticleId() {
