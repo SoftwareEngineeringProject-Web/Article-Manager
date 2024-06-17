@@ -57,8 +57,8 @@ public class FavoriteController {
   @DeleteMapping("/{username}/delete-favorite/{favoriteId}")
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
     if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
-      favoriteService.deleteById(favoriteId);
       List<Long> articleIds = favoriteArticleService.findArticleIdsByFavoriteId(favoriteId);
+      favoriteService.deleteById(favoriteId);
       for (Long articleId : articleIds) {
         articleService.updateFavoritesById(articleId, -1);
       }
