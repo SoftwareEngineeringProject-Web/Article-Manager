@@ -85,7 +85,7 @@ public class ManageController {
     User user = userService.findUserByUsername(username);
     Long userId = user.getId();
     model.addAttribute("user", user);
-    Pageable pageable = PageRequest.of(page, 20); // 每页显示20篇标题
+    Pageable pageable = PageRequest.of(page, 15);
 
     switch (htmlPage) {
       case "manage-articles":
