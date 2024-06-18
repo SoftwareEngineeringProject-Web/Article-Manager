@@ -85,7 +85,7 @@ public class ManageController {
     User user = userService.findUserByUsername(username);
     Long userId = user.getId();
     model.addAttribute("user", user);
-    Pageable pageable = PageRequest.of(page, 15);
+    Pageable pageable = PageRequest.of(page, 10);
 
     switch (htmlPage) {
       case "manage-articles":
