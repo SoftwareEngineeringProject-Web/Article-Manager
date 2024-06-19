@@ -1,24 +1,24 @@
 package com.example.blog.controller;
 
-import com.example.blog.data.FavoriteWithArticles;
-import com.example.blog.entity.*;
-import com.example.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.blog.entity.User;
+import com.example.blog.service.ManageService;
+import com.example.blog.service.UserService;
+
 
 @Controller
 public class ManageController {
@@ -28,13 +28,7 @@ public class ManageController {
   @Autowired
   public PasswordEncoder passwordEncoder;
   @Autowired
-  private ArticleService articleService;
-  @Autowired
-  private CategoryService categoryService;
-  @Autowired
-  private CommentService commentService;
-  @Autowired
-  private FavoriteService favoriteService;
+  private ManageService manageService;
 
   @ModelAttribute
   public void checkUser(@PathVariable("username") String username) throws ModelAndViewDefiningException {
@@ -76,60 +70,54 @@ public class ManageController {
     return "background";
   }
 
+  @GetMapping("/{username}/manage/manage-articles")
+  public String manageArticles(@PathVariable("username") String username,
+                               @RequestParam(name = "title", required = false) String title,
+                               @RequestParam(name = "category", required = false) Long categoryId,
+                               @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
+    User user = userService.findUserByUsername(username);
+    model.addAttribute("user", user);
+    manageService.setArticlesInformation(user.getId(), categoryId, title, page, model);
+    return "manage/manage-articles";
+
+  }
+
+  @GetMapping("/{username}/manage/manage-comments")
+  public String manageComments(@PathVariable("username") String username,
+                               @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
+    User user = userService.findUserByUsername(username);
+    model.addAttribute("user", user);
+    manageService.setCommentsInformation(user.getId(), page, model);
+    return "manage/manage-comments";
+
+  }
+
+  @GetMapping("/{username}/manage/manage-favorites")
+  public String manageFavorites(@PathVariable("username") String username, Model model) {
+    User user = userService.findUserByUsername(username);
+    model.addAttribute("user", user);
+    manageService.setFavoritesInformation(user.getId(), model);
+    return "manage/manage-favorites";
+  }
+
+  @GetMapping("/{username}/manage/change-information")
+  public String changeInformation(@PathVariable("username") String username, Model model) {
+    User user = userService.findUserByUsername(username);
+    model.addAttribute("user", user);
+    return "manage/change-information";
+  }
+
+  @GetMapping("/{username}/manage/change-password")
+  public String changePassword(@PathVariable("username") String username, Model model) {
+    User user = userService.findUserByUsername(username);
+    model.addAttribute("user", user);
+    return "manage/change-password";
+  }
+
   @GetMapping("/{username}/background/{htmlPage}")
   public String loadContent(@PathVariable("username") String username,
-                            @PathVariable("htmlPage") String htmlPage,
-                            @RequestParam(name = "title", required = false) String title,
-                            @RequestParam(name = "category", required = false) Long categoryId,
-                            @RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-    User user = userService.findUserByUsername(username);
-    Long userId = user.getId();
-    model.addAttribute("user", user);
-    Pageable pageable = PageRequest.of(page, 10);
-
-    switch (htmlPage) {
-      case "manage-articles":
-        Page<Article> articlePages;
-        List<Category> categories = categoryService.findByUserId(user.getId());
-
-        if (title != null && !title.isEmpty() && categoryId != null) {
-          Category category = categoryService.getCategoryById(categoryId);
-          articlePages = articleService.getArticlesByTitleAndCategoryPaged(userId, title, category, pageable);
-        } else if (title != null && !title.isEmpty()) {
-          articlePages = articleService.getArticlesByTitlePaged(userId, title, pageable);
-        } else if (categoryId != null) {
-          Category category = categoryService.getCategoryById(categoryId);
-          articlePages = articleService.getArticlesByCategoryPaged(userId, category, pageable);
-        } else {
-          articlePages = articleService.getArticlesByUserIdPaged(userId, pageable);
-        }
-
-        model.addAttribute("articles", articlePages.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", articlePages.getTotalPages());
-        model.addAttribute("categories", categories);
-        return "manage/manage-articles";
-      case "manage-comments":
-        Page<Comment> commentPages = commentService.getCommentsByUserIdPaged(userId, pageable);
-        model.addAttribute("comments", commentPages.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", commentPages.getTotalPages());
-        return "manage/manage-comments";
-      case "manage-favorites":
-        List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
-        ArrayList<FavoriteWithArticles> favoriteWithArticlesList = new ArrayList<>();
-        favorites.forEach((favorite) -> {
-          favoriteWithArticlesList.add(new FavoriteWithArticles(favorite,
-              favoriteService.getArticlesByFavoriteId(favorite.getId())));
-        });
-        model.addAttribute("favoriteWithArticlesList", favoriteWithArticlesList);
-        return "manage/manage-favorites";
-      case "change-information":
-        return "manage/change-information";
-      case "change-password":
-        return "manage/change-password";
-      default:
-        return "access-denied";
-    }
+                            @PathVariable("htmlPage") String htmlPage) {
+    return "forward:/" + username + "/manage/" + htmlPage;
   }
+
 }
