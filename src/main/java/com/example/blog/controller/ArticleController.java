@@ -23,8 +23,6 @@ import java.util.Objects;
 @Controller
 public class ArticleController {
   @Autowired
-  private CommentService commentService;
-  @Autowired
   private UserService userService;
   @Autowired
   private LikeService likeService;
@@ -34,8 +32,6 @@ public class ArticleController {
   private CategoryService categoryService;
   @Autowired
   private FavoriteArticleService favoriteArticleService;
-  @Autowired
-  private FavoriteService favoriteService;
   @Autowired
   public PasswordEncoder passwordEncoder;
 
@@ -57,27 +53,14 @@ public class ArticleController {
   public String article(@PathVariable("username") String username, @PathVariable("id") Long articleId, Model model) {
     User user = userService.findUserByUsername(username);
     Article article = articleService.getArticleById(articleId);
-    int favoriteCount = favoriteArticleService.countFavoriteArticle(articleId);
 
     // 检查用户要访问的文章是否为自己的文章，或者是否为共享
     if (!Objects.equals(article.getUser().getId(), user.getId()) && !article.isPublic()) {
       return "redirect:/" + username + "/access-denied";
     }
-    // Construct full category paths
-    Category category = categoryService.getCategoryById(article.getCategory() == null ? null : article.getCategory().getId());
-    String categoryPath = category == null ? null : category.getFullCategoryPath();
-    List<Favorite> favoriteList = favoriteService.getFavoritesByUserId(user.getId());
-    article.incrementViews();
-    articleService.updateViews(article);
-
-    List<Comment> comments = commentService.getCommentsByArticleId(articleId);
-
+    Map<String, Object> articleData = articleService.getArticleData(user.getId(), article);
     model.addAttribute("user", user);
-    model.addAttribute("article", article);
-    model.addAttribute("categoryPath", categoryPath);
-    model.addAttribute("favoriteList", favoriteList);
-    model.addAttribute("comments", comments);
-    model.addAttribute("favoriteCount", favoriteCount);
+    model.addAllAttributes(articleData);
     return "article";
   }
 

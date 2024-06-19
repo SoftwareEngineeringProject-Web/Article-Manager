@@ -52,8 +52,7 @@ public class CommentController {
     model.addAttribute("defaultPage", "manage-comments");
     if (comment.getArticle().getUser().getUsername().equals(username)
         || comment.getUser().getUsername().equals(username)) {
-      commentService.updateCommentsById(comment.getArticle().getId(), -1);
-      commentService.deleteCommentById(commentId);
+      commentService.deleteComment(comment);
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
     }

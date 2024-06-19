@@ -32,14 +32,6 @@ public class FavoriteArticleService {
     articleRepository.updateFavoritesById(articleId, -1);
   }
 
-  public int countFavoriteArticle(Long articleId) {
-    return favoriteArticleRepository.countByArticleId(articleId);
-  }
-
-  public List<Long> findArticleIdsByFavoriteId(Long favoriteId) {
-    return favoriteArticleRepository.findArticleIdsByFavoriteId(favoriteId);
-  }
-
   public FavoriteArticle findByArticleIdAndFavoriteId(Long articleId, Long favoriteId) {
     return favoriteArticleRepository.findByArticleIdAndFavoriteId(articleId, favoriteId);
   }

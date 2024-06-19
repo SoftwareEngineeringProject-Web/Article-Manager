@@ -41,10 +41,9 @@ public class FavoriteController {
   @PostMapping("/{username}/edit-favorite/{favoriteId}")
   public ResponseEntity<Favorite> editFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId,
                                                @RequestBody Map<String, String> payload) {
-    String favoriteName = payload.get("name");
     Favorite favorite = favoriteService.getFavoriteById(favoriteId);
     if (Objects.equals(favorite.getUserId(), userService.findUserByUsername(username).getId())) {
-      favorite.setName(favoriteName);
+      favorite.setName(payload.get("name"));
       favoriteService.update(favorite);
       return ResponseEntity.ok(favorite);
     } else {
