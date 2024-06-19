@@ -1,6 +1,5 @@
 package com.example.blog.controller;
 
-import com.example.blog.entity.Category;
 import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
 import com.example.blog.service.CategoryService;
@@ -17,11 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class StatisticsController {
@@ -52,48 +46,9 @@ public class StatisticsController {
 
   @GetMapping("{username}/statistics")
   public String getStatistics(Model model, @PathVariable String username) {
-
+    // 获取当前登录用户
     User user = userService.findUserByUsername(username);
-    Integer totalArticles = articleService.countByUserId(user.getId()); // 共发布文章数量
-    Integer totalComments = articleService.getTotalCommentsByUserId(user.getId()); // 共收到评论数量
-    Integer totalLikes = articleService.getTotalLikesByUserId(user.getId()); // 共获得点赞数量
-    Integer totalViews = articleService.getTotalViewsByUserId(user.getId()); // 共浏览文章数量
-    Integer totalFavorites = articleService.getTotalFavoritesByUserId(user.getId()); // 共收藏文章数量
-    List<Category> categories = categoryService.findByUserId(user.getId()); // 分类数据
-    // 模拟分类文章数量数据
-    List<Map<String, Object>> categoryData = new ArrayList<>();
-    for (Category category : categories) {
-      Integer count = articleService.countByCategoryIdAndUserId(category.getId(), user.getId());
-      categoryData.add(createCategoryData(category.getName(), count));
-    }
-
-    List<Object[]> monthlyArticlesData = statisticsService.findMonthlyArticlesDataByUserId(user.getId());
-    List<Map<String, Object>> articlesData = new ArrayList<>();
-    for (Object[] data : monthlyArticlesData) {
-      articlesData.add(createMonthlyArticleData((String) data[0], (Long) data[1]));
-    }
-    model.addAttribute("user", user);
-    model.addAttribute("totalArticles", totalArticles);
-    model.addAttribute("totalComments", totalComments);
-    model.addAttribute("totalLikes", totalLikes);
-    model.addAttribute("totalViews", totalViews);
-    model.addAttribute("totalFavorites", totalFavorites);
-    model.addAttribute("categoryData", categoryData);
-    model.addAttribute("monthlyArticlesData", articlesData);
+    statisticsService.getAllStatistics(user, model);
     return "statistics";
-  }
-
-  private Map<String, Object> createCategoryData(String name, int count) {
-    Map<String, Object> data = new HashMap<>();
-    data.put("name", name);
-    data.put("count", count);
-    return data;
-  }
-
-  private Map<String, Object> createMonthlyArticleData(String month, Long count) {
-    Map<String, Object> data = new HashMap<>();
-    data.put("month", month);
-    data.put("count", count);
-    return data;
   }
 }

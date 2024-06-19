@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -35,8 +34,7 @@ public class FavoriteController {
                                               @RequestBody Map<String, String> payload) {
     String favoriteName = payload.get("name");
     User user = userService.findUserByUsername(username);
-    Favorite favorite = new Favorite(user.getId(), favoriteName);
-    favoriteService.insert(favorite);
+    Favorite favorite = favoriteService.addFavorite(user.getId(), favoriteName);
     return ResponseEntity.ok(favorite);
   }
 
@@ -57,11 +55,7 @@ public class FavoriteController {
   @DeleteMapping("/{username}/delete-favorite/{favoriteId}")
   public ResponseEntity<String> deleteFavorite(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId) {
     if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
-      List<Long> articleIds = favoriteArticleService.findArticleIdsByFavoriteId(favoriteId);
-      favoriteService.deleteById(favoriteId);
-      for (Long articleId : articleIds) {
-        articleService.updateFavoritesById(articleId, -1);
-      }
+      favoriteService.deleteFavoriteByFavoriteId(favoriteId);
       return ResponseEntity.ok("删除成功");
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
@@ -72,8 +66,8 @@ public class FavoriteController {
   public ResponseEntity<String> deleteArticleFromFavorites(@PathVariable("username") String username, @PathVariable("favoriteId") Long favoriteId,
                                                            @PathVariable("articleId") Long articleId) {
     if (Objects.equals(favoriteService.getFavoriteById(favoriteId).getUserId(), userService.findUserByUsername(username).getId())) {
+
       favoriteArticleService.deleteFavoriteArticle(articleId, favoriteId);
-      articleService.updateFavoritesById(articleId, -1);
       return ResponseEntity.ok("删除成功");
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");

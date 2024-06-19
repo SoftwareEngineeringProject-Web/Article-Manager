@@ -24,7 +24,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -53,24 +52,7 @@ public class CategoryController {
 
   @GetMapping("/{username}/delete-category/{id}")
   public String deleteCategory(@PathVariable("username") String username, @PathVariable("id") Long id) {
-    List<Category> categories = new ArrayList<>();
-    Category firstCategory = categoryService.getCategoryById(id);
-    if (firstCategory != null)
-      categories.add(firstCategory);
-
-    //为了删除时不破坏Category的外键约束
-    //该列表中的元素满足以下约束：如果A是B的父亲，则A一定在B后面
-    LinkedList<Category> toBeDeleted = new LinkedList<>();
-    while (!categories.isEmpty()) {
-      Category last = categories.get(categories.size() - 1);
-      categories.remove(categories.size() - 1);
-      categories.addAll(categoryService.findByParentId(last.getId()));
-      articleService.setCategoryIdtoNullByCategoryId(last.getId());
-      toBeDeleted.addFirst(last);
-    }
-    toBeDeleted.forEach(category -> {
-      categoryService.deleteById(category.getId());
-    });
+    categoryService.deleteCategory(id);
     return "redirect:/" + username + "/categories";
   }
 

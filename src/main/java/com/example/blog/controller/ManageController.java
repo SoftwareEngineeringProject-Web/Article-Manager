@@ -46,21 +46,15 @@ public class ManageController {
 
   @PostMapping("/{username}/change-password")
   public String changePasswordPost(@PathVariable("username") String username, @RequestParam("password") String password) {
-    User user = userService.findUserByUsername(username);
-    user.setPassword(passwordEncoder.encode(password));
-    userService.updateUser(user);
+    userService.changePassword(username, password);
     return "redirect:/" + username + "/background";
   }
 
   @PostMapping("/{username}/change-information")
   public String changeInformationPost(@PathVariable("username") String username, @RequestParam("email") String email,
                                       @RequestParam("name") String name, @RequestParam("username") String newUsername) {
-    User user = userService.findUserByUsername(username);
-    user.setEmail(email);
-    user.setUsername(newUsername);
-    user.setName(name);
-    userService.updateUser(user);
-    return "redirect:/" + user.getUsername() + "/background";
+    userService.changeInformation(username, email, name, newUsername);
+    return "redirect:/" + username + "/background";
   }
 
   @GetMapping("/{username}/background")

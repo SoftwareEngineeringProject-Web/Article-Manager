@@ -44,4 +44,17 @@ public class UserService implements UserDetailsService {
     userRepository.updateUser(user.getUsername(), user.getPassword(), user.getEmail(), user.getId());
   }
 
+  public void changePassword(String username, String password){
+    User user = findUserByUsername(username);
+    user.setPassword(passwordEncoder.encode(password));
+    updateUser(user);
+  }
+
+  public void changeInformation(String username, String email, String name, String newUsername){
+    User user = findUserByUsername(username);
+    user.setEmail(email);
+    user.setUsername(newUsername);
+    user.setName(name);
+    updateUser(user);
+  }
 }

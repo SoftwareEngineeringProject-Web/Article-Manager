@@ -2,11 +2,14 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Article;
 import com.example.blog.entity.Category;
+import com.example.blog.entity.User;
 import com.example.blog.repository.ArticleRepository;
+import com.example.blog.repository.CategoryRepository;
+import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +17,10 @@ import java.util.List;
 public class ArticleService {
   @Autowired
   private ArticleRepository articleRepository;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private CategoryRepository categoryRepository;
 
   public List<Article> getAllArticles() {
     return articleRepository.findAll();
@@ -23,7 +30,17 @@ public class ArticleService {
     return articleRepository.findById(articleId).orElse(null);
   }
 
-  public void saveArticle(Article article) {
+  public void saveArticle(Article article, String username, Long categoryId, boolean isPublic) {
+    User user = userRepository.findByUsername(username);
+    Category category = categoryRepository.findById(categoryId).orElse(null);
+    article.setCategory(category);
+    article.setUser(user);
+    article.setCreatedAt();
+    article.setPublic(isPublic);
+    article.setLikes(0);
+    article.setViews(0);
+    article.setFavorites(0);
+    article.setComments(0);
     articleRepository.save(article);
   }
 
@@ -35,7 +52,11 @@ public class ArticleService {
     return articleRepository.findPagedByUserId(userId, pageable);
   }
 
-  public void updateArticle(Article article) {
+  public void updateArticle(Article article, User user, Long categoryId, boolean isPublic) {
+    Category category = categoryRepository.findById(categoryId).orElse(null);
+    article.setCategory(category);
+    article.setUser(user);
+    article.setPublic(isPublic);
     articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.isPublic(), article.getId());
   }
 
@@ -51,9 +72,7 @@ public class ArticleService {
     articleRepository.updateLikes(article.getId(), article.getLikes());
   }
 
-  public void updateCommentsById(Long articleId, Integer moreComments) {
-    articleRepository.updateCommentsById(articleId, moreComments);
-  }
+
 
   public void updateFavoritesById(Long articleId, Integer moreFavorites) {
     articleRepository.updateFavoritesById(articleId, moreFavorites);
@@ -79,28 +98,6 @@ public class ArticleService {
     return articleRepository.findByUserIdAndCategory(userId, category, pageable);
   }
 
-  public Integer countByUserId(Long userId) {
-    return articleRepository.countByUserId(userId);
-  }
 
-  public Integer countByCategoryIdAndUserId(Long categoryId, Long userId) {
-    return articleRepository.countByCategoryIdAndUserId(categoryId, userId);
-  }
-
-  public Integer getTotalLikesByUserId(Long userId) {
-    return articleRepository.getTotalLikesByUserId(userId);
-  }
-
-  public Integer getTotalCommentsByUserId(Long userId) {
-    return articleRepository.getTotalCommentsByUserId(userId);
-  }
-
-  public Integer getTotalViewsByUserId(Long userId) {
-    return articleRepository.getTotalViewsByUserId(userId);
-  }
-
-  public Integer getTotalFavoritesByUserId(Long userId) {
-    return articleRepository.getTotalFavoritesByUserId(userId);
-  }
 
 }

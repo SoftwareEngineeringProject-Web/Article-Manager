@@ -1,12 +1,8 @@
 package com.example.blog.controller;
 
-import com.example.blog.data.FavoriteWithArticles;
 import com.example.blog.entity.*;
 import com.example.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,10 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class ArticleController {
@@ -57,32 +53,6 @@ public class ArticleController {
     }
   }
 
-  @GetMapping("/{username}/home")
-  public String userHome(@PathVariable("username") String username, @RequestParam(name = "page", defaultValue = "0") int page,
-                         Model model) {
-    User user = userService.findUserByUsername(username);
-    Long userId = userService.findUserByUsername(username).getId();
-//        List<Article> articles = articleService.getArticlesByUserId(userId);
-
-    List<Favorite> favorites = favoriteService.getFavoritesByUserId(userId);
-    ArrayList<FavoriteWithArticles> favoriteWithArticlesList = new ArrayList<>();
-    favorites.forEach((favorite) -> {
-      favoriteWithArticlesList.add(new FavoriteWithArticles(favorite,
-          favoriteService.getArticlesByFavoriteId(favorite.getId())));
-    });
-
-    // 分页处理
-    Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
-    Page<Article> articlePage = articleService.getArticlesByUserIdPaged(userId, pageable);
-
-    model.addAttribute("user", user);
-    model.addAttribute("articles", articlePage.getContent());
-    model.addAttribute("favoriteWithArticlesList", favoriteWithArticlesList);
-    model.addAttribute("currentPage", page);
-    model.addAttribute("totalPages", articlePage.getTotalPages());
-    return "home";
-  }
-
   @GetMapping("/{username}/article/{id}")
   public String article(@PathVariable("username") String username, @PathVariable("id") Long articleId, Model model) {
     User user = userService.findUserByUsername(username);
@@ -90,7 +60,7 @@ public class ArticleController {
     int favoriteCount = favoriteArticleService.countFavoriteArticle(articleId);
 
     // 检查用户要访问的文章是否为自己的文章，或者是否为共享
-    if (article.getUser().getId() != user.getId() && !article.isPublic()) {
+    if (!Objects.equals(article.getUser().getId(), user.getId()) && !article.isPublic()) {
       return "redirect:/" + username + "/access-denied";
     }
     // Construct full category paths
@@ -124,20 +94,9 @@ public class ArticleController {
   @PostMapping("/{username}/create-article")
   public String createArticlePost(@ModelAttribute Article article, @PathVariable("username") String username,
                                   @RequestParam("category") Long categoryId, @RequestParam(name = "isPublic") Boolean isPublic) {
-    User user = userService.findUserByUsername(username);
-    Category category = categoryService.getCategoryById(categoryId);
-    article.setCategory(category);
-    article.setUser(user);
-    article.setCreatedAt();
-    article.setPublic(isPublic);
-    article.setLikes(0);
-    article.setViews(0);
-    article.setFavorites(0);
-    article.setComments(0);
-    articleService.saveArticle(article);
+    articleService.saveArticle(article, username, categoryId, isPublic);
     return "redirect:/" + username + "/home";
   }
-
 
   @GetMapping("/{username}/edit-article/{id}")
   public String editArticleForm(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
@@ -159,15 +118,10 @@ public class ArticleController {
   public String editArticle(@ModelAttribute Article article, @PathVariable("username") String username, @PathVariable("id") Long articleId,
                             @RequestParam("category") Long categoryId, @RequestParam(name = "isPublic") Boolean isPublic) {
     User user = userService.findUserByUsername(username);
-    Article oldArticle = articleService.getArticleById(articleId);
-    if (oldArticle.getUser().getId() != user.getId()) {
+    if (!Objects.equals(articleService.getArticleById(articleId).getUser().getId(), user.getId())) {
       return "redirect:/" + username + "/access-denied";
     }
-    Category category = categoryService.getCategoryById(categoryId);
-    article.setCategory(category);
-    article.setUser(user);
-    article.setPublic(isPublic);
-    articleService.updateArticle(article);
+    articleService.updateArticle(article, user, categoryId, isPublic);
     return "redirect:/" + username + "/background";
   }
 
@@ -183,16 +137,7 @@ public class ArticleController {
 
   @GetMapping("/{username}/{id}/like")
   public ResponseEntity<Map<String, Object>> likeArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
-    Long userId = userService.findUserByUsername(username).getId();
-    if (likeService.getByUserIdAndArticleId(userId, articleId) == null) {
-      articleService.updateLikesById(articleId, 1);
-      likeService.insertByUserIdAndArticleId(userId, articleId);
-    } else {
-      articleService.updateLikesById(articleId, -1);
-      likeService.deleteByUserIdAndArticleId(userId, articleId);
-    }
-    int likes = articleService.getArticleById(articleId).getLikes();
-
+    Integer likes = likeService.getLikeCountByArticleId(articleId, username);
     Map<String, Object> response = new HashMap<>();
     response.put("success", true);
     response.put("likes", likes);
@@ -203,16 +148,12 @@ public class ArticleController {
   public ResponseEntity<Map<String, Object>> favoriteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId,
                                                              @RequestBody Map<String, Long> payload) {
     Long favoriteId = payload.get("favoriteId");
-    FavoriteArticle favoriteArticle = favoriteArticleService.findByArticleIdAndFavoriteId(articleId, favoriteId);
     Map<String, Object> response = new HashMap<>();
-    if (favoriteArticle != null) {
+    Integer favoriteCount = favoriteArticleService.addFavoriteArticle(favoriteId, articleId);
+    if(favoriteCount == null){
       response.put("success", false);
       response.put("favoriteCount", 0);
     } else {
-      favoriteArticleService.favoriteArticle(favoriteId, articleId);
-      articleService.updateFavoritesById(articleId, 1);
-      Article article = articleService.getArticleById(articleId);
-      int favoriteCount = article.getFavorites();
       response.put("success", true);
       response.put("favoriteCount", favoriteCount);
     }

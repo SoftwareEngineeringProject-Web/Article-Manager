@@ -1,8 +1,6 @@
 package com.example.blog.controller;
 
-import com.example.blog.entity.Article;
 import com.example.blog.entity.Comment;
-import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
 import com.example.blog.service.CommentService;
 import com.example.blog.service.UserService;
@@ -44,11 +42,7 @@ public class CommentController {
   @PostMapping("/{username}/submit-comment/{articleId}")
   public String submitComment(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
                               @RequestParam("comment") String comment) {
-    User user = userService.findUserByUsername(username);
-    articleService.updateCommentsById(articleId, 1);
-    Article article = articleService.getArticleById(articleId);
-    Comment commentEntity = new Comment(user, article, comment, null);
-    commentService.saveComment(commentEntity);
+    commentService.submitComment(username, articleId, comment);
     return "redirect:/" + username + "/article/" + articleId;
   }
 
@@ -56,9 +50,9 @@ public class CommentController {
   public ResponseEntity<String> deleteComment(@PathVariable("username") String username, @PathVariable("commentId") Long commentId, Model model) {
     Comment comment = commentService.getCommentById(commentId);
     model.addAttribute("defaultPage", "manage-comments");
-    articleService.updateCommentsById(comment.getArticle().getId(), -1);
     if (comment.getArticle().getUser().getUsername().equals(username)
         || comment.getUser().getUsername().equals(username)) {
+      commentService.updateCommentsById(comment.getArticle().getId(), -1);
       commentService.deleteCommentById(commentId);
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
