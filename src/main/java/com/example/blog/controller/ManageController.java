@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.data.FavoriteWithArticles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.example.blog.entity.User;
 import com.example.blog.service.ManageService;
 import com.example.blog.service.UserService;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 
 @Controller
@@ -71,7 +75,8 @@ public class ManageController {
                                @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
     User user = userService.findUserByUsername(username);
     model.addAttribute("user", user);
-    manageService.setArticlesInformation(user.getId(), categoryId, title, page, model);
+    Map<String,Object> articlesData = manageService.setArticlesInformation(user.getId(), categoryId, title, page);
+    model.addAllAttributes(articlesData);
     return "manage/manage-articles";
 
   }
@@ -80,8 +85,9 @@ public class ManageController {
   public String manageComments(@PathVariable("username") String username,
                                @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
     User user = userService.findUserByUsername(username);
+    Map<String,Object> commentsData = manageService.setCommentsInformation(user.getId(), page);
     model.addAttribute("user", user);
-    manageService.setCommentsInformation(user.getId(), page, model);
+    model.addAllAttributes(commentsData);
     return "manage/manage-comments";
 
   }
@@ -90,7 +96,8 @@ public class ManageController {
   public String manageFavorites(@PathVariable("username") String username, Model model) {
     User user = userService.findUserByUsername(username);
     model.addAttribute("user", user);
-    manageService.setFavoritesInformation(user.getId(), model);
+    ArrayList<FavoriteWithArticles> favoriteWithArticlesList = manageService.setFavoritesInformation(user.getId());
+    model.addAttribute("favoriteWithArticlesList", favoriteWithArticlesList);
     return "manage/manage-favorites";
   }
 

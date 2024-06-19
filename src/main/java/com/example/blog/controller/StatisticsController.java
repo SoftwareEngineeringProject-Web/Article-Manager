@@ -1,8 +1,6 @@
 package com.example.blog.controller;
 
 import com.example.blog.entity.User;
-import com.example.blog.service.ArticleService;
-import com.example.blog.service.CategoryService;
 import com.example.blog.service.StatisticsService;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Map;
+
 @Controller
 public class StatisticsController {
   @Autowired
   private UserService userService;
 
-  @Autowired
-  private ArticleService articleService;
-
-  @Autowired
-  private CategoryService categoryService;
   @Autowired
   private StatisticsService statisticsService;
 
@@ -48,7 +43,8 @@ public class StatisticsController {
   public String getStatistics(Model model, @PathVariable String username) {
     // 获取当前登录用户
     User user = userService.findUserByUsername(username);
-    statisticsService.getAllStatistics(user, model);
+    Map<String, Object> statisticsData = statisticsService.getAllStatistics(user);
+    model.addAllAttributes(statisticsData);
     return "statistics";
   }
 }

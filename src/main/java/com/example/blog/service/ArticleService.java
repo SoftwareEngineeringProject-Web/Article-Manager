@@ -1,17 +1,15 @@
 package com.example.blog.service;
 
-import com.example.blog.entity.Article;
-import com.example.blog.entity.Category;
-import com.example.blog.entity.User;
-import com.example.blog.repository.ArticleRepository;
-import com.example.blog.repository.CategoryRepository;
-import com.example.blog.repository.UserRepository;
+import com.example.blog.entity.*;
+import com.example.blog.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArticleService {
@@ -21,10 +19,12 @@ public class ArticleService {
   private UserRepository userRepository;
   @Autowired
   private CategoryRepository categoryRepository;
-
-  public List<Article> getAllArticles() {
-    return articleRepository.findAll();
-  }
+  @Autowired
+  private CommentRepository commentRepository;
+  @Autowired
+  private FavoriteRepository favoriteRepository;
+  @Autowired
+  private FavoriteArticleRepository favoriteArticleRepository;
 
   public Article getArticleById(Long articleId) {
     return articleRepository.findById(articleId).orElse(null);
@@ -44,10 +44,6 @@ public class ArticleService {
     articleRepository.save(article);
   }
 
-  public List<Article> getArticlesByCategory(Category category) {
-    return articleRepository.findByCategory(category);
-  }
-
   public Page<Article> getArticlesByUserIdPaged(Long userId, Pageable pageable) {
     return articleRepository.findPagedByUserId(userId, pageable);
   }
@@ -64,40 +60,25 @@ public class ArticleService {
     articleRepository.updateViews(article.getId(), article.getViews());
   }
 
-  public void updateLikesById(Long id, Integer moreLikes) {
-    articleRepository.updateLikesById(id, moreLikes);
-  }
-
-  public void updateLikes(Article article) {
-    articleRepository.updateLikes(article.getId(), article.getLikes());
-  }
-
-
-
-  public void updateFavoritesById(Long articleId, Integer moreFavorites) {
-    articleRepository.updateFavoritesById(articleId, moreFavorites);
-  }
-
-  public void setCategoryIdtoNullByCategoryId(Long categoryId) {
-    articleRepository.setCategoryIdToNullByCategoryId(categoryId);
-  }
-
   public void deleteById(Long id) {
     articleRepository.deleteById(id);
   }
 
-  public Page<Article> getArticlesByTitleAndCategoryPaged(Long userId, String title, Category category, Pageable pageable) {
-    return articleRepository.findByUserIdAndTitleAndCategory(userId, title, category, pageable);
+  public Map<String, Object> getArticleData(Long userId, Article article) {
+    Map<String, Object> data = new HashMap<>();
+    int favoriteCount = favoriteArticleRepository.countByArticleId(article.getId());
+    Category category = article.getCategory() == null ? null : categoryRepository.findById(article.getCategory().getId()).orElse(null);
+    String categoryPath = category == null ? null : category.getFullCategoryPath();
+    List<Favorite> favoriteList = favoriteRepository.findByUserId(userId);
+    article.incrementViews();
+    updateViews(article);
+    List<Comment> comments = commentRepository.findByArticleId(article.getId());
+
+    data.put("article", article);
+    data.put("categoryPath", categoryPath);
+    data.put("favoriteList", favoriteList);
+    data.put("comments", comments);
+    data.put("favoriteCount", favoriteCount);
+    return data;
   }
-
-  public Page<Article> getArticlesByTitlePaged(Long userId, String title, Pageable pageable) {
-    return articleRepository.findByUserIdAndTitle(userId, title, pageable);
-  }
-
-  public Page<Article> getArticlesByCategoryPaged(Long userId, Category category, Pageable pageable) {
-    return articleRepository.findByUserIdAndCategory(userId, category, pageable);
-  }
-
-
-
 }

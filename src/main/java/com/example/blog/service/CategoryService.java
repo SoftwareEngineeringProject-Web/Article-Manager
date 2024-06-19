@@ -1,14 +1,20 @@
 package com.example.blog.service;
 
+import com.example.blog.data.CategoryTreeNode;
+import com.example.blog.entity.Article;
 import com.example.blog.entity.Category;
+import com.example.blog.entity.User;
 import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.CategoryRepository;
+import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CategoryService {
@@ -17,6 +23,8 @@ public class CategoryService {
   private CategoryRepository categoryRepository;
   @Autowired
   private ArticleRepository articleRepository;
+  @Autowired
+  private UserRepository userRepository;
 
   public Category getCategoryById(Long id) {
     return id == null ? null : categoryRepository.findById(id).orElse(null);
@@ -57,5 +65,40 @@ public class CategoryService {
     toBeDeleted.forEach(category -> {
       deleteById(category.getId());
     });
+  }
+
+  public Map<String, Object> getCategoryTree(String username, Long categoryId, int page) {
+    Map<String, Object> result = new HashMap<>();
+    User user = userRepository.findByUsername(username);
+    List<Category> categories = findByUserId(user.getId());
+    HashMap<Long, CategoryTreeNode> nodes = new HashMap<>();
+    Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
+    Page<Article> articles = null;
+    CategoryTreeNode dummyRoot = new CategoryTreeNode(-1L, null);
+    if (categoryId != null) {
+      Category categoryParam = getCategoryById(categoryId);
+      articles = articleRepository.findByUserIdAndCategory(user.getId(), categoryParam, pageable);
+    } else {
+      articles = new PageImpl<>(new ArrayList<>(), pageable, 0);
+    }
+    for (Category category : categories) {
+      CategoryTreeNode currentNode = new CategoryTreeNode(category.getId(), category.getName());
+      nodes.put(category.getId(), currentNode);
+    }
+    for (Category category : categories) {
+      Category parent = category.getParent();
+      CategoryTreeNode parentNode = parent == null ? dummyRoot : nodes.get(parent.getId());
+      parentNode.addChild(nodes.get(category.getId()));
+    }
+
+    result.put("articles", articles.getContent());
+    result.put("rootCategory", dummyRoot);
+    result.put("user", user);
+    result.put("currentCategoryId", categoryId);
+    result.put("currentCategoryName", categoryId != null ? nodes.get(categoryId).getName() : null);
+    result.put("currentPage", page);
+    result.put("totalPages", articles.getTotalPages());
+
+    return result;
   }
 }

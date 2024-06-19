@@ -6,7 +6,6 @@ import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +48,8 @@ public class StatisticsService {
     return articleRepository.getTotalFavoritesByUserId(userId);
   }
 
-  public void getAllStatistics(User user, Model model){
+  public Map<String, Object> getAllStatistics(User user){
+    Map<String, Object> statisticsData = new HashMap<>();
 
     Integer totalArticles = countByUserId(user.getId()); // 共发布文章数量
     Integer totalComments = getTotalCommentsByUserId(user.getId()); // 共收到评论数量
@@ -75,13 +75,14 @@ public class StatisticsService {
       data.put("count", articleData[1]);
       articlesData.add(data);
     }
-    model.addAttribute("user", user);
-    model.addAttribute("totalArticles", totalArticles);
-    model.addAttribute("totalComments", totalComments);
-    model.addAttribute("totalLikes", totalLikes);
-    model.addAttribute("totalViews", totalViews);
-    model.addAttribute("totalFavorites", totalFavorites);
-    model.addAttribute("categoryData", categoryData);
-    model.addAttribute("monthlyArticlesData", articlesData);
+    statisticsData.put("user", user);
+    statisticsData.put("totalArticles", totalArticles);
+    statisticsData.put("totalComments", totalComments);
+    statisticsData.put("totalLikes", totalLikes);
+    statisticsData.put("totalViews", totalViews);
+    statisticsData.put("totalFavorites", totalFavorites);
+    statisticsData.put("categoryData", categoryData);
+    statisticsData.put("monthlyArticlesData", articlesData);
+    return statisticsData;
   }
 }
