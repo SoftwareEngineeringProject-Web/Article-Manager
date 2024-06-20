@@ -3,13 +3,16 @@ package com.example.blog.service;
 import com.example.blog.entity.User;
 import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -26,8 +29,14 @@ public class UserService implements UserDetailsService {
     user.setCreatedAt();
     return userRepository.save(user);
   }
-  public List<User> findAllUsers() {
-    return userRepository.findAll();
+  public Map<String, Object> findAllUsers(int page) {
+    PageRequest pageable = PageRequest.of(page, 15);
+    Map<String, Object> usersData = new HashMap<>();
+    Page<User> users = userRepository.findAllPaged(pageable);
+    usersData.put("currentPage", users.getNumber());
+    usersData.put("totalPages", users.getTotalPages());
+    usersData.put("users", users.getContent());
+    return usersData;
   }
 
   public User findUserByUsername(String username) {

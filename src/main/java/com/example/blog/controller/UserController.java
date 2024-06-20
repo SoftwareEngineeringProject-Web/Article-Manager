@@ -4,6 +4,8 @@ import com.example.blog.entity.User;
 import com.example.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +44,12 @@ public class UserController {
   }
 
   @DeleteMapping("/{username}/delete-user/{userId}")
-  public String deleteUser(@PathVariable("userId") Long userId, @PathVariable("username") String username) {
-    userService.deleteUser(userId);
-    return "redirect:/{username}/admin-management";
+  public ResponseEntity<String> deleteUser(@PathVariable("userId") Long userId, @PathVariable("username") String username) {
+    if (username.equals("Admin")) {
+      userService.deleteUser(userId);
+      return ResponseEntity.ok("删除成功");
+    } else {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
+    }
   }
 }

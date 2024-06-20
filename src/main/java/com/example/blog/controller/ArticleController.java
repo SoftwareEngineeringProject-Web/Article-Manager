@@ -111,7 +111,7 @@ public class ArticleController {
   @DeleteMapping("/{username}/delete-article/{id}")
   public ResponseEntity<String> deleteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId) {
     Article article = articleService.getArticleById(articleId);
-    if (!article.getUser().getUsername().equals(username)) {
+    if (!article.getUser().getUsername().equals(username) && !username.equals("Admin")) {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
     }
     articleService.deleteById(articleId);

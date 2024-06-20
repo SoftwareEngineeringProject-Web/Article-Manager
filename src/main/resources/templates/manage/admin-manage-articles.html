@@ -27,6 +27,7 @@
       <thead>
       <tr>
         <th>ID</th>
+        <th>作者</th>
         <th>标题</th>
         <th>创建时间</th>
         <th>权限</th>
@@ -36,6 +37,7 @@
       <tbody>
       <tr th:each="article : ${articles}">
         <td th:text="${article.id}"></td>
+        <td th:text="${article.user.name}"></td>
         <td th:text="${article.title}"></td>
         <td class="post-created-time" th:id="${'created-at-' + article.id}"
             th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -90,12 +92,12 @@
       <!-- 分页按钮 -->
       <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}"
           th:classappend="${pageNo == currentPage} ? 'active'">
-        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'admin-manage-articles\', '+${pageNo}+')'" href="#"
+        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'manage-articles\', '+${pageNo}+')'" href="#"
            th:text="${pageNo + 1}"></a>
       </li>
       <!-- 下一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'admin-manage-articles\', '+${currentPage + 1}+')'" href="#"
+        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'manage-articles\', '+${currentPage + 1}+')'" href="#"
            aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>

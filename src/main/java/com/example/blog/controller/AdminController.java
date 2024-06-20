@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -72,7 +71,7 @@ public class AdminController {
     Map<String, Object> commentsData = adminService.setAllCommentsInformation(page);
     model.addAttribute("user", user);
     model.addAllAttributes(commentsData);
-    return "manage/manage-comments";
+    return "manage/admin-manage-comments";
   }
 
 
@@ -84,10 +83,10 @@ public class AdminController {
   }
 
   @GetMapping("/{username}/admin-manage/manage-users")
-  public String manageUsers(@PathVariable("username") String username, Model model) {
-    List<User> users = userService.findAllUsers();
-    model.addAttribute("users", users);
-    model.addAttribute("username", username);
+  public String manageUsers(@PathVariable("username") String username,
+                            @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
+    Map<String, Object> usersData = userService.findAllUsers(page);
+    model.addAllAttributes(usersData);
     return "manage/manage-users";
   }
 

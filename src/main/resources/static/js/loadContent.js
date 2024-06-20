@@ -146,33 +146,35 @@ function loadContent(url,htmlPage, currentPage) {
               alert('删除失败');
             }
           });
+        });
 
-          $('#confirmDeleteUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var username = button.data('user-username');
-            var userId = button.data('user-id');
-            var modal = $(this);
-            modal.find('.favorite-content').text("确定要删除用户：\"" + username + "\" 吗？");
-            var confirmDeleteFavoriteButton = $(this).find('#confirmDeleteUserButton');
-            confirmDeleteFavoriteButton.data('user-id', userId);
-          });
-          $('#confirmDeleteUserButton').on('click', function () {
-            var userId = $(this).data('user-id');
-            fetch(`/{username}/delete-favorite/${userId}`, {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }).then(response => {
-              if (response.ok) {
-                $('#confirmDeleteUserModal').modal('hide');
-                loadContent(url,'manage-users');
-              } else {
-                alert('删除失败');
-              }
-            });
+        $('#confirmDeleteUserModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var username = button.data('user-username');
+          var userId = button.data('user-id');
+          var modal = $(this);
+          modal.find('.delete-user-confirm-message').text("确定要删除用户：\"" + username + "\" 吗？");
+          var confirmDeleteUserButton = $(this).find('#confirmDeleteUserButton');
+          confirmDeleteUserButton.data('user-id', userId);
+        });
+        $('#confirmDeleteUserButton').on('click', function () {
+          var userId = $(this).data('user-id');
+          console.log(userId);
+          fetch(`delete-user/${userId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(response => {
+            if (response.ok) {
+              $('#confirmDeleteUserModal').modal('hide');
+              loadContent(url,'manage-users');
+            } else {
+              alert('删除失败');
+            }
           });
         });
+
       })
       .catch(error => console.error('Error loading content:', error));
 }

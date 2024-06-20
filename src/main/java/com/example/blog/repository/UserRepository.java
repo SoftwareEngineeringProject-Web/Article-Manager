@@ -2,6 +2,8 @@ package com.example.blog.repository;
 
 import com.example.blog.entity.User;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Transactional
   @Query("UPDATE User u SET u.username = ?1, u.password = ?2, u.email = ?3 WHERE u.id = ?4")
   void updateUser(String username, String password, String email, Long id);
+
+  @Query("SELECT u FROM User u")
+  Page<User> findAllPaged(Pageable pageable);
 }
