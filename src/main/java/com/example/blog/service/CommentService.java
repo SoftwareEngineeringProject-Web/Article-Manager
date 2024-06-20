@@ -26,19 +26,11 @@ public class CommentService {
     commentRepository.deleteById(comment.getId());
   }
 
-  public Comment saveComment(Comment comment) {
-    return commentRepository.save(comment);
-  }
-
-  public void updateCommentsById(Long articleId, Integer moreComments) {
-    articleRepository.updateCommentsById(articleId, moreComments);
-  }
-
   public void submitComment(String username , Long articleId, String comment){
     User user = userRepository.findByUsername(username);
-    updateCommentsById(articleId, 1);
+    articleRepository.updateCommentsById(articleId, 1);
     Article article = articleRepository.findById(articleId).orElse(null);
     Comment commentEntity = new Comment(user, article, comment, null);
-    saveComment(commentEntity);
+    commentRepository.save(commentEntity);
   }
 }

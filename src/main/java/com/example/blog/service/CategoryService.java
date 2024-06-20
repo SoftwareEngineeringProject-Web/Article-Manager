@@ -34,16 +34,8 @@ public class CategoryService {
     return categoryRepository.findByUserId(userId);
   }
 
-  public List<Category> findByParentId(Long parentId) {
-    return categoryRepository.findByParentId(parentId);
-  }
-
   public Category saveCategory(Category category) {
     return categoryRepository.save(category);
-  }
-
-  public void deleteById(Long id) {
-    categoryRepository.deleteById(id);
   }
 
   public void deleteCategory(Long id){
@@ -58,12 +50,12 @@ public class CategoryService {
     while (!categories.isEmpty()) {
       Category last = categories.get(categories.size() - 1);
       categories.remove(categories.size() - 1);
-      categories.addAll(findByParentId(last.getId()));
+      categories.addAll(categoryRepository.findByParentId(last.getId()));
       articleRepository.setCategoryIdToNullByCategoryId(last.getId());
       toBeDeleted.addFirst(last);
     }
     toBeDeleted.forEach(category -> {
-      deleteById(category.getId());
+      categoryRepository.deleteById(category.getId());
     });
   }
 
@@ -98,7 +90,6 @@ public class CategoryService {
     result.put("currentCategoryName", categoryId != null ? nodes.get(categoryId).getName() : null);
     result.put("currentPage", page);
     result.put("totalPages", articles.getTotalPages());
-
     return result;
   }
 }

@@ -1,7 +1,6 @@
 package com.example.blog.service;
 
 import com.example.blog.entity.Article;
-import com.example.blog.entity.Like;
 import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.LikeRepository;
 import com.example.blog.repository.UserRepository;
@@ -18,26 +17,14 @@ public class LikeService {
   @Autowired
   private ArticleRepository articleRepository;
 
-  public Like getByUserIdAndArticleId(Long userId, Long articleId) {
-    return likeRepository.findByUserIdAndArticleId(userId, articleId);
-  }
-
-  public void insertByUserIdAndArticleId(Long userId, Long articleId) {
-    likeRepository.insertByUserIdAndArticleId(userId, articleId);
-  }
-
-  public void deleteByUserIdAndArticleId(Long userId, Long articleId) {
-    likeRepository.deleteByUserIdAndArticleId(userId, articleId);
-  }
-
   public Integer getLikeCountByArticleId(Long articleId, String username) {
     Long userId = userRepository.findByUsername(username).getId();
-    if (getByUserIdAndArticleId(userId, articleId) == null) {
+    if (likeRepository.findByUserIdAndArticleId(userId, articleId) == null) {
       articleRepository.updateLikesById(articleId, 1);
-      insertByUserIdAndArticleId(userId, articleId);
+      likeRepository.insertByUserIdAndArticleId(userId, articleId);
     } else {
       articleRepository.updateLikesById(articleId, -1);
-      deleteByUserIdAndArticleId(userId, articleId);
+      likeRepository.deleteByUserIdAndArticleId(userId, articleId);
     }
     Article article = articleRepository.findById(articleId).orElse(null);
     if (article != null){

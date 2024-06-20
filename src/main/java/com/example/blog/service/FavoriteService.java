@@ -25,10 +25,6 @@ public class FavoriteService {
     return favoriteRepository.findById(id).orElse(null);
   }
 
-  public void deleteById(Long id) {
-    favoriteRepository.deleteById(id);
-  }
-
   public void insert(Favorite favorite) {
     favorite.setId(null);
     favoriteRepository.save(favorite);
@@ -41,7 +37,7 @@ public class FavoriteService {
 
   public void deleteFavoriteByFavoriteId(Long favoriteId){
     List<Long> articleIds = favoriteArticleRepository.findArticleIdsByFavoriteId(favoriteId);
-    deleteById(favoriteId);
+    favoriteRepository.deleteById(favoriteId);
     for (Long articleId : articleIds) {
       articleRepository.updateFavoritesById(articleId, -1);
     }

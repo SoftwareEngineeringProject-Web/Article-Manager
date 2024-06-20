@@ -32,9 +32,6 @@ public class FavoriteArticleService {
     articleRepository.updateFavoritesById(articleId, -1);
   }
 
-  public FavoriteArticle findByArticleIdAndFavoriteId(Long articleId, Long favoriteId) {
-    return favoriteArticleRepository.findByArticleIdAndFavoriteId(articleId, favoriteId);
-  }
   public ArrayList<FavoriteWithArticles> getFavoriteArticleListByUserId(Long userId){
     List<Favorite> favorites = favoriteRepository.findByUserId(userId);
     ArrayList<FavoriteWithArticles> favoriteWithArticlesList = new ArrayList<>();
@@ -46,7 +43,7 @@ public class FavoriteArticleService {
   }
 
   public Integer addFavoriteArticle(Long favoriteId, Long articleId){
-    FavoriteArticle favoriteArticle = findByArticleIdAndFavoriteId(articleId, favoriteId);
+    FavoriteArticle favoriteArticle = favoriteArticleRepository.findByArticleIdAndFavoriteId(articleId, favoriteId);
     if (favoriteArticle != null) {
       return null;
     } else {

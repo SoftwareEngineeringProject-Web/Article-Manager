@@ -56,10 +56,6 @@ public class ArticleService {
     articleRepository.updateArticle(article.getTitle(), article.getContent(), article.getCategory(), article.isPublic(), article.getId());
   }
 
-  public void updateViews(Article article) {
-    articleRepository.updateViews(article.getId(), article.getViews());
-  }
-
   public void deleteById(Long id) {
     articleRepository.deleteById(id);
   }
@@ -71,7 +67,7 @@ public class ArticleService {
     String categoryPath = category == null ? null : category.getFullCategoryPath();
     List<Favorite> favoriteList = favoriteRepository.findByUserId(userId);
     article.incrementViews();
-    updateViews(article);
+    articleRepository.updateViews(article.getId(), article.getViews());
     List<Comment> comments = commentRepository.findByArticleId(article.getId());
 
     data.put("article", article);
