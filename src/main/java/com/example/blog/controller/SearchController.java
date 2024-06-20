@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Instant;
@@ -27,12 +26,14 @@ public class SearchController {
     return "search-articles";
   }
 
-  @PostMapping("/{username}/search-articles")
+  @GetMapping("/{username}/search-article-list")
   public String searchArticles(@PathVariable("username") String username,
                                @RequestParam(name = "pageNo", defaultValue = "0") int pageNo,
                                @RequestParam(name = "keyword") String keyword,
                                @RequestParam(name = "beginDate") String beginDate,
                                @RequestParam(name = "endDate") String endDate,
+                               @RequestParam(name = "beginDateDummy") String beginDateDummy,
+                               @RequestParam(name = "endDateDummy") String endDateDummy,
                                Model model) {
     beginDate = beginDate.equals("") ? null : beginDate;
     endDate = endDate.equals("") ? null : endDate;
@@ -48,6 +49,8 @@ public class SearchController {
     begin = Instant.parse(beginDate == null ? "2000-01-01T00:00:00Z" : beginDate);
     end = endDate == null ? Instant.now() : Instant.parse(endDate);
     model.addAllAttributes(searchService.searchArticle(user.getId(), pageNo, keyword, begin, end));
+    model.addAttribute("beginDateDummy", beginDateDummy);
+    model.addAttribute("endDateDummy", endDateDummy);
     return "search-articles";
   }
 }
