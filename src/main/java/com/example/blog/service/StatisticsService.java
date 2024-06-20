@@ -50,7 +50,6 @@ public class StatisticsService {
 
   public Map<String, Object> getAllStatistics(User user){
     Map<String, Object> statisticsData = new HashMap<>();
-
     Integer totalArticles = countByUserId(user.getId()); // 共发布文章数量
     Integer totalComments = getTotalCommentsByUserId(user.getId()); // 共收到评论数量
     Integer totalLikes = getTotalLikesByUserId(user.getId()); // 共获得点赞数量

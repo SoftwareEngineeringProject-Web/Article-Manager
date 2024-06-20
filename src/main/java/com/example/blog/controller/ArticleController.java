@@ -133,7 +133,7 @@ public class ArticleController {
     Long favoriteId = payload.get("favoriteId");
     Map<String, Object> response = new HashMap<>();
     Integer favoriteCount = favoriteArticleService.addFavoriteArticle(favoriteId, articleId);
-    if(favoriteCount == null){
+    if (favoriteCount == null) {
       response.put("success", false);
       response.put("favoriteCount", 0);
     } else {
