@@ -1,7 +1,8 @@
 package com.example.blog.controller;
 
-import java.time.Instant;
-
+import com.example.blog.entity.User;
+import com.example.blog.service.SearchService;
+import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.blog.entity.User;
-import com.example.blog.service.SearchService;
-import com.example.blog.service.UserService;
+import java.time.Instant;
 
 @Controller
 public class SearchController {
@@ -44,13 +43,11 @@ public class SearchController {
     if (keyword == null && beginDate == null && endDate == null) {
       return "search-articles";
     }
-    Instant begin = null;
-    Instant end = null;
-    if (beginDate != null || endDate != null) {
-      begin = Instant.parse(beginDate == null ? "2000-01-01T00:00:00Z" : beginDate);
-      end = endDate == null ? Instant.now() : Instant.parse(endDate);
-    }
-    model.addAllAttributes(searchService.searchArticle(pageNo, keyword, begin, end));
+    Instant begin;
+    Instant end;
+    begin = Instant.parse(beginDate == null ? "2000-01-01T00:00:00Z" : beginDate);
+    end = endDate == null ? Instant.now() : Instant.parse(endDate);
+    model.addAllAttributes(searchService.searchArticle(user.getId(), pageNo, keyword, begin, end));
     return "search-articles";
   }
 }

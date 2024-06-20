@@ -19,7 +19,7 @@ public class SearchService {
 
   public Map<String, Object> searchArticle(long userId, int pageNo, String keyword, Instant begin, Instant end) {
     PageRequest pageable = PageRequest.of(pageNo, 10);
-    Page<Article> articles = keyword.isEmpty() ? articleRepository.findByCreatedTimeBetween(userId, begin, end, pageable) :
+    Page<Article> articles = keyword == null ? articleRepository.findByCreatedTimeBetween(userId, begin, end, pageable) :
                              articleRepository.findByKeywordInTitleAndCreatedTimeBetween(userId,"%" + keyword + "%", begin, end, pageable);
     Map<String, Object> result = new HashMap<String, Object>();
     result.put("articles", articles.getContent());

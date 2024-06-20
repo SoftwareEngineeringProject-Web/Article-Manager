@@ -9,6 +9,37 @@
   <link rel="stylesheet" th:href="@{/Css/navbar.css}" type="text/css">
   <link rel="stylesheet" th:href="@{/Css/globalBody.css}" type="text/css">
 </head>
+<style>
+  #searchForm {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  #searchForm .form-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 0;
+  }
+
+  #searchForm .form-group label {
+    margin-bottom: 0;
+  }
+
+  #searchForm .form-control {
+    min-width: 150px;
+  }
+
+  #searchForm .btn {
+    margin-top: 0;
+  }
+  .article-content {
+    margin-top: 20px;
+  }
+
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}">
@@ -38,7 +69,7 @@
   <form id="searchForm" th:action="@{/{username}/search-articles(username=${user.getUsername()})}" method="post">
     <div class="form-group">
       <label for="keyword">关键字</label>
-      <input type="text" class="form-control" id="keyword" name="keyword">
+      <input th:value="${keyword}" type="text" class="form-control" id="keyword" name="keyword">
     </div>
     <div class="form-group">
       <label for="beginDateDummy">开始时间</label>
@@ -54,29 +85,28 @@
       <input type="hidden" class="form-control" id="endDate" name="endDate">
     <button type="submit" class="btn btn-primary">搜索</button>
   </form>
-
-  <div id="results" class="mt-4"></div>
-</div>
-<div class="article-content" th:if="${articles != null}">
-  <div th:each="article : ${articles}">
-    <div class="post-preview">
-      <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none;">
-        <h2 class="post-title" th:text="${article.title}"></h2>
-      </a>
-      <div class="post-created-time" th:id="${'created-at-' + article.id}"
-           th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></div>
-      <p class="post-excerpt" th:text="${#strings.abbreviate(article.content, 150)}"></p>
-      <div style="display: grid; grid-template-areas: 'read-more like-and-comment'; grid-template-columns: 2fr 1fr; height: 24px;">
-        <a style="grid-area: read-more; text-align: left; " th:href="@{./article/{id}(id=${article.id})}"
-           class="link-post-preview">阅读更多</a>
-        <div style="grid-area: like-and-comment; text-align: right; justify-self: end;"
-             class="post-meta-container d-flex">
-          <p class="post-meta like-meta">点赞(<span th:text="${article.getLikes()}"></span>)</p>
-          <p class="post-meta comment-meta">评论(<span th:text="${article.getComments()}"></span>)</p>
+  <div class="article-content" th:if="${articles != null}">
+    <div th:each="article : ${articles}">
+      <div class="post-preview">
+        <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none;">
+          <h2 class="post-title" th:text="${article.title}"></h2>
+        </a>
+        <div class="post-created-time" th:id="${'created-at-' + article.id}"
+             th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></div>
+        <p class="post-excerpt" th:text="${#strings.abbreviate(article.content, 150)}"></p>
+        <div style="display: grid; grid-template-areas: 'read-more like-and-comment'; grid-template-columns: 2fr 1fr; height: 24px;">
+          <a style="grid-area: read-more; text-align: left; " th:href="@{./article/{id}(id=${article.id})}"
+             class="link-post-preview">阅读更多</a>
+          <div style="grid-area: like-and-comment; text-align: right; justify-self: end;"
+               class="post-meta-container d-flex">
+            <p class="post-meta like-meta">点赞(<span th:text="${article.getLikes()}"></span>)</p>
+            <p class="post-meta comment-meta">评论(<span th:text="${article.getComments()}"></span>)</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
 <!-- 分页栏 -->
 <nav th:if="${totalPages != null and totalPages != 0 }" aria-label="Page navigation">
