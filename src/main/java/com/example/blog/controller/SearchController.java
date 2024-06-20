@@ -1,13 +1,8 @@
 package com.example.blog.controller;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +35,10 @@ public class SearchController {
                                @RequestParam(name = "beginDate") String beginDate,
                                @RequestParam(name = "endDate") String endDate,
                                Model model) {
+    beginDate = beginDate.equals("") ? null : beginDate;
+    endDate = endDate.equals("") ? null : endDate;
+    keyword = keyword.equals("") ? null : keyword;
+
     User user = userService.findUserByUsername(username);
     model.addAttribute("user", user);
     if (keyword == null && beginDate == null && endDate == null) {

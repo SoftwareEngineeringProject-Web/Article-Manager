@@ -41,13 +41,17 @@
       <input type="text" class="form-control" id="keyword" name="keyword">
     </div>
     <div class="form-group">
-      <label for="beginDate">开始时间</label>
-      <input type="datetime-local" class="form-control" id="beginDate" name="beginDate">
+      <label for="beginDateDummy">开始时间</label>
+      <input type="datetime-local" class="form-control" id="beginDateDummy" name="beginDateDummy">
     </div>
     <div class="form-group">
-      <label for="endDate">结束时间</label>
-      <input type="datetime-local" class="form-control" id="endDate" name="endDate">
+      <label for="endDateDummy">结束时间</label>
+      <input type="datetime-local" class="form-control" id="endDateDummy" name="endDateDummy">
     </div>
+      <label for="beginDate"></label>
+      <input type="hidden" class="form-control" id="beginDate" name="beginDate">
+      <label for="endDate"></label>
+      <input type="hidden" class="form-control" id="endDate" name="endDate">
     <button type="submit" class="btn btn-primary">搜索</button>
   </form>
 
@@ -101,14 +105,21 @@
   </ul>
 </nav>
 <script>
+  function validateDate(dateInput, dateInputDummy) {
+    try {
+      dateInput.value = new Date(dateInputDummy.value).toISOString();
+    } catch (e) {
+      dateInput.value = null;
+    }
+  }
   const searchForm = document.getElementById('searchForm');
+  let beginDateInputDummy = document.getElementById('beginDateDummy');
+  let endDateInputDummy = document.getElementById('endDateDummy');
   let beginDateInput = document.getElementById('beginDate');
   let endDateInput = document.getElementById('endDate');
   searchForm.addEventListener('submit', event => {
-    console.log(beginDateInput.value);
-    console.log(endDateInput.value);
-    beginDateInput.value = new Date(beginDateInput.value).toISOString();
-    endDateInput.value = new Date(endDateInput.value).toISOString();
+    validateDate(beginDateInput, beginDateInputDummy);
+    validateDate(endDateInput, endDateInputDummy);
     searchForm.dispatchEvent(new Event('change'));  // 确保修改被浏览器感知
     searchForm.submit();
   });

@@ -86,12 +86,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
   @Query("SELECT SUM(a.favorites) FROM Article a WHERE a.user.id = ?1")
   Integer getTotalFavoritesByUserId(Long userId);
 
-  @Query("SELECT article FROM Article article WHERE article.title LIKE :keyword")
+  @Query("SELECT article FROM Article article WHERE article.title LIKE %:keyword%")
   Page<Article> findByKeywordInTitle(String keyword, Pageable pageable);
 
   @Query("SELECT article FROM Article article WHERE article.createdAt BETWEEN :begin AND :end")
   Page<Article> findByCreatedTimeBetween(Instant begin, Instant end, Pageable pageable);
 
-  @Query("SELECT article FROM Article article WHERE article.title LIKE :keyword AND article.createdAt BETWEEN :begin AND :end")
+  @Query("SELECT article FROM Article article WHERE article.title LIKE %:keyword% AND article.createdAt BETWEEN :begin AND :end")
   Page<Article> findByKeywordInTitleAndCreatedTimeBetween(String keyword, Instant begin, Instant end, Pageable pageable);
 }
