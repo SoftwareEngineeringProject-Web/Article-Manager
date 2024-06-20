@@ -1,6 +1,7 @@
 package com.example.blog.controller;
 
 import com.example.blog.entity.User;
+import com.example.blog.service.CategoryService;
 import com.example.blog.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserController {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private CategoryService categoryService;
 
   // 登录页面请求处理方法
   @GetMapping("/login")
@@ -46,6 +50,7 @@ public class UserController {
   @DeleteMapping("/{username}/delete-user/{userId}")
   public ResponseEntity<String> deleteUser(@PathVariable("userId") Long userId, @PathVariable("username") String username) {
     if (username.equals("Admin")) {
+      categoryService.deleteAllCategoryByUserId(userId);
       userService.deleteUser(userId);
       return ResponseEntity.ok("删除成功");
     } else {

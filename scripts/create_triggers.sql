@@ -26,7 +26,6 @@ BEGIN
     delete from favorites where user_id = old.id;
     delete from likes where user_id = old.id;
     delete from comments where user_id = old.id;
-    delete from categories where user_id = old.id;
     delete from articles where user_id = old.id;
 END;
 $$
