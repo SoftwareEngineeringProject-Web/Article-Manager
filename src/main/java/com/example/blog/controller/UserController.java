@@ -40,4 +40,10 @@ public class UserController {
       return "redirect:/login"; // 重定向到登录页面
     }
   }
+
+  @DeleteMapping("/{username}/delete-user/{userId}")
+  public String deleteUser(@PathVariable("userId") Long userId, @PathVariable("username") String username) {
+    userService.deleteUser(userId);
+    return "redirect:/{username}/admin-management";
+  }
 }

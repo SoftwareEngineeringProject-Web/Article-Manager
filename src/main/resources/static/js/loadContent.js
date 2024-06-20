@@ -1,11 +1,11 @@
-function loadContent(htmlPage, currentPage) {
+function loadContent(url,htmlPage, currentPage) {
   const contentContainer = document.getElementById('content-container');
   contentContainer.innerHTML = ''; // 清空内容容器
   $('.sidebar a').removeClass('active'); // 移除所有链接的活动类
   $(`.sidebar a[href="#${htmlPage}"]`).addClass('active'); // 为当前链接添加活动类
 
   // 动态加载页面内容
-  fetch(`background/${htmlPage}?page=${currentPage || 0}`)
+  fetch(`${url}/${htmlPage}?page=${currentPage || 0}`)
       .then(response => response.text())
       .then(html => {
         contentContainer.innerHTML = html;
@@ -28,7 +28,7 @@ function loadContent(htmlPage, currentPage) {
           }).then(response => {
             if (response.ok) {
               $('#confirmDeleteModal').modal('hide');
-              loadContent('manage-articles');
+              loadContent(url,'manage-articles');
             } else {
               alert('删除失败');
             }
@@ -60,7 +60,7 @@ function loadContent(htmlPage, currentPage) {
           }).then(response => {
             if (response.ok) {
               $('#confirmDeleteCommentModal').modal('hide');
-              loadContent('manage-comments');
+              loadContent(url,'manage-comments');
             } else {
               alert('删除失败');
             }
@@ -86,7 +86,7 @@ function loadContent(htmlPage, currentPage) {
           }).then(response => {
             if (response.ok) {
               $('#confirmDeleteFavoriteModal').modal('hide');
-              loadContent('manage-favorites');
+              loadContent(url,'manage-favorites');
             } else {
               alert('删除失败');
             }
@@ -113,7 +113,7 @@ function loadContent(htmlPage, currentPage) {
           }).then(response => {
             if (response.ok) {
               $('#editFavoriteModal').modal('hide');
-              loadContent('manage-favorites');
+              loadContent(url,'manage-favorites');
             } else {
               alert('修改失败');
             }
@@ -141,10 +141,36 @@ function loadContent(htmlPage, currentPage) {
           }).then(response => {
             if (response.ok) {
               $('#confirmRemoveFromFavoriteModal').modal('hide');
-              loadContent('manage-favorites');
+              loadContent(url,'manage-favorites');
             } else {
               alert('删除失败');
             }
+          });
+
+          $('#confirmDeleteUserModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var username = button.data('user-username');
+            var userId = button.data('user-id');
+            var modal = $(this);
+            modal.find('.favorite-content').text("确定要删除用户：\"" + username + "\" 吗？");
+            var confirmDeleteFavoriteButton = $(this).find('#confirmDeleteUserButton');
+            confirmDeleteFavoriteButton.data('user-id', userId);
+          });
+          $('#confirmDeleteUserButton').on('click', function () {
+            var userId = $(this).data('user-id');
+            fetch(`/{username}/delete-favorite/${userId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              if (response.ok) {
+                $('#confirmDeleteUserModal').modal('hide');
+                loadContent(url,'manage-users');
+              } else {
+                alert('删除失败');
+              }
+            });
           });
         });
       })

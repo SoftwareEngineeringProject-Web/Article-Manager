@@ -22,7 +22,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     String username = userDetails.getUsername();
 
     // 构建重定向URL，将 {username} 替换为当前用户的实际标识符
-    String redirectUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+    String redirectUrl = username.equals("Admin") ? "/Admin/admin-management" : ServletUriComponentsBuilder.fromCurrentContextPath()
         .path("/{username}/home")
         .buildAndExpand(username)
         .toUriString();

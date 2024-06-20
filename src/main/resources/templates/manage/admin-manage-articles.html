@@ -11,15 +11,8 @@
           <input type="text" class="form-control" name="title" placeholder="按标题查询" th:value="${param.title}">
         </div>
       </div>
-      <div class="col-md-3 mb-3">
-        <select class="form-control" name="category">
-          <option value="" th:text="'选择分类'" th:selected="${param.category == null}"></option>
-          <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"
-                  th:selected="${param.category == category.id}"></option>
-        </select>
-      </div>
       <div class="col-md-2 mb-3">
-        <button type="button" class="btn btn-primary" th:attr="onclick='searchArticles(\'${user.username}\')'">查询
+        <button type="button" class="btn btn-primary" th:attr="onclick='searchArticles(\'Admin\')'">查询
         </button>
       </div>
       <div class="col-md-2 mb-3">
@@ -35,7 +28,6 @@
       <tr>
         <th>ID</th>
         <th>标题</th>
-        <th>分类</th>
         <th>创建时间</th>
         <th>权限</th>
         <th>操作</th>
@@ -45,16 +37,11 @@
       <tr th:each="article : ${articles}">
         <td th:text="${article.id}"></td>
         <td th:text="${article.title}"></td>
-        <td th:text="${article.category != null} ? ${article.category.name} : '没有分类'"></td>
         <td class="post-created-time" th:id="${'created-at-' + article.id}"
             th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td th:text="${article.isPublic() ? '公开' : '私密'}"></td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <a th:href="@{/{username}/edit-article/{id}(id=${article.id}, username=${user.username})}"
-               class="btn btn-edit btn-sm">
-              <i class="bi bi-pencil-square"></i> 编辑文章
-            </a>
             <a th:href="@{/{username}/delete-article/{id}(id=${article.id}, username=${user.username})}"
                class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal"
                th:data-article-title="${article.title}" th:data-article-id="${article.id}">
@@ -94,7 +81,7 @@
     <ul class="pagination justify-content-center">
       <!-- 上一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-        <a class="page-link" th:attr="onclick='loadContent(\'background\', \'manage-articles\', '+${currentPage - 1}+')'" href="#"
+        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'admin-manage-articles\', '+${currentPage - 1}+')'" href="#"
            aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
@@ -103,12 +90,12 @@
       <!-- 分页按钮 -->
       <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}"
           th:classappend="${pageNo == currentPage} ? 'active'">
-        <a class="page-link" th:attr="onclick='loadContent(\'background\', \'manage-articles\', '+${pageNo}+')'" href="#"
+        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'admin-manage-articles\', '+${pageNo}+')'" href="#"
            th:text="${pageNo + 1}"></a>
       </li>
       <!-- 下一页按钮 -->
       <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-        <a class="page-link" th:attr="onclick='loadContent(\'background\', \'manage-articles\', '+${currentPage + 1}+')'" href="#"
+        <a class="page-link" th:attr="onclick='loadContent(\'admin-management\',\'admin-manage-articles\', '+${currentPage + 1}+')'" href="#"
            aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>

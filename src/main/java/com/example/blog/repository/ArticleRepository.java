@@ -91,4 +91,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
   @Query("SELECT article FROM Article article WHERE article.title LIKE :keyword AND (article.isPublic = true OR article.user.id = :userId) AND article.createdAt BETWEEN :begin AND :end")
   Page<Article> findByKeywordInTitleAndCreatedTimeBetween(Long userId, String keyword, Instant begin, Instant end, Pageable pageable);
+  @Query("SELECT article FROM Article article")
+  Page<Article> findPaged(Pageable pageable);
+
+  Page<Article> findPagedByTitle(String title, Pageable pageable);
 }

@@ -22,4 +22,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
   List<Comment> findByResponseId(Long responseId);
 
   void deleteById(Long id);
+
+  @Query("SELECT comment FROM Comment comment")
+  Page<Comment> findPaged(Pageable pageable);
 }

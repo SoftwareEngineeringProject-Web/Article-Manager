@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>管理页面</title>
+  <title>管理员管理页面</title>
   <link rel="stylesheet" th:href="@{/Css/bootstrap.min.css}" type="text/css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" th:href="@{/Css/back-to-top.css}" type="text/css">
-  <link rel="stylesheet" th:href="@{/Css/navbar.css}" type="text/css">
   <link rel="stylesheet" th:href="@{/Css/globalBody.css}" type="text/css">
 
   <style>
     .alert {
       display: none; /* 默认隐藏 */
     }
+
     .content {
       display: flex;
       flex-direction: column;
       height: 100vh;
     }
+
     .wrapper {
       display: flex;
       width: 100%;
@@ -29,7 +30,6 @@
       color: #fff;
       min-height: 100vh;
       position: fixed;
-      padding-top: 70px;
       top: 0;
       left: 0;
       overflow-y: auto;
@@ -60,36 +60,13 @@
   </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}">
-    <i class="bi bi-house-door-fill"></i> 首页
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">后台管理</a>
-      </li>
-    </ul>
-  </div>
-</nav>
 <div class="wrapper">
   <nav class="sidebar">
     <i class="bi bi-gear-fill" style="font-size: 100px; margin-bottom: 20px; margin-left: 50px;"></i>
-    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'background\',\'manage-articles\')'">文章管理</a>
-    <a href="#manage-comments" th:attr="onclick='loadContent(\'background\',\'manage-comments\')'">评论管理</a>
-    <a href="#manage-favorites" th:attr="onclick='loadContent(\'background\',\'manage-favorites\')'">收藏夹管理</a>
-    <a href="#change-information" th:attr="onclick='loadContent(\'background\',\'change-information\')'"><i class="bi bi-person-fill-gear"></i>修改信息</a>
-    <a href="#change-password" th:attr="onclick='loadContent(\'background\',\'change-password\')'">重置密码</a>
+    <a href="#manage-users" th:attr="onclick='loadContent(\'admin-management\',\'manage-users\')'">用户管理</a>
+    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'admin-management\',\'manage-articles\')'">文章管理</a>
+    <a href="#manage-comments" th:attr="onclick='loadContent(\'admin-management\',\'manage-comments\')'">评论管理</a>
+    <a href="#change-password" th:attr="onclick='loadContent(\'admin-management\',\'change-password\')'">重置密码</a>
     <a href="#logout" th:href="@{/logout}">注销</a>
   </nav>
   <div class="content">
@@ -106,12 +83,12 @@
 
 <script>
   $(document).ready(function () {
-    loadContent('manage-articles'); // 默认加载文章管理页面
-    });
+    loadContent('manage-users'); // 默认加载文章管理页面
+  });
 </script>
 <script>
   function loadAllArticles() {
-    const url = "background/manage-articles?title=&category=";
+    const url = "admin-management/manage-articles?title=&category=";
     fetch(url, {
       method: 'GET',
       headers: {
@@ -131,7 +108,7 @@
     const title = document.querySelector('input[name="title"]').value;
     const category = document.querySelector('select[name="category"]').value;
     const formData = new URLSearchParams({title: title, category: category});
-    const url = "background/manage-articles?" + formData.toString();
+    const url = `/${username}/admin-management/manage-articles?` + formData.toString();
     fetch(url, {
       method: 'GET',
       headers: {
