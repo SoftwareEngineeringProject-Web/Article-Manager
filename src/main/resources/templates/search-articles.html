@@ -10,26 +10,63 @@
   <link rel="stylesheet" th:href="@{/Css/globalBody.css}" type="text/css">
 </head>
 <style>
+  .container {
+    width: 100vw;
+    padding-left: 100px;
+    padding-right: 100px;
+    max-width: unset;
+  }
+
   #searchForm {
-    display: flex;
+    width: 100%;
+  }
+
+  .visible-elem-container {
+    display: grid;
+    grid-template-areas: "title content beginDate endDate submitButton";
+    grid-template-columns: 3fr 3fr 3fr 3fr 1fr;
+    justify-content: center;
+    justify-content: center;
+    justify-items: center;
     align-items: center;
+    width: 100%;
+    height: 30px;
     gap: 15px;
-    flex-wrap: wrap;
   }
 
-  #searchForm .form-group {
-    display: flex;
+  .visible-input-container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-areas: "label input";
+    grid-template-columns: 4.5rem 1fr;
+    justify-content: center;
+    justify-content: center;
+    justify-items: center;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 0;
   }
 
-  #searchForm .form-group label {
-    margin-bottom: 0;
+  .visible-input-container input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    grid-area: input;
   }
 
-  #searchForm .form-control {
-    min-width: 150px;
+  .visible-input-container form-control {
+    min-width: unset;
+    min-height: unset;
+  }
+
+  .visible-input-container label {
+    grid-area: label;
+    margin: 0 0 0 0;
+    justify-self: left;
+  }
+
+  #searchForm button {
+    width: 100%;
+    height: 100%;
   }
 
   #searchForm .btn {
@@ -65,33 +102,33 @@
   </div>
 </nav>
 
-<div class="container mt-4" style="margin-top: 70px;">
-  <h2>文章检索</h2>
+<div class="container" style="margin-top: 100px;">
+  <h2 style="text-align: center;">文章检索</h2>
   <form id="searchForm" th:action="@{/{username}/search-article-list(username=${user.getUsername()})}" method="get">
-    <div class="form-group">
-      <label for="keywordInTitle">关键字</label>
-      <input th:value="${keywordInTitle}" type="text" class="form-control" id="keywordInTitle" name="keywordInTitle">
-    </div>
-    <div class="form-group">
-      <label for="keywordInContent">全文检索</label>
-      <input th:value="${keywordInContent}" type="text" class="form-control" id="keywordInContent" name="keywordInContent">
-    </div>
-    <div class="form-group">
-      <label for="beginDateDummy">开始时间</label>
-      <input th:value="${beginDateDummy}" type="datetime-local" class="form-control" id="beginDateDummy"
-             name="beginDateDummy">
-    </div>
-    <div class="form-group">
-      <label for="endDateDummy">结束时间</label>
-      <input th:value="${endDateDummy}" type="datetime-local" class="form-control" id="endDateDummy"
-             name="endDateDummy">
+    <div class="visible-elem-container">
+      <div class="visible-input-container" style="grid-area: title;">
+        <label for="keywordInTitle">关键字</label>
+        <input th:value="${keywordInTitle}" type="text" class="form-control" placeholder="关键字" id="keywordInTitle" name="keywordInTitle">
+      </div>
+      <div class="visible-input-container" style="grid-area: content;">
+        <label for="keywordInContent">全文检索</label>
+        <input th:value="${keywordInContent}" type="text" class="form-control" placeholder="全文检索" id="keywordInContent" name="keywordInContent">
+      </div>
+      <div class="visible-input-container" style="grid-area: beginDate;">
+        <label for="beginDateDummy">起始时间</label>
+        <input th:value="${beginDateDummy}" type="datetime-local" class="form-control" id="beginDateDummy" placeholder="起始时间" name="beginDateDummy">
+      </div>
+      <div class="visible-input-container" style="grid-area: endDate;">
+        <label for="endDateDummy">终止时间</label>
+        <input th:value="${endDateDummy}" type="datetime-local" class="form-control" id="endDateDummy" placeholder="终止时间" name="endDateDummy">
+      </div>
+      <button type="submit" class="btn btn-primary" style="grid-area: submitButton;">搜索</button>
     </div>
     <label for="beginDate"></label>
     <input type="hidden" class="form-control" id="beginDate" name="beginDate">
     <label for="endDate"></label>
     <input type="hidden" class="form-control" id="endDate" name="endDate">
     <input type="hidden" class="form-control" id="pageNo" name="pageNo" value="0">
-    <button type="submit" class="btn btn-primary">搜索</button>
   </form>
   <div class="article-content" th:if="${articles != null}">
     <div th:each="article : ${articles}">
