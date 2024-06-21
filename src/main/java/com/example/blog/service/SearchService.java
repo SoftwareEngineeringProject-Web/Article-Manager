@@ -17,15 +17,27 @@ public class SearchService {
   @Autowired
   private ArticleRepository articleRepository;
 
-  public Map<String, Object> searchArticle(long userId, int pageNo, String keyword, Instant begin, Instant end) {
+  public Map<String, Object> searchArticle(long userId, int pageNo, String keywordInTitle,
+                                           String keywordInContent, Instant begin, Instant end) {
     PageRequest pageable = PageRequest.of(pageNo, 10);
-    Page<Article> articles = keyword == null ? articleRepository.findByCreatedTimeBetween(userId, begin, end, pageable) :
-                             articleRepository.findByKeywordInTitleAndCreatedTimeBetween(userId,"%" + keyword + "%", begin, end, pageable);
+    String ContentPattern = keywordInContent == null ? null : "%" + keywordInContent + "%";
+    String TitlePattern = keywordInTitle == null ? null : "%" + keywordInTitle + "%";
+    Page<Article> articles = null;
+    if ( TitlePattern == null && ContentPattern == null) {
+      articles = articleRepository.findByCreatedTimeBetween(userId, begin, end, pageable);
+    } else if (TitlePattern != null && ContentPattern == null) {
+      articles = articleRepository.findByKeywordInTitleAndCreatedTimeBetween(userId, TitlePattern, begin, end, pageable);
+    } else if (TitlePattern == null && ContentPattern != null) {
+      articles = articleRepository.findByKeywordInContentAndCreatedTimeBetween(userId, ContentPattern, begin, end, pageable);
+    } else {
+      articles = articleRepository.findByKeywordInTitleAndContentAndCreatedTimeBetween(userId, TitlePattern, ContentPattern, begin, end, pageable);
+    }
     Map<String, Object> result = new HashMap<String, Object>();
     result.put("articles", articles.getContent());
     result.put("currentPage", pageNo);
     result.put("totalPages", articles.getTotalPages());
-    result.put("keyword", keyword);
+    result.put("keywordInTitle", keywordInTitle);
+    result.put("keywordInContent", keywordInContent);
     return result;
   }
 }

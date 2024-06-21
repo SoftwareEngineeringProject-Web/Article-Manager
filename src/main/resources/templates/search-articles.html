@@ -69,8 +69,12 @@
   <h2>文章检索</h2>
   <form id="searchForm" th:action="@{/{username}/search-article-list(username=${user.getUsername()})}" method="get">
     <div class="form-group">
-      <label for="keyword">关键字</label>
-      <input th:value="${keyword}" type="text" class="form-control" id="keyword" name="keyword">
+      <label for="keywordInTitle">关键字</label>
+      <input th:value="${keywordInTitle}" type="text" class="form-control" id="keywordInTitle" name="keywordInTitle">
+    </div>
+    <div class="form-group">
+      <label for="keywordInContent">全文检索</label>
+      <input th:value="${keywordInContent}" type="text" class="form-control" id="keywordInContent" name="keywordInContent">
     </div>
     <div class="form-group">
       <label for="beginDateDummy">开始时间</label>

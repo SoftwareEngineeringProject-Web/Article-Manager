@@ -89,8 +89,15 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
   @Query("SELECT article FROM Article article WHERE (article.isPublic = true OR article.user.id = :userId) AND article.createdAt BETWEEN :begin AND :end")
   Page<Article> findByCreatedTimeBetween(Long userId, Instant begin, Instant end, Pageable pageable);
 
-  @Query("SELECT article FROM Article article WHERE article.title LIKE :keyword AND (article.isPublic = true OR article.user.id = :userId) AND article.createdAt BETWEEN :begin AND :end")
-  Page<Article> findByKeywordInTitleAndCreatedTimeBetween(Long userId, String keyword, Instant begin, Instant end, Pageable pageable);
+  @Query("SELECT article FROM Article article WHERE article.title LIKE :keywordInTitle AND (article.isPublic = true OR article.user.id = :userId) AND article.createdAt BETWEEN :begin AND :end")
+  Page<Article> findByKeywordInTitleAndCreatedTimeBetween(Long userId, String keywordInTitle, Instant begin, Instant end, Pageable pageable);
+
+  @Query("SELECT article FROM Article article WHERE article.content LIKE :keywordInContent AND (article.isPublic = true OR article.user.id = :userId) AND article.createdAt BETWEEN :begin AND :end")
+  Page<Article> findByKeywordInContentAndCreatedTimeBetween(Long userId, String keywordInContent, Instant begin, Instant end, Pageable pageable);
+
+  @Query("SELECT article FROM Article article WHERE article.title LIKE :keywordInTitle AND article.content LIKE :keywordInContent AND (article.isPublic = true OR article.user.id = :userId) AND article.createdAt BETWEEN :begin AND :end")
+  Page<Article> findByKeywordInTitleAndContentAndCreatedTimeBetween(Long userId, String keywordInTitle, String keywordInContent, Instant begin, Instant end, Pageable pageable);
+
   @Query("SELECT article FROM Article article")
   Page<Article> findPaged(Pageable pageable);
 
