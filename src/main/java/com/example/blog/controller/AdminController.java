@@ -38,12 +38,6 @@ public class AdminController {
     }
   }
 
-  @PostMapping("/{username}/admin-management/change-password")
-  public String changePasswordPost(@PathVariable("username") String username, @RequestParam("password") String password) {
-    userService.changePassword(username, password);
-    return "redirect:/" + username + "/admin-management";
-  }
-
   @GetMapping("{username}/admin-management")
   public String managePage(Model model) {
     User user = userService.findUserByUsername("Admin");

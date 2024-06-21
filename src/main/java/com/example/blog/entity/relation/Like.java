@@ -1,7 +1,6 @@
-package com.example.blog.entity;
+package com.example.blog.entity.relation;
 
 import com.example.blog.multikeys.LikeMultiKeys;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;

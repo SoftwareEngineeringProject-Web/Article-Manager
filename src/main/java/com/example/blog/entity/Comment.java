@@ -31,10 +31,6 @@ public class Comment {
   @Lob
   private String content;
 
-  @ManyToOne
-  @JoinColumn(name = "response_id")
-  private Comment responseTo;
-
   @Column(name = "created_at")
   private Instant createdAt;
 
@@ -42,11 +38,10 @@ public class Comment {
   public Comment() {
   }
 
-  public Comment(User user, Article article, String content, Comment responseTo) {
+  public Comment(User user, Article article, String content) {
     this.user = user;
     this.article = article;
     this.content = content;
-    this.responseTo = responseTo;
     this.setCreatedAt();
   }
 
@@ -66,16 +61,16 @@ public class Comment {
     return content;
   }
 
-  public Comment getResponseTo() {
-    return responseTo;
-  }
-
   public void setCreatedAt() {
     this.createdAt = Instant.now();
   }
 
   public Instant getCreateTime() {
     return this.createdAt;
+  }
+
+  public String getFormattedContent() {
+    return content != null ? content.replace("\n", "<br>") : null;
   }
 
 }

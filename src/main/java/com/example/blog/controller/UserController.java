@@ -3,7 +3,6 @@ package com.example.blog.controller;
 import com.example.blog.entity.User;
 import com.example.blog.service.CategoryService;
 import com.example.blog.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,7 @@ public class UserController {
 
   // 注册请求处理方法
   @PostMapping("/register")
-  public String register(@ModelAttribute User user, @RequestParam String username, HttpSession session) {
+  public String register(@ModelAttribute User user, @RequestParam String username) {
 
     User findUser = userService.findUserByUsername(username);
 
@@ -56,5 +55,21 @@ public class UserController {
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body("无权访问");
     }
+  }
+
+  @PostMapping("/{username}/change-password")
+  public String changePasswordPost(@PathVariable("username") String username, @RequestParam("password") String password) {
+    userService.changePassword(username, password);
+    if (username.equals("Admin")) {
+      return "redirect:/" + username + "/admin-management";
+    }
+    return "redirect:/" + username + "/background";
+  }
+
+  @PostMapping("/{username}/change-information")
+  public String changeInformationPost(@PathVariable("username") String username, @RequestParam("email") String email,
+                                      @RequestParam("name") String name, @RequestParam("username") String newUsername) {
+    userService.changeInformation(username, email, name, newUsername);
+    return "redirect:/" + username + "/background";
   }
 }

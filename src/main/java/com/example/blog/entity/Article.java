@@ -163,12 +163,4 @@ public class Article {
     this.category = category;
   }
 
-  public String getFormattedContent() {
-    return content != null ? content.replace("\n", "<br>") : null;
-  }
-
-  public String toString() {
-    return "Article{id = " + id + ", title = " + title + ", content = " + content + ", user = " + user + ", category = " + category + "}";
-  }
-
 }

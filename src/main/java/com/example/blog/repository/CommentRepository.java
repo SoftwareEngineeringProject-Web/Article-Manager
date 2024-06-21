@@ -18,9 +18,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
   Page<Comment> findPagedByUserId(Long userId, Pageable pageable);
 
-  @Query("SELECT comment FROM Comment comment WHERE comment.responseTo.id = :responseId")
-  List<Comment> findByResponseId(Long responseId);
-
   void deleteById(Long id);
 
   @Query("SELECT comment FROM Comment comment")

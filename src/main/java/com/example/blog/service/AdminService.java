@@ -3,7 +3,6 @@ package com.example.blog.service;
 import com.example.blog.entity.Article;
 import com.example.blog.entity.Comment;
 import com.example.blog.repository.ArticleRepository;
-import com.example.blog.repository.CategoryRepository;
 import com.example.blog.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,14 +17,10 @@ public class AdminService {
 
   @Autowired
   private ArticleRepository articleRepository;
-
-  @Autowired
-  private CategoryRepository categoryRepository;
-
   @Autowired
   private CommentRepository commentRepository;
 
-  public Map<String, Object> setAllArticlesInformation(String title, Integer page) {
+    public Map<String, Object> setAllArticlesInformation(String title, Integer page) {
     PageRequest pageable = PageRequest.of(page, 10);
     Page<Article> articlePages;
     Map<String, Object> articlesData = new HashMap<>();

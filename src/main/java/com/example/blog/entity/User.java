@@ -86,8 +86,4 @@ public class User {
     this.createdAt = Instant.now();
   }
 
-  public String toString() {
-    return "User{id = " + id + ", username = " + username + ", password = " + password + ", email = " + email + "}";
-  }
-
 }

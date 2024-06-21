@@ -1,6 +1,6 @@
 package com.example.blog.repository;
 
-import com.example.blog.entity.Like;
+import com.example.blog.entity.relation.Like;
 
 import jakarta.transaction.Transactional;
 

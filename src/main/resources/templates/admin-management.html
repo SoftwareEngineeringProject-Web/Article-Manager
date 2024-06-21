@@ -88,7 +88,7 @@
 </script>
 <script>
   function loadAllArticles() {
-    const url = "admin-management/manage-articles?title=&category=";
+    const url = "admin-management/manage-articles?title=";
     fetch(url, {
       method: 'GET',
       headers: {
@@ -106,8 +106,7 @@
 
   function searchArticles(username) {
     const title = document.querySelector('input[name="title"]').value;
-    const category = document.querySelector('select[name="category"]').value;
-    const formData = new URLSearchParams({title: title, category: category});
+    const formData = new URLSearchParams({title: title});
     const url = `/${username}/admin-management/manage-articles?` + formData.toString();
     fetch(url, {
       method: 'GET',

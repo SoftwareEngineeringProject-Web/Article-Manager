@@ -3,7 +3,7 @@ package com.example.blog.service;
 import com.example.blog.data.FavoriteWithArticles;
 import com.example.blog.entity.Article;
 import com.example.blog.entity.Favorite;
-import com.example.blog.entity.FavoriteArticle;
+import com.example.blog.entity.relation.FavoriteArticle;
 import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.FavoriteArticleRepository;
 import com.example.blog.repository.FavoriteRepository;

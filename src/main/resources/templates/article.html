@@ -202,7 +202,7 @@
                    th:text="${#temporals.format(comment.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></small>
           </div>
           <div class="comment-body">
-            <p th:text="${comment.content}"></p>
+            <div th:text="${comment.getFormattedContent()}"></div>
           </div>
         </div>
       </div>

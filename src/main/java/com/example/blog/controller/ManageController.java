@@ -1,6 +1,9 @@
 package com.example.blog.controller;
 
 import com.example.blog.data.FavoriteWithArticles;
+import com.example.blog.entity.User;
+import com.example.blog.service.ManageService;
+import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,15 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
-
-import com.example.blog.entity.User;
-import com.example.blog.service.ManageService;
-import com.example.blog.service.UserService;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -46,19 +44,6 @@ public class ManageController {
       RedirectView redirectView = new RedirectView(redirectUrl);
       throw new ModelAndViewDefiningException(new ModelAndView(redirectView));
     }
-  }
-
-  @PostMapping("/{username}/change-password")
-  public String changePasswordPost(@PathVariable("username") String username, @RequestParam("password") String password) {
-    userService.changePassword(username, password);
-    return "redirect:/" + username + "/background";
-  }
-
-  @PostMapping("/{username}/change-information")
-  public String changeInformationPost(@PathVariable("username") String username, @RequestParam("email") String email,
-                                      @RequestParam("name") String name, @RequestParam("username") String newUsername) {
-    userService.changeInformation(username, email, name, newUsername);
-    return "redirect:/" + username + "/background";
   }
 
   @GetMapping("/{username}/background")

@@ -49,7 +49,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <a class="navbar-brand" th:href="@{/{username}/home(username=${user.username})}">
+  <a class="navbar-brand" th:href="@{/{username}/home(username=${username})}">
     <i class="bi bi-house-door-fill"></i> 首页
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -59,13 +59,13 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
+        <a class="nav-link" th:href="@{/{username}/statistics(username=${username})}">文章统计</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
+        <a class="nav-link" th:href="@{/{username}/categories(username=${username})}">文章分类</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">后台管理</a>
+        <a class="nav-link" th:href="@{/{username}/background(username=${username})}">后台管理</a>
       </li>
     </ul>
   </div>
@@ -75,7 +75,7 @@
   <i class="bi bi-exclamation-circle error-icon"></i>
   <h1>暂无权限</h1>
   <p>抱歉，您没有权限访问此页面。</p>
-  <a th:href="@{/{username}/home(username=${user.username})}">返回首页</a>
+  <a th:href="@{/{username}/home(username=${username})}">返回首页</a>
 </div>
 </body>
 </html>

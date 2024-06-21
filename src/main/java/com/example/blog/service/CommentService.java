@@ -30,7 +30,7 @@ public class CommentService {
     User user = userRepository.findByUsername(username);
     articleRepository.updateCommentsById(articleId, 1);
     Article article = articleRepository.findById(articleId).orElse(null);
-    Comment commentEntity = new Comment(user, article, comment, null);
+    Comment commentEntity = new Comment(user, article, comment);
     commentRepository.save(commentEntity);
   }
 }

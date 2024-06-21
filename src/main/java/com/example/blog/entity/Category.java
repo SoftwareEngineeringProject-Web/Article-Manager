@@ -78,10 +78,6 @@ public class Category {
     return path.toString();
   }
 
-  public String toString() {
-    return "Category{id = " + id + ", name = " + name + ", parent = " + parent + "}";
-  }
-
   public List<Article> getArticles() {
     return articles;
   }
