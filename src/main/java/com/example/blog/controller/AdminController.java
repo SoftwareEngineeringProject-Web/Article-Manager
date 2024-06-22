@@ -48,7 +48,6 @@ public class AdminController {
   @GetMapping("/{username}/admin-manage/manage-articles")
   public String manageArticles(@PathVariable("username") String username,
                                @RequestParam(name = "title", required = false) String title,
-                               @RequestParam(name = "category", required = false) Long categoryId,
                                @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
     User user = userService.findUserByUsername(username);
     model.addAttribute("user", user);
@@ -77,8 +76,7 @@ public class AdminController {
   }
 
   @GetMapping("/{username}/admin-manage/manage-users")
-  public String manageUsers(@PathVariable("username") String username,
-                            @RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
+  public String manageUsers(@RequestParam(name = "page", defaultValue = "0") Integer page, Model model) {
     Map<String, Object> usersData = userService.findAllUsers(page);
     model.addAllAttributes(usersData);
     return "manage/manage-users";

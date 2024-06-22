@@ -38,14 +38,14 @@ public class CategoryService {
     return categoryRepository.save(category);
   }
 
-  public void deleteAllCategoryByUserId(Long userId){
+  public void deleteAllCategoryByUserId(Long userId) {
     findByUserId(userId).forEach(category -> {
       if (category.getParent() == null)
         deleteCategory(category.getId());
     });
   }
 
-  public void deleteCategory(Long id){
+  public void deleteCategory(Long id) {
     List<Category> categories = new ArrayList<>();
     Category firstCategory = getCategoryById(id);
     if (firstCategory != null)
