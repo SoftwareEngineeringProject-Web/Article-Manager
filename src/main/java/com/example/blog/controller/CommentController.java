@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
@@ -47,9 +46,8 @@ public class CommentController {
   }
 
   @DeleteMapping("/{username}/delete-comment/{commentId}")
-  public ResponseEntity<String> deleteComment(@PathVariable("username") String username, @PathVariable("commentId") Long commentId, Model model) {
+  public ResponseEntity<String> deleteComment(@PathVariable("username") String username, @PathVariable("commentId") Long commentId) {
     Comment comment = commentService.getCommentById(commentId);
-    model.addAttribute("defaultPage", "manage-comments");
     if (comment.getArticle().getUser().getUsername().equals(username)
         || comment.getUser().getUsername().equals(username) || username.equals("Admin")) {
       commentService.deleteComment(comment);

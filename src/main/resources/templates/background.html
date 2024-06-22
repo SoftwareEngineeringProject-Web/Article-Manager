@@ -68,16 +68,24 @@
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse" id="navbarNav">
+    <form class="form-inline my-2 my-lg-0" th:action="@{/{username}/search-articles(username=${user.username})}" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="搜索" name="keywordInTitle">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+    </form>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
+        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">
+          <i class="bi bi-bar-chart-line"></i> 文章统计</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
+        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">
+          <i class="bi bi-list-task"></i> 文章分类</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">后台管理</a>
+        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">
+          <i class="bi bi-gear"></i> 后台管理</a>
       </li>
     </ul>
   </div>
@@ -85,10 +93,10 @@
 <div class="wrapper">
   <nav class="sidebar">
     <i class="bi bi-gear-fill" style="font-size: 100px; margin-bottom: 20px; margin-left: 50px;"></i>
-    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'background\',\'manage-articles\')'">文章管理</a>
-    <a href="#manage-comments" th:attr="onclick='loadContent(\'background\',\'manage-comments\')'">评论管理</a>
-    <a href="#manage-favorites" th:attr="onclick='loadContent(\'background\',\'manage-favorites\')'">收藏夹管理</a>
-    <a href="#change-information" th:attr="onclick='loadContent(\'background\',\'change-information\')'"><i class="bi bi-person-fill-gear"></i>修改信息</a>
+    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'background\',\'manage-articles\')'"><i class="bi bi-file-text-fill"></i> 文章管理</a>
+    <a href="#manage-comments" th:attr="onclick='loadContent(\'background\',\'manage-comments\')'"><i class="bi bi-chat-text-fill"></i> 评论管理</a>
+    <a href="#manage-favorites" th:attr="onclick='loadContent(\'background\',\'manage-favorites\')'"><i class="bi bi-bookmark-star-fill"></i> 收藏夹管理</a>
+    <a href="#change-information" th:attr="onclick='loadContent(\'background\',\'change-information\')'"><i class="bi bi-person-fill"></i> 修改信息</a>
     <a href="#change-password" th:attr="onclick='loadContent(\'background\',\'change-password\')'">重置密码</a>
     <a href="#logout" th:href="@{/logout}">注销</a>
   </nav>

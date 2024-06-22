@@ -17,8 +17,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
   Page<Article> findPagedByUserId(Long userId, Pageable pageable);
 
-  List<Article> findByCategory(Category category);
-
   void deleteById(Long id);
 
   Page<Article> findByUserIdAndTitleAndCategory(Long userId, String title, Category category, Pageable pageable);
@@ -44,11 +42,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
   @Transactional
   @Query("UPDATE Article a SET a.views = ?2 WHERE a.id = ?1")
   void updateViews(Long id, Integer views);
-
-  @Modifying
-  @Transactional
-  @Query("UPDATE Article a SET a.likes = ?2 WHERE a.id = ?1")
-  void updateLikes(Long id, Integer likes);
 
   @Modifying
   @Transactional

@@ -30,8 +30,7 @@ public class FavoriteController {
   FavoriteArticleService favoriteArticleService;
 
   @PostMapping("/{username}/add-favorite/{articleId}")
-  public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @PathVariable("articleId") Long articleId,
-                                              @RequestBody Map<String, String> payload) {
+  public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @RequestBody Map<String, String> payload) {
     String favoriteName = payload.get("name");
     User user = userService.findUserByUsername(username);
     Favorite favorite = favoriteService.addFavorite(user.getId(), favoriteName);

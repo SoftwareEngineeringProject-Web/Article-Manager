@@ -2,9 +2,19 @@
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  display: flex;
 }
 
 .navbar-brand {
   font-size: 1.8rem;
   font-weight: bold;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item .nav-link {
+  margin-left: 20px;
 }

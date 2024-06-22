@@ -128,8 +128,7 @@ public class ArticleController {
   }
 
   @PostMapping("/{username}/{id}/favorite")
-  public ResponseEntity<Map<String, Object>> favoriteArticle(@PathVariable("username") String username, @PathVariable("id") Long articleId,
-                                                             @RequestBody Map<String, Long> payload) {
+  public ResponseEntity<Map<String, Object>> favoriteArticle(@PathVariable("id") Long articleId, @RequestBody Map<String, Long> payload) {
     Long favoriteId = payload.get("favoriteId");
     Map<String, Object> response = new HashMap<>();
     Integer favoriteCount = favoriteArticleService.addFavoriteArticle(favoriteId, articleId);

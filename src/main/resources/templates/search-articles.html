@@ -16,7 +16,12 @@
     padding-right: 100px;
     max-width: unset;
   }
-
+  h1 {
+    margin-bottom: 30px;
+    color: #343a40;
+    text-align: center;
+    font-weight: bold;
+  }
   #searchForm {
     width: 100%;
   }
@@ -24,7 +29,7 @@
   .visible-elem-container {
     display: grid;
     grid-template-areas: "title content beginDate endDate submitButton";
-    grid-template-columns: 3fr 3fr 3fr 3fr 1fr;
+    grid-template-columns: 4fr 4fr 4fr 4fr 1fr;
     justify-content: center;
     justify-content: center;
     justify-items: center;
@@ -87,24 +92,32 @@
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse" id="navbarNav">
+    <form class="form-inline my-2 my-lg-0" th:action="@{/{username}/search-articles(username=${user.username})}" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="搜索" name="keywordInTitle">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+    </form>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
+        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">
+          <i class="bi bi-bar-chart-line"></i> 文章统计</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
+        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">
+          <i class="bi bi-list-task"></i> 文章分类</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">后台管理</a>
+        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">
+          <i class="bi bi-gear"></i> 后台管理</a>
       </li>
     </ul>
   </div>
 </nav>
 
 <div class="container" style="margin-top: 100px;">
-  <h2 style="text-align: center;">文章检索</h2>
-  <form id="searchForm" th:action="@{/{username}/search-article-list(username=${user.getUsername()})}" method="get">
+  <h1 style="text-align: center;">文章检索</h1>
+  <form id="searchForm" th:action="@{/{username}/search-articles(username=${user.getUsername()})}" method="get">
     <div class="visible-elem-container">
       <div class="visible-input-container" style="grid-area: title;">
         <label for="keywordInTitle">关键字</label>
@@ -122,7 +135,7 @@
         <label for="endDateDummy">终止时间</label>
         <input th:value="${endDateDummy}" type="datetime-local" class="form-control" id="endDateDummy" placeholder="终止时间" name="endDateDummy">
       </div>
-      <button type="submit" class="btn btn-primary" style="grid-area: submitButton;">搜索</button>
+      <button type="submit" class="btn btn-outline-primary my-2 my-sm-0" style="grid-area: submitButton;"><i class="bi bi-search"></i></button>
     </div>
     <label for="beginDate"></label>
     <input type="hidden" class="form-control" id="beginDate" name="beginDate">
