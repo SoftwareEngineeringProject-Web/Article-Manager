@@ -18,16 +18,24 @@
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
+      <form class="form-inline my-2 my-lg-0" th:action="@{/{username}/search-articles(username=${user.username})}" method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="搜索" id="keywordInTitle" name="keywordInTitle">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+      </form>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">文章统计</a>
+        <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">
+          <i class="bi bi-bar-chart-line"></i> 文章统计</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">文章分类</a>
+        <a class="nav-link" th:href="@{/{username}/categories(username=${user.username})}">
+          <i class="bi bi-list-task"></i> 文章分类</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">后台管理</a>
+        <a class="nav-link" th:href="@{/{username}/background(username=${user.username})}">
+          <i class="bi bi-gear"></i>  后台管理</a>
       </li>
     </ul>
   </div>
