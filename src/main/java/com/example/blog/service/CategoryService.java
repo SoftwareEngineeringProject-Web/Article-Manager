@@ -73,13 +73,9 @@ public class CategoryService {
     HashMap<Long, CategoryTreeNode> nodes = new HashMap<>();
     Pageable pageable = PageRequest.of(page, 10); // 每页显示10篇文章
     Page<Article> articles = null;
+    articles = articleRepository.findByUserIdAndCategory(user.getId(), getCategoryById(categoryId), pageable);
+
     CategoryTreeNode dummyRoot = new CategoryTreeNode(-1L, null);
-    if (categoryId != null) {
-      Category categoryParam = getCategoryById(categoryId);
-      articles = articleRepository.findByUserIdAndCategory(user.getId(), categoryParam, pageable);
-    } else {
-      articles = new PageImpl<>(new ArrayList<>(), pageable, 0);
-    }
     for (Category category : categories) {
       CategoryTreeNode currentNode = new CategoryTreeNode(category.getId(), category.getName());
       nodes.put(category.getId(), currentNode);
