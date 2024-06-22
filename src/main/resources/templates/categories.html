@@ -95,7 +95,7 @@
 <div class="container">
   <h1>文章分类</h1>
   <div class="content-wrapper">
-    <div class="sidebar-wrapper category-sidebar">
+    <div class="sidebar-wrapper category-sidebar" style="position: sticky; top: 100px;">
       <div class="table-responsive">
         <ul class="treeview-ul">
           <li class="treeview-li" th:each="child : ${rootCategory.getChildren()}">
@@ -109,15 +109,14 @@
         </button>
         <a th:href="@{/{username}/delete-category/{id}(id=${currentCategoryId}, username=${user.username})}"
            class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal"
-           th:data-category-name="${currentCategoryName}" th:data-category-id="${currentCategoryId}"><i
-                class="bi bi-trash"></i> 删除分类</a>
+           th:data-category-name="${currentCategoryName}" th:data-category-id="${currentCategoryId}"><i class="bi bi-trash"></i> 删除分类</a>
       </div>
     </div>
     <div class="article-content">
-      <div th:if="${currentCategoryId == null}" class="no-category-selected">
+      <div th:if="${currentCategoryId == null and #lists.isEmpty(articles)}" class="no-category-selected">
         <p>请选择分类</p>
       </div>
-      <div th:if="${currentCategoryId != null}" th:each="article : ${articles}">
+      <div th:if="${currentCategoryId != null or !#lists.isEmpty(articles)}" th:each="article : ${articles}">
         <div class="post-preview">
           <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none;">
             <h2 class="post-title" th:text="${article.title}"></h2>
