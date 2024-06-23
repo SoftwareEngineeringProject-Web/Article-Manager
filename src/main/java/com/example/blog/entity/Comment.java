@@ -23,9 +23,8 @@ public class Comment {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @ManyToOne
   @JoinColumn(name = "article_id", nullable = false)
-  private Article article;
+  private Long articleId;
 
   @Column(nullable = false)
   @Lob
@@ -38,9 +37,9 @@ public class Comment {
   public Comment() {
   }
 
-  public Comment(User user, Article article, String content) {
+  public Comment(User user, Long articleId, String content) {
     this.user = user;
-    this.article = article;
+    this.articleId = articleId;
     this.content = content;
     this.setCreatedAt();
   }
@@ -52,9 +51,8 @@ public class Comment {
   public User getUser() {
     return user;
   }
-
-  public Article getArticle() {
-    return article;
+  public Long getArticleId() {
+    return articleId;
   }
 
   public String getContent() {

@@ -48,7 +48,7 @@ public class CommentController {
   @DeleteMapping("/{username}/delete-comment/{commentId}")
   public ResponseEntity<String> deleteComment(@PathVariable("username") String username, @PathVariable("commentId") Long commentId) {
     Comment comment = commentService.getCommentById(commentId);
-    if (comment.getArticle().getUser().getUsername().equals(username)
+    if (articleService.getArticleById(comment.getArticleId()).getUser().getUsername().equals(username)
         || comment.getUser().getUsername().equals(username) || username.equals("Admin")) {
       commentService.deleteComment(comment);
     } else {

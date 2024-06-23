@@ -1,6 +1,5 @@
 package com.example.blog.service;
 
-import com.example.blog.entity.Article;
 import com.example.blog.entity.Comment;
 import com.example.blog.entity.User;
 import com.example.blog.repository.ArticleRepository;
@@ -22,15 +21,15 @@ public class CommentService {
     return commentRepository.findById(id).orElse(null);
   }
   public void deleteComment(Comment comment) {
-    articleRepository.updateCommentsById(comment.getArticle().getId(), -1);
+    articleRepository.updateCommentsById(comment.getArticleId(), -1);
     commentRepository.deleteById(comment.getId());
   }
 
   public void submitComment(String username , Long articleId, String comment){
     User user = userRepository.findByUsername(username);
     articleRepository.updateCommentsById(articleId, 1);
-    Article article = articleRepository.findById(articleId).orElse(null);
-    Comment commentEntity = new Comment(user, article, comment);
+//    Article article = articleRepository.findById(articleId).orElse(null);
+    Comment commentEntity = new Comment(user, articleId, comment);
     commentRepository.save(commentEntity);
   }
 }

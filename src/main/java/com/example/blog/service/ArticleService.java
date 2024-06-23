@@ -70,6 +70,7 @@ public class ArticleService {
     articleRepository.updateViews(article.getId(), article.getViews());
     List<Comment> comments = commentRepository.findByArticleId(article.getId());
 
+
     data.put("article", article);
     data.put("categoryPath", categoryPath);
     data.put("favoriteList", favoriteList);
