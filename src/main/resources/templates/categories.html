@@ -234,7 +234,7 @@
       </a>
     </li>
     <!-- 分页按钮 -->
-    <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}">
+    <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${pageNo == currentPage} ? 'active'">
       <a class="page-link"
          th:href="@{/{username}/categories(username=${user.username}, page=${pageNo}, categoryId=${currentCategoryId})}"
          th:text="${pageNo + 1}"></a>
