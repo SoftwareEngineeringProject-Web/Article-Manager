@@ -137,7 +137,8 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarNav">
-    <form class="form-inline my-2 my-lg-0" th:action="@{/{username}/search-articles(username=${user.username})}" method="get">
+    <form class="form-inline my-2 my-lg-0" th:action="@{/{username}/search-articles(username=${user.username})}"
+          method="get">
       <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="搜索" name="keywordInTitle">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
     </form>
@@ -162,10 +163,19 @@
   <div class="content-wrapper">
     <h1 class="article-title" th:text="${article.title}"></h1>
     <div style="display: grid; grid-template-areas: 'author time view'; grid-template-columns: 1fr 1fr 1fr;">
-      <span style="grid-area: author; text-align: center;" th:text="'作者: ' + ${article.user.name}"></span>
-      <span style="grid-area: time; text-align:center" id="created-at-article"
-            th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
-      <span style="grid-area: view; text-align: center;" th:text="'浏览量:' + ${article.views}"></span>
+      <div style="grid-area: author; text-align: center;">
+        <i class="bi bi-person"></i>
+        <span th:text="${article.user.name}"></span>
+      </div>
+      <div style="grid-area: time; text-align:center">
+        <i class="bi bi-clock"></i>
+        <span id="created-at-article"
+              th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+      </div>
+      <div style="grid-area: view; text-align: center;">
+        <i class="bi bi-eye"></i>
+        <span th:text="${article.views}"></span>
+      </div>
     </div>
     <div class="article-categories">
       <span th:if="${categoryPath != null}" th:text="${categoryPath}"></span>
@@ -187,7 +197,7 @@
       </div>
     </div>
     <div class="comment-form mt-4">
-      <h4>留下您的评论</h4>
+      <h4><i class="bi bi-chat-text"></i> 留下您的评论</h4>
       <form id="commentForm"
             th:action="@{/{username}/submit-comment/{articleId}(username=${user.username}, articleId=${article.id})}"
             method="post">
@@ -200,14 +210,19 @@
     </div>
 
     <div class="comments-section mt-5">
-      <h4>评论</h4>
+      <h4><i class="bi bi-chat-text"></i> 评论</h4>
       <div id="commentsContainer">
         <div th:each="comment : ${comments}" class="comment mb-3">
           <div class="comment-header">
-            <h5 th:text="${comment.user.name}"></h5>
-            <small class="text-muted" th:text="'Email:'+${comment.user.email}"></small>
-            <small class="text-muted" id="created-at-comment"
-                   th:text="${#temporals.format(comment.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></small>
+            <h5><i class="bi bi-person"></i><span th:text="${comment.user.name}"></span></h5>
+            <small class="text-muted">
+              <i class="bi bi-envelope"></i><span th:text="${comment.user.email}"></span>
+            </small>
+            <small class="text-muted">
+              <i class="bi bi-clock"></i>
+              <span id="created-at-comment"
+                    th:text="${#temporals.format(comment.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
+            </small>
           </div>
           <div class="comment-body">
             <div th:text="${comment.getFormattedContent()}"></div>
@@ -230,8 +245,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addFavoriteModal" style = "margin-bottom: 15px;">
-          <i class="bi bi-plus-square"></i> 新收藏夹
+        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#addFavoriteModal"
+                style="margin-bottom: 15px;">新建收藏夹
         </button>
         <form>
           <div class="form-group">
@@ -288,7 +303,7 @@
   const createdTimeElem = document.querySelectorAll('[id^="created-at-"]');
   createdTimeElem.forEach(elem => {
     let gmtDate = new Date(elem.textContent);
-    elem.textContent = '时间: ' + gmtDate.toLocaleString();
+    elem.textContent = gmtDate.toLocaleString();
   });
 </script>
 <script>
