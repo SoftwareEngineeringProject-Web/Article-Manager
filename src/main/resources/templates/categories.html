@@ -143,8 +143,8 @@
       <div th:if="${currentCategoryId != null or !#lists.isEmpty(articles)}" th:each="article : ${articles}">
         <div class="post-preview">
           <div class="post-preview-header">
-            <div style="overflow: hidden;">
-              <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none; grid-area: title;">
+            <div style="overflow: hidden; grid-area: title;">
+              <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none;">
                 <h2 class="post-title" th:text="${article.title}"></h2>
               </a>
             </div>
