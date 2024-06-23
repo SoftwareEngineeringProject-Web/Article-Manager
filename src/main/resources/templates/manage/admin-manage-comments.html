@@ -6,8 +6,8 @@
       <thead>
       <tr>
         <th>评论者</th>
-        <th>文章标题</th>
-        <th>文章作者</th>
+        <th>文章ID</th>
+        <th>评论时间</th>
         <th>评论内容</th>
         <th>操作</th>
       </tr>
@@ -15,8 +15,9 @@
       <tbody>
       <tr th:each="comment : ${comments}">
         <td th:text="${comment.user.username}"></td>
-        <td th:text="${comment.article.title}"></td>
-        <td th:text="${comment.article.user.name}"></td>
+        <td th:text="${comment.articleId}"></td>
+        <td class="post-created-time" th:id="${'created-at-' + comment.id}"
+            th:text="${#temporals.format(comment.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td class="content-col" th:text="${#strings.abbreviate(comment.content, 50)}"></td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
