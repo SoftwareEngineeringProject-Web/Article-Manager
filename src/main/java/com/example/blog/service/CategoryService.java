@@ -90,7 +90,8 @@ public class CategoryService {
     result.put("rootCategory", dummyRoot);
     result.put("user", user);
     result.put("currentCategoryId", categoryId);
-    result.put("currentCategoryName", categoryId != null ? nodes.get(categoryId).getName() : null);
+    result.put("currentCategoryName", categoryId == null ? null :
+                           nodes.containsKey(categoryId) ? nodes.get(categoryId).getName() : null);
     result.put("currentPage", page);
     result.put("totalPages", articles.getTotalPages());
     return result;
