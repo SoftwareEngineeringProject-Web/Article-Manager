@@ -53,12 +53,12 @@
           <div class="btn-group" role="group" aria-label="Basic example">
             <a th:href="@{/{username}/edit-article/{id}(id=${article.id}, username=${user.username})}"
                class="btn btn-edit btn-sm">
-              <i class="bi bi-pencil-square"></i> 编辑文章
+              <i class="bi bi-pencil-square"></i> 编辑
             </a>
             <a th:href="@{/{username}/delete-article/{id}(id=${article.id}, username=${user.username})}"
                class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal"
                th:data-article-title="${article.title}" th:data-article-id="${article.id}">
-              <i class="bi bi-trash"></i> 删除文章
+              <i class="bi bi-trash"></i> 删除
             </a>
           </div>
         </td>

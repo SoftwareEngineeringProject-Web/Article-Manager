@@ -144,11 +144,11 @@
         <div class="post-preview">
           <div class="post-preview-header">
             <div style="overflow: hidden;">
-              <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none; grid-area: title; align-self: left;">
+              <a th:href="@{./article/{id}(id=${article.id})}" style="text-decoration: none; grid-area: title;">
                 <h2 class="post-title" th:text="${article.title}"></h2>
               </a>
             </div>
-            <div class="post-created-time" style="grid-area: time; align-self: right; text-align: right;">
+            <div class="post-created-time" style="grid-area: time; text-align: right;">
               <i class="bi bi-clock"></i>
               <span th:id="${'created-at-' + article.id}" th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></span>
             </div>
