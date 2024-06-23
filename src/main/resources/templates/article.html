@@ -224,8 +224,7 @@
                     th:text="${#temporals.format(comment.getCreateTime(), 'yyyy-MM-dd HH:mm:ss')}"></span>
             </small>
           </div>
-          <div class="comment-body">
-            <div th:text="${comment.getFormattedContent()}"></div>
+          <div class="comment-body" th:id="'comment-' + ${comment.id}">
           </div>
         </div>
       </div>
@@ -329,6 +328,16 @@
   // 将转换后的 HTML 插入到页面
   const articleContentElem = document.querySelector('.article-content');
   articleContentElem.innerHTML = htmlText;
+  document.addEventListener('DOMContentLoaded', () => {
+    const comments = /*[[${comments}]]*/ '';
+    const commentContent = document.querySelectorAll('.comment-body');
+    console.log(comments);
+    commentContent.forEach(elem => {
+      const commentId = Number(elem.id.replace('comment-', ''));
+      const comment = comments.find(comment =>comment.id === commentId);
+      elem.innerHTML = marked.parse(comment.content);
+    });
+  });
 </script>
 
 <script>

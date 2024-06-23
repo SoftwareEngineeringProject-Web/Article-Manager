@@ -69,8 +69,4 @@ public class Comment {
     return this.createdAt;
   }
 
-  public String getFormattedContent() {
-    return content != null ? content.replace("\n", "<br>") : null;
-  }
-
 }
