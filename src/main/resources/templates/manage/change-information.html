@@ -9,18 +9,32 @@
     <form th:action="@{/{username}/change-information(username=${user.getUsername()})}" method="post">
       <div class="form-group">
         <label for="username">您的用户名</label>
-        <input type="text" id="username" name="username" placeholder="请输入用户名" class="form-control" th:value="${user.getUsername()}" required>
-        <i class="fas fa-user form-icon"></i>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="addon1"><i class="bi bi-person"></i></span>
+          </div>
+          <input type="text" id="username" name="username" aria-describedby="addon1" placeholder="请输入用户名"
+                 class="form-control" th:value="${user.getUsername()}" required>
+        </div>
       </div>
       <div class="form-group">
         <label for="name">昵称</label>
-        <input type="text" id="name" name="name" placeholder="请输入昵称" class="form-control" th:value="${user.getName()}"required>
-        <i class="fas fa-user form-icon"></i>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="addon2"><i class="bi bi-person"></i></span>
+          </div>
+          <input type="text" id="name" name="name" aria-describedby="addon2" placeholder="请输入昵称"
+                 class="form-control" th:value="${user.getName()}" required>
+        </div>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="请输入Email" class="form-control" th:value="${user.getEmail()}"required>
-        <i class="fas fa-envelope form-icon"></i>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="addon3"><i class="bi bi-envelope"></i></span></div>
+          <input type="email" id="email" name="email" aria-describedby="addon3" placeholder="请输入Email"
+                 class="form-control" th:value="${user.getEmail()}" required>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary btn-block">提交</button>
     </form>
