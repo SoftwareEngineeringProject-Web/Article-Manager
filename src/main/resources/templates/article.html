@@ -137,12 +137,11 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarNav">
-    <form class="form-inline my-2 my-lg-0" th:action="@{/{username}/search-articles(username=${user.username})}"
-          method="get">
-      <input class="form-control mr-sm-2" type="search" placeholder="搜索文章" aria-label="搜索" name="keywordInTitle">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
-    </form>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/{username}/search-articles(username=${user.username})}">
+          <i class="bi bi-search"></i> 文章搜索</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" th:href="@{/{username}/statistics(username=${user.username})}">
           <i class="bi bi-bar-chart-line"></i> 文章统计</a>
