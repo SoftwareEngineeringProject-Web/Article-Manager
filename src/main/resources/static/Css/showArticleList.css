@@ -78,6 +78,13 @@ h1 {
   opacity: 0.5;
 }
 
+.post-user-name {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #333;
+  opacity: 0.5;
+}
+
 .post-excerpt {
   font-size: 1rem;
   color: #757575;
