@@ -18,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.example.blog.entity.User;
 import com.example.blog.service.SearchService;
 import com.example.blog.service.UserService;
+import com.example.blog.utils.MySQLWildCardStringBuilder;
 
 @Controller
 public class SearchController {
@@ -52,20 +53,22 @@ public class SearchController {
                                Model model) {
     beginDate = beginDate.isEmpty() ? null : beginDate;
     endDate = endDate.isEmpty() ? null : endDate;
-    keywordInTitle = keywordInTitle.isEmpty() ? null : keywordInTitle;
-    keywordInContent = keywordInContent.isEmpty() ? null : keywordInContent;
+    String TitlePattern = keywordInTitle.isEmpty() ? null : new MySQLWildCardStringBuilder(keywordInTitle).build();
+    String ContentPattern = keywordInContent.isEmpty() ? null : new MySQLWildCardStringBuilder(keywordInContent).build();
 
     User user = userService.findUserByUsername(username);
     model.addAttribute("user", user);
-    if (keywordInTitle == null && beginDate == null &&
-        endDate == null && keywordInContent == null) {
+    if (ContentPattern == null && beginDate == null &&
+        endDate == null && TitlePattern == null) {
       return "search-articles";
     }
     Instant begin = Instant.parse(beginDate == null ? "2000-01-01T00:00:00Z" : beginDate);
     Instant end = endDate == null ? Instant.now() : Instant.parse(endDate);
-    model.addAllAttributes(searchService.searchArticle(user.getId(), pageNo, keywordInTitle, keywordInContent, begin, end));
+    model.addAllAttributes(searchService.searchArticle(user.getId(), pageNo, TitlePattern, ContentPattern, begin, end));
     model.addAttribute("beginDateDummy", beginDateLocale);
     model.addAttribute("endDateDummy", endDateLocale);
+    model.addAttribute("keywordInTitle", keywordInTitle);
+    model.addAttribute("keywordInContent", keywordInContent);
     return "search-articles";
   }
 }
