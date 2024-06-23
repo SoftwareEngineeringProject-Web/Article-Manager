@@ -1,22 +1,29 @@
 package com.example.blog.controller;
 
+import java.util.Map;
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.springframework.web.servlet.view.RedirectView;
+
 import com.example.blog.entity.Favorite;
 import com.example.blog.entity.User;
 import com.example.blog.service.ArticleService;
 import com.example.blog.service.FavoriteArticleService;
 import com.example.blog.service.FavoriteService;
 import com.example.blog.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Map;
-import java.util.Objects;
 
 @Controller
 public class FavoriteController {
@@ -28,6 +35,20 @@ public class FavoriteController {
   FavoriteService favoriteService;
   @Autowired
   FavoriteArticleService favoriteArticleService;
+
+  @ModelAttribute
+  public void checkUser(@PathVariable("username") String username) throws ModelAndViewDefiningException {
+    // 获取当前登录用户的用户名
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String loggedInUsername = authentication.getName();
+
+    // 如果当前登录用户与要访问的用户不匹配，则进行相应处理
+    if (!loggedInUsername.equals(username)) {
+      String redirectUrl = "/" + loggedInUsername + "/home";
+      RedirectView redirectView = new RedirectView(redirectUrl);
+      throw new ModelAndViewDefiningException(new ModelAndView(redirectView));
+    }
+  }
 
   @PostMapping("/{username}/add-favorite/{articleId}")
   public ResponseEntity<Favorite> addFavorite(@PathVariable("username") String username, @RequestBody Map<String, String> payload) {
