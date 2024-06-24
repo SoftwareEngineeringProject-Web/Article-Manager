@@ -1,5 +1,5 @@
 <link rel="stylesheet" th:href="@{/Css/manageArticlePage.css}" type="text/css">
-<div class="container">
+<div class="container" style="margin-top: 20px;">
 
   <form class="search-form" id="search-form">
     <div class="form-row align-items-center">
@@ -49,11 +49,11 @@
             <a th:href="@{/{username}/article/{id}(id=${article.id}, username=${user.username})}"
                class="btn btn-edit btn-sm" th:data-article-content="${article.content}"
                th:data-article-title="${article.title}" data-target="#ArticleModal" data-toggle="modal">
-              <i class="bi bi-search"></i> 查看文章
+              <i class="bi bi-search"></i> 查看
             </a>
             <a href="#" class="btn btn-delete btn-sm" data-toggle="modal" data-target="#confirmDeleteModal"
                th:data-article-title="${article.title}" th:data-article-id="${article.id}">
-              <i class="bi bi-trash"></i> 删除文章
+              <i class="bi bi-trash"></i> 删除
             </a>
           </div>
         </td>
