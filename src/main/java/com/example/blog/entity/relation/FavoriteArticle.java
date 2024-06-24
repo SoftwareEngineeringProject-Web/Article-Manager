@@ -16,6 +16,22 @@ public class FavoriteArticle {
   @Id
   private Long articleId;
 
+  public Long getFavoriteId() {
+    return favoriteId;
+  }
+
+  public void setFavoriteId(Long favoriteId) {
+    this.favoriteId = favoriteId;
+  }
+
+  public Long getArticleId() {
+    return articleId;
+  }
+
+  public void setArticleId(Long articleId) {
+    this.articleId = articleId;
+  }
+
   public FavoriteArticle() {
   }
 
@@ -23,4 +39,5 @@ public class FavoriteArticle {
     this.favoriteId = favoriteId;
     this.articleId = articleId;
   }
+
 }

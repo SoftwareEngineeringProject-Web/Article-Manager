@@ -25,11 +25,6 @@ public class FavoriteService {
     return favoriteRepository.findById(id).orElse(null);
   }
 
-  public void insert(Favorite favorite) {
-    favorite.setId(null);
-    favoriteRepository.save(favorite);
-  }
-
   public void update(Favorite favorite) {
     assert (favorite.getId() != null);
     favoriteRepository.save(favorite);
@@ -45,7 +40,7 @@ public class FavoriteService {
 
   public Favorite addFavorite(Long userId, String favoriteName) {
     Favorite favorite = new Favorite(userId, favoriteName);
-    insert(favorite);
+    favoriteRepository.save(favorite);
     return favorite;
   }
 }

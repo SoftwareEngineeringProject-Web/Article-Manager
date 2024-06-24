@@ -48,11 +48,20 @@ public class Comment {
     return id;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public User getUser() {
     return user;
   }
+
   public Long getArticleId() {
     return articleId;
+  }
+
+  public void setArticleId(Long articleId) {
+    this.articleId = articleId;
   }
 
   public String getContent() {

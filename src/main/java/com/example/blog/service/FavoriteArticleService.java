@@ -47,14 +47,13 @@ public class FavoriteArticleService {
     if (favoriteArticle != null) {
       return null;
     } else {
+      Article article = articleRepository.findById(articleId).orElse(null);
+      if(article == null) {
+        return null;
+      }
       favoriteArticle(favoriteId, articleId);
       articleRepository.updateFavoritesById(articleId, 1);
-      Article article = articleRepository.findById(articleId).orElse(null);
-      if(article == null){
-        return null;
-      } else {
-        return article.getFavorites();
-      }
+      return article.getFavorites();
     }
   }
 }

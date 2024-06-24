@@ -23,6 +23,12 @@ public class Favorite {
     this.name = name;
   }
 
+  public Favorite(Long id, Long userId, String name) {
+    this.id = id;
+    this.userId = userId;
+    this.name = name;
+  }
+
   public void setId(Long id) {
     this.id = id;
   }
