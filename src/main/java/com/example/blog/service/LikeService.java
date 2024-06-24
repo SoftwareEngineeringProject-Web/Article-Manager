@@ -30,7 +30,7 @@ public class LikeService {
       articleRepository.updateLikesById(articleId, -1);
       likeRepository.deleteByUserIdAndArticleId(userId, articleId);
     }
-    return article.getLikes();
+    return article.getLikes() + 1;
   }
 
 }
