@@ -53,11 +53,6 @@
       margin-bottom: 1rem;
     }
 
-    .article-tags {
-      font-size: 1rem;
-      margin: 20px 120px;
-    }
-
     .back-link {
       margin-top: 20px;
       text-align: center;
@@ -180,18 +175,19 @@
       <span th:if="${categoryPath != null}" th:text="${categoryPath}"></span>
     </div>
     <div class="article-content"></div>
-    <div class="article-tags d-flex justify-content-between align-items-center">
-      <div class="btn-group">
+    <div class="article-tags" style="display: grid; grid-template-areas: 'favourite like '; grid-template-columns: 1fr 1fr;margin-top:20px; margin-bottom:20px;">
+      <div class="btn-group" style="grid-area: favourite; justify-self: center;">
         <button class="btn btn-primary" data-toggle="modal" data-target="#favouriteModal">
           <i class="bi bi-star" style="font-size: 1.2rem;"></i>
           收藏(<span id="favorite-count" th:text="${favoriteCount}"></span>)
         </button>
       </div>
-      <div class="btn-group">
+      <div class="btn-group" style="grid-area: like;justify-self: center;">
         <button class="btn btn-primary"
                 th:attr="onclick='likeArticle(\''+ ${user.username}+ '\', \'' + ${article.id} + '\')'">
-          <i class="bi bi-hand-thumbs-up" style="font-size: 1.2rem;"></i>
-          点赞(<span id="like-count" th:text="${article.likes}"></span>)
+          <i class="bi bi-hand-thumbs-up" style="font-size: 1.2rem;"></i>&nbsp;
+          <span th:text="${liked? '已点赞' : '点赞'}" class="like-text" id="like-text"></span>
+          (<span id="like-count" th:text="${article.likes}"></span>)
         </button>
       </div>
     </div>
@@ -201,7 +197,8 @@
             th:action="@{/{username}/submit-comment/{articleId}(username=${user.username}, articleId=${article.id})}"
             method="post">
         <div class="form-group">
-          <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="请输入您的评论(支持Markdown)..."
+          <textarea class="form-control" id="comment" name="comment" rows="4"
+                    placeholder="请输入您的评论(支持Markdown)..."
                     required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">提交</button>
@@ -311,6 +308,12 @@
         .then(data => {
           if (data.success) {
             document.getElementById('like-count').innerText = data.likes;
+            let likeText = document.getElementById('like-text');
+            if (likeText.innerText == '已点赞') {
+              likeText.innerText = '点赞';
+            } else {
+              likeText.innerText = '已点赞';
+            }
           } else {
             alert('操作失败，请重试');
           }
@@ -333,7 +336,7 @@
     console.log(comments);
     commentContent.forEach(elem => {
       const commentId = Number(elem.id.replace('comment-', ''));
-      const comment = comments.find(comment =>comment.id === commentId);
+      const comment = comments.find(comment => comment.id === commentId);
       elem.innerHTML = marked.parse(comment.content);
     });
   });

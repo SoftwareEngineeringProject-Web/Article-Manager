@@ -1,6 +1,6 @@
 body {
   font-family: "Microsoft Yahei", sans-serif;
-  --global-background-color: #f8f9fa;
+  --global-background-color: #f5f5f5;
   background-color: var(--global-background-color);
   min-height: 100vh;
   display: flex;

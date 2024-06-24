@@ -25,6 +25,8 @@ public class ArticleService {
   private FavoriteRepository favoriteRepository;
   @Autowired
   private FavoriteArticleRepository favoriteArticleRepository;
+  @Autowired
+  private LikeRepository likeRepository;
 
   public Article getArticleById(Long articleId) {
     return articleRepository.findById(articleId).orElse(null);
@@ -69,8 +71,9 @@ public class ArticleService {
     article.incrementViews();
     articleRepository.updateViews(article.getId(), article.getViews());
     List<Comment> comments = commentRepository.findByArticleId(article.getId());
+    Boolean liked = likeRepository.findByUserIdAndArticleId(userId, article.getId()) != null;
 
-
+    data.put("liked", liked);
     data.put("article", article);
     data.put("categoryPath", categoryPath);
     data.put("favoriteList", favoriteList);

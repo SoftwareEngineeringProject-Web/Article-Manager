@@ -1,6 +1,8 @@
 package com.example.blog.controller;
 
-import com.example.blog.entity.*;
+import com.example.blog.entity.Article;
+import com.example.blog.entity.Category;
+import com.example.blog.entity.User;
 import com.example.blog.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

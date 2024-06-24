@@ -26,11 +26,11 @@ public class LikeService {
     if (likeRepository.findByUserIdAndArticleId(userId, articleId) == null) {
       articleRepository.updateLikesById(articleId, 1);
       likeRepository.insertByUserIdAndArticleId(userId, articleId);
+      return article.getLikes() + 1;
     } else {
       articleRepository.updateLikesById(articleId, -1);
       likeRepository.deleteByUserIdAndArticleId(userId, articleId);
+      return article.getLikes() - 1;
     }
-    return article.getLikes() + 1;
   }
-
 }

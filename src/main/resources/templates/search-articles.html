@@ -11,7 +11,6 @@
 </head>
 <style>
   .container {
-    width: 100vw;
     padding-left: 200px;
     padding-right: 200px;
     max-width: unset;
@@ -171,7 +170,7 @@
           <div class="post-created-time" style="grid-area: time; text-align: right;">
             <i class="bi bi-clock"></i>
             <span th:id="${'created-at-' + article.id}"
-              th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></span>
+                  th:text="${#temporals.format(article.getCreateTime(), 'yyyy-MM-dd HH:mm')}"></span>
           </div>
         </div>
         <p class="post-excerpt" th:text="${#strings.abbreviate(article.content, 150)}"></p>
@@ -180,12 +179,22 @@
              class="link-post-preview">阅读更多</a>
           <div style="grid-area: like-and-comment; text-align: right; justify-self: end;"
                class="post-meta-container d-flex">
-            <p class="post-meta like-meta"><i class="bi bi-hand-thumbs-up"></i> 点赞(<span th:text="${article.getLikes()}"></span>)</p>
-            <p class="post-meta comment-meta"><i class="bi bi-chat-text"></i> 评论(<span th:text="${article.getComments()}"></span>)</p>
+            <p class="post-meta like-meta"><i class="bi bi-hand-thumbs-up"></i> 点赞(<span
+                    th:text="${article.getLikes()}"></span>)</p>
+            <p class="post-meta comment-meta"><i class="bi bi-chat-text"></i> 评论(<span
+                    th:text="${article.getComments()}"></span>)</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div th:if="${articles == null}" style="margin-top: 100px;">
+    <h1 style="text-align: center;font-size: 80px;color: #d3d3d3;">欢迎来到文章搜索页面</h1>
+    <h1 style="text-align: center;font-size: 30px;color: #d3d3d3;">关键字搜索根据文章标题进行模糊查询</h1>
+    <h1 style="text-align: center;font-size: 30px;color: #d3d3d3;">全文检索可根据文章内容进行模糊查询</h1>
+  </div>
+  <div th:if="${articles != null and #lists.isEmpty(articles)}" style="margin-top: 200px;">
+    <h1 style="text-align: center;font-size: 80px;color: #d3d3d3;">没有找到相关文章</h1>
   </div>
 
 </div>
@@ -200,8 +209,8 @@
       </a>
     </li>
     <!-- 分页按钮 -->
-    <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}">
-      <a class="page-link" href="#" th:text="${pageNo + 1}" th:attr="onclick='loadArticleList('+${pageNo}+')'"></a>
+    <li class="page-item" th:each="pageNo : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${pageNo == currentPage} ? 'active'">
+      <a class="page-link" href="#" th:text="${pageNo + 1}" th:attr="onclick='loadArticleList('+${pageNo}+')'" ></a>
     </li>
     <!-- 下一页按钮 -->
     <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
