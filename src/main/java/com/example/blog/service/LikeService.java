@@ -18,6 +18,10 @@ public class LikeService {
   private ArticleRepository articleRepository;
 
   public Integer getLikeCountByArticleId(Long articleId, String username) {
+    Article article = articleRepository.findById(articleId).orElse(null);
+    if (article == null) {
+      return null;
+    }
     Long userId = userRepository.findByUsername(username).getId();
     if (likeRepository.findByUserIdAndArticleId(userId, articleId) == null) {
       articleRepository.updateLikesById(articleId, 1);
@@ -26,12 +30,7 @@ public class LikeService {
       articleRepository.updateLikesById(articleId, -1);
       likeRepository.deleteByUserIdAndArticleId(userId, articleId);
     }
-    Article article = articleRepository.findById(articleId).orElse(null);
-    if (article != null){
-      return article.getLikes();
-    } else {
-      return null;
-    }
+    return article.getLikes();
   }
 
 }
