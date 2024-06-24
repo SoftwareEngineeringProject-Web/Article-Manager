@@ -175,6 +175,14 @@ function loadContent(url,htmlPage, currentPage) {
           });
         });
 
+        $('#ArticleModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var articleTitle = button.data('article-title');
+          var articleContent = button.data('article-content');
+          var modal = $(this);
+          modal.find('.modal-title').text(articleTitle);
+          modal.find('.article-content').text(articleContent);
+        });
       })
       .catch(error => console.error('Error loading content:', error));
 }

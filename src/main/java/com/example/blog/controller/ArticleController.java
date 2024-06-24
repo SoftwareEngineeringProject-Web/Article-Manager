@@ -55,7 +55,7 @@ public class ArticleController {
     Article article = articleService.getArticleById(articleId);
 
     // 检查用户要访问的文章是否为自己的文章，或者是否为共享
-    if (!Objects.equals(article.getUser().getId(), user.getId()) && !article.isPublic()) {
+    if (!Objects.equals(article.getUser().getId(), user.getId()) && !article.isPublic() && !username.equals("Admin")) {
       return "redirect:/" + username + "/access-denied";
     }
     Map<String, Object> articleData = articleService.getArticleData(user.getId(), article);

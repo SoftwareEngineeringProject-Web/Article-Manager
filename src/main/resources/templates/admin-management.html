@@ -63,11 +63,11 @@
 <div class="wrapper">
   <nav class="sidebar">
     <i class="bi bi-gear-fill" style="font-size: 100px; margin-bottom: 20px; margin-left: 50px;"></i>
-    <a href="#manage-users" th:attr="onclick='loadContent(\'admin-management\',\'manage-users\')'">用户管理</a>
-    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'admin-management\',\'manage-articles\')'">文章管理</a>
-    <a href="#manage-comments" th:attr="onclick='loadContent(\'admin-management\',\'manage-comments\')'">评论管理</a>
-    <a href="#change-password" th:attr="onclick='loadContent(\'admin-management\',\'change-password\')'">重置密码</a>
-    <a href="#logout" th:href="@{/logout}">注销</a>
+    <a href="#manage-users" th:attr="onclick='loadContent(\'admin-management\',\'manage-users\')'"><i class="bi bi-person-fill"></i> 用户管理</a>
+    <a href="#manage-articles" class="active" th:attr="onclick='loadContent(\'admin-management\',\'manage-articles\')'"><i class="bi bi-file-text-fill"></i> 文章管理</a>
+    <a href="#manage-comments" th:attr="onclick='loadContent(\'admin-management\',\'manage-comments\')'"><i class="bi bi-chat-text-fill"></i> 评论管理</a>
+    <a href="#change-password" th:attr="onclick='loadContent(\'admin-management\',\'change-password\')'"><i class="bi bi-lock-fill"></i> 重置密码</a>
+    <a href="#logout" th:href="@{/logout}"><i class="bi bi-person-x-fill"></i> 退出登录</a>
   </nav>
   <div class="content">
     <div id="content-container">

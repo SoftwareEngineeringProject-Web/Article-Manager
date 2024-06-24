@@ -21,7 +21,7 @@ public class AdminService {
   private CommentRepository commentRepository;
 
     public Map<String, Object> setAllArticlesInformation(String title, Integer page) {
-    PageRequest pageable = PageRequest.of(page, 10);
+    PageRequest pageable = PageRequest.of(page, 15);
     Page<Article> articlePages;
     Map<String, Object> articlesData = new HashMap<>();
 
@@ -38,7 +38,7 @@ public class AdminService {
   }
 
   public Map<String, Object> setAllCommentsInformation(Integer page) {
-    PageRequest pageable = PageRequest.of(page, 10);
+    PageRequest pageable = PageRequest.of(page, 15);
     Page<Comment> commentPages = commentRepository.findPaged(pageable);
     Map<String, Object> commentsData = new HashMap<>();
     commentsData.put("comments", commentPages.getContent());
