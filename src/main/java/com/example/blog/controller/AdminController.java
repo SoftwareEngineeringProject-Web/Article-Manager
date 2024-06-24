@@ -31,7 +31,7 @@ public class AdminController {
     String loggedInUsername = authentication.getName();
 
     // 如果当前登录用户与要访问的用户不匹配，则进行相应处理
-    if (!loggedInUsername.equals(username)) {
+    if (!loggedInUsername.equals(username) || !loggedInUsername.equals("Admin")) {
       String redirectUrl = "/" + loggedInUsername + "/home";
       RedirectView redirectView = new RedirectView(redirectUrl);
       throw new ModelAndViewDefiningException(new ModelAndView(redirectView));
