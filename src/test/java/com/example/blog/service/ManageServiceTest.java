@@ -45,7 +45,7 @@ class ManageServiceTest {
     }
 
     @Test
-    void testSetArticlesInformation() {
+    void testSetArticlesInformationAll() {
         Long userId = 1L;
         Long categoryId = 1L;
         String title = "Test Article";
@@ -59,6 +59,76 @@ class ManageServiceTest {
         when(categoryRepository.findByUserId(userId)).thenReturn(categories);
         when(categoryRepository.findById(categoryId)).thenReturn(java.util.Optional.of(categories.get(0)));
         when(articleRepository.findByUserIdAndTitleAndCategory(userId, title, categories.get(0), PageRequest.of(page, 10))).thenReturn(articlePages);
+
+        Map<String, Object> articlesData = manageService.setArticlesInformation(userId, categoryId, title, page);
+
+        assertEquals(articlePages.getContent(), articlesData.get("articles"));
+        assertEquals(page, articlesData.get("currentPage"));
+        assertEquals(articlePages.getTotalPages(), articlesData.get("totalPages"));
+        assertEquals(categories, articlesData.get("categories"));
+    }
+
+    @Test
+    void testSetArticlesInformationWithNullCategoryId() {
+        Long userId = 1L;
+        Long categoryId = null;
+        String title = "Test Article";
+        int page = 0;
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category(categoryId, "Category 1", null, userId));
+
+        Page<Article> articlePages = new PageImpl<>(new ArrayList<>());
+
+        when(categoryRepository.findByUserId(userId)).thenReturn(categories);
+        when(articleRepository.findByUserIdAndTitle(userId, title, PageRequest.of(page, 10))).thenReturn(articlePages);
+
+        Map<String, Object> articlesData = manageService.setArticlesInformation(userId, categoryId, title, page);
+
+        assertEquals(articlePages.getContent(), articlesData.get("articles"));
+        assertEquals(page, articlesData.get("currentPage"));
+        assertEquals(articlePages.getTotalPages(), articlesData.get("totalPages"));
+        assertEquals(categories, articlesData.get("categories"));
+    }
+
+    @Test
+    void testSetArticlesInformationWithNullTitle() {
+        Long userId = 1L;
+        Long categoryId = 1L;
+        String title = null;
+        int page = 0;
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category(categoryId, "Category 1", null, userId));
+
+        Page<Article> articlePages = new PageImpl<>(new ArrayList<>());
+
+        when(categoryRepository.findByUserId(userId)).thenReturn(categories);
+        when(categoryRepository.findById(categoryId)).thenReturn(java.util.Optional.of(categories.get(0)));
+        when(articleRepository.findByUserIdAndCategory(userId, categories.get(0), PageRequest.of(page, 10))).thenReturn(articlePages);
+
+        Map<String, Object> articlesData = manageService.setArticlesInformation(userId, categoryId, title, page);
+
+        assertEquals(articlePages.getContent(), articlesData.get("articles"));
+        assertEquals(page, articlesData.get("currentPage"));
+        assertEquals(articlePages.getTotalPages(), articlesData.get("totalPages"));
+        assertEquals(categories, articlesData.get("categories"));
+    }
+
+    @Test
+    void testSetArticlesInformationWithAllNull() {
+        Long userId = 1L;
+        Long categoryId = null;
+        String title = null;
+        int page = 0;
+
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category(categoryId, "Category 1", null, userId));
+
+        Page<Article> articlePages = new PageImpl<>(new ArrayList<>());
+
+        when(categoryRepository.findByUserId(userId)).thenReturn(categories);
+        when(articleRepository.findPagedByUserId(userId, PageRequest.of(page, 10))).thenReturn(articlePages);
 
         Map<String, Object> articlesData = manageService.setArticlesInformation(userId, categoryId, title, page);
 
