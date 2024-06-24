@@ -53,7 +53,7 @@ public class FavoriteArticleService {
       }
       favoriteArticle(favoriteId, articleId);
       articleRepository.updateFavoritesById(articleId, 1);
-      return article.getFavorites();
+      return article.getFavorites() + 1;
     }
   }
 }
