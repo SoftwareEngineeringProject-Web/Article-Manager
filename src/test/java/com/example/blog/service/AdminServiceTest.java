@@ -47,7 +47,7 @@ public class AdminServiceTest {
     when(articleRepository.findPaged(pageable)).thenReturn(articlePage);
     Map<String, Object> result = adminService.setAllArticlesInformation(null, page);
 
-    assertTrue(result.get("articles") instanceof List);  // Should be a list, not a Page
+    assertTrue(result.get("articles") instanceof List);
     assertEquals(2, ((List<Article>) result.get("articles")).size());
     assertEquals(page, result.get("currentPage"));
     assertEquals(1, result.get("totalPages"));
@@ -55,6 +55,30 @@ public class AdminServiceTest {
     verify(articleRepository, times(1)).findPaged(pageable);
   }
 
+  @Test
+  public void testSetAllArticlesInformationWithTitle() {
+    String title = "Test Title";
+    int page = 0;
+    PageRequest pageable = PageRequest.of(page, 15);
+
+    Article article1 = new Article();
+    article1.setTitle("Test Title");
+    Article article2 = new Article();
+    article2.setTitle("Another Test Title");
+
+    Page<Article> articlePage = new PageImpl<>(Arrays.asList(article1, article2), pageable, 2);
+
+    when(articleRepository.findPagedByTitle(title, pageable)).thenReturn(articlePage);
+
+    Map<String, Object> result = adminService.setAllArticlesInformation(title, page);
+
+    assertTrue(result.get("articles") instanceof java.util.List);  // Should be a list, not a Page
+    assertEquals(2, ((java.util.List<Article>) result.get("articles")).size());
+    assertEquals(page, result.get("currentPage"));
+    assertEquals(1, result.get("totalPages"));
+
+    verify(articleRepository, times(1)).findPagedByTitle(title, pageable);
+  }
   @Test
   public void testSetAllCommentsInformation() {
     int page = 0;
@@ -67,7 +91,7 @@ public class AdminServiceTest {
     when(commentRepository.findPaged(pageable)).thenReturn(commentPage);
     Map<String, Object> result = adminService.setAllCommentsInformation(page);
 
-    assertTrue(result.get("comments") instanceof java.util.List);  // Should be a list, not a Page
+    assertTrue(result.get("comments") instanceof List);
     assertEquals(2, ((List<Comment>) result.get("comments")).size());
     assertEquals(page, result.get("currentPage"));
     assertEquals(1, result.get("totalPages"));
