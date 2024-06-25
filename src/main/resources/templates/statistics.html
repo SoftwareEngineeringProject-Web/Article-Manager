@@ -66,7 +66,7 @@
     <div class="card bg-gray text-center">
       <div class="card-body">
         <i class="bi bi-eyeglasses"></i>
-        <h5 class="card-text" th:text="'共计 ' + ${totalViews} + ' 次浏览'"></h5>
+        <h5 class="card-text" th:text="'共 ' + ${totalViews} + ' 次浏览'"></h5>
       </div>
     </div>
     <div class="card bg-yellow text-center">
@@ -182,7 +182,7 @@
         const currentDate = new Date();
         const timeDifference = currentDate - createdAtDate;
         const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        document.getElementById('register-time').innerHTML = '已发布文章 ' + daysAgo + ' 天';
+        document.getElementById('register-time').innerHTML = '您已注册 ' + daysAgo + ' 天';
       } else {
         document.getElementById('register-time').innerHTML = '无效的注册日期';
       }
