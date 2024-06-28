@@ -72,7 +72,7 @@
     <div class="card bg-yellow text-center">
       <div class="card-body">
         <i class="bi bi-clock"></i>
-        <h5 class="card-text" id="register-time"></h5>
+        <h5 class="card-text">您已注册<span id="register-time"></span>天</h5>
       </div>
     </div>
     <div class="card bg-purple text-center">
@@ -182,12 +182,12 @@
         const currentDate = new Date();
         const timeDifference = currentDate - createdAtDate;
         const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        document.getElementById('register-time').innerHTML = '您已注册 ' + daysAgo + ' 天';
+        document.getElementById('register-time').innerHTML = ' ' + daysAgo + ' ';
       } else {
-        document.getElementById('register-time').innerHTML = '无效的注册日期';
+        document.getElementById('register-time').innerHTML = ' 0 '; // 无效的注册日期
       }
     } else {
-      document.getElementById('register-time').innerHTML = '用户注册日期不可用';
+      document.getElementById('register-time').innerHTML = ' 0 '; // 用户注册日期不可用
     }
   });
 </script>
