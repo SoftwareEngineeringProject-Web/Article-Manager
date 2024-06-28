@@ -129,6 +129,32 @@
         .then(response => response.text())
         .then(data => {
           document.getElementById('content-container').innerHTML = data;  // 更新内容区域
+          $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);        // 触发模态框的按钮
+            var articleId = button.data('article-id');  // 从按钮中获取文章 id
+            var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
+            var modal = $(this); // 找到模态框
+            modal.find('.article-title').text("确定要删除《" + articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
+            var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+            confirmDeleteButton.data('article-id', articleId);
+          });
+          $('#confirmDeleteButton').on('click', function () {
+            var articleId = $(this).data('article-id');
+            fetch(`delete-article/${articleId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              if (response.ok) {
+                $('#confirmDeleteModal').modal('hide');
+                loadContent(url,'manage-articles');
+              } else {
+                alert('删除失败');
+              }
+            });
+          });
+
         })
         .catch(error => {
           console.error('Error during fetch:', error);
@@ -149,6 +175,32 @@
         .then(response => response.text())
         .then(data => {
           document.getElementById('content-container').innerHTML = data;  // 更新内容区域
+          $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);        // 触发模态框的按钮
+            var articleId = button.data('article-id');  // 从按钮中获取文章 id
+            var articleTitle = button.data('article-title'); // 从按钮中获取文章标题
+            var modal = $(this); // 找到模态框
+            modal.find('.article-title').text("确定要删除《" + articleTitle + "》这篇文章吗？");  // 在模态框中显示文章标题
+            var confirmDeleteButton = $(this).find('#confirmDeleteButton');   // 找到模态框中的确认删除按钮
+            confirmDeleteButton.data('article-id', articleId);
+          });
+          $('#confirmDeleteButton').on('click', function () {
+            var articleId = $(this).data('article-id');
+            fetch(`delete-article/${articleId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then(response => {
+              if (response.ok) {
+                $('#confirmDeleteModal').modal('hide');
+                loadContent(url,'manage-articles');
+              } else {
+                alert('删除失败');
+              }
+            });
+          });
+
         })
         .catch(error => {
           console.error('Error during fetch:', error);
