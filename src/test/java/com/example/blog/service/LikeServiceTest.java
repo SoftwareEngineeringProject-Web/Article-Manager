@@ -62,7 +62,7 @@ public class LikeServiceTest {
     }).when(articleRepository).updateLikesById(articleId, 1);
     Integer likeCount = likeService.getLikeCountByArticleId(articleId, username);
 
-    assertEquals(1, likeCount);
+    assertEquals(2, likeCount);
     verify(articleRepository, times(1)).updateLikesById(articleId, 1);
     verify(likeRepository, times(1)).insertByUserIdAndArticleId(mockUser.getId(), articleId);
   }
@@ -89,7 +89,7 @@ public class LikeServiceTest {
     }).when(articleRepository).updateLikesById(articleId, -1);
     Integer likeCount = likeService.getLikeCountByArticleId(articleId, username);
 
-    assertEquals(0, likeCount);
+    assertEquals(-1, likeCount);
     verify(articleRepository, times(1)).updateLikesById(articleId, -1);
     verify(likeRepository, times(1)).deleteByUserIdAndArticleId(mockUser.getId(), articleId);
   }

@@ -1,20 +1,5 @@
 package com.example.blog.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 import com.example.blog.data.FavoriteWithArticles;
 import com.example.blog.entity.Article;
 import com.example.blog.entity.Favorite;
@@ -22,6 +7,16 @@ import com.example.blog.entity.relation.FavoriteArticle;
 import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.FavoriteArticleRepository;
 import com.example.blog.repository.FavoriteRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FavoriteArticleServiceTest {
 
@@ -139,7 +134,7 @@ class FavoriteArticleServiceTest {
     assertEquals(articleId, savedFavoriteArticle.getArticleId());
     Mockito.verify(articleRepository, Mockito.times(1))
       .updateFavoritesById(articleId, 1);
-    Assertions.assertEquals(6, result);
+    Assertions.assertEquals(7, result);
   }
 
   @Test

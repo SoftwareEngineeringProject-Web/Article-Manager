@@ -1,10 +1,7 @@
 package com.example.blog.service;
 
-import com.example.blog.entity.Article;
-import com.example.blog.entity.Favorite;
-import com.example.blog.entity.Category;
-import com.example.blog.entity.Comment;
-import com.example.blog.entity.User;
+import com.example.blog.entity.*;
+import com.example.blog.entity.relation.Like;
 import com.example.blog.repository.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -46,6 +39,9 @@ public class ArticleServiceTest {
 
   @Mock
   private CommentRepository commentRepository;
+
+  @Mock
+  private LikeRepository likeRepository;
 
   @BeforeEach
   public void setUp() {
@@ -159,6 +155,7 @@ public class ArticleServiceTest {
     when(categoryRepository.findById(anyLong())).thenReturn(Optional.of(category));
     when(favoriteRepository.findByUserId(1L)).thenReturn(favoriteList);
     when(commentRepository.findByArticleId(1L)).thenReturn(comments);
+    when(likeRepository.findByUserIdAndArticleId(1L, 1L)).thenReturn(new Like());
 
     Map<String, Object> result = articleService.getArticleData(1L, article);
 
